@@ -50,3 +50,10 @@ Thumbs.db
 tmp/
 temp/
 .cache/
+
+# --- Generated archives / backups ---
+archive/
+artifacts/
+*.bak
+*.bak-*
+*.launch-freeze

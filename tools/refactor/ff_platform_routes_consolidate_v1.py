@@ -1,4 +1,13 @@
-from flask import Blueprint, render_template
+# PASTE YOUR FULL PYTHON SCRIPT HERE
+# Start at the first real Python line, for example:
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path.home() / "futurefunded-enterprise"
+ROUTES = ROOT / "apps/web/app/routes/platform.py"
+
+NEW_TEXT = """from flask import Blueprint, render_template
 
 from app.services.api_client import get_json
 
@@ -309,3 +318,20 @@ def demo():
         default_title="FutureFunded Demo",
         fallback=_fallback_demo(),
     )
+"""
+
+def main() -> None:
+    if not ROUTES.exists():
+        raise SystemExit(f"Missing routes file: {ROUTES}")
+
+    backup = ROUTES.with_name(ROUTES.name + ".bak-routes-consolidate-v1")
+    if not backup.exists():
+        backup.write_text(ROUTES.read_text(encoding="utf-8"), encoding="utf-8")
+
+    ROUTES.write_text(NEW_TEXT, encoding="utf-8")
+    print(f"✅ rewrote {ROUTES}")
+    print(f"🛟 backup: {backup}")
+
+if __name__ == "__main__":
+    main()
+

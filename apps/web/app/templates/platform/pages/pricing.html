@@ -1,25 +1,24 @@
 {% set platform_page = "pricing" %}
 {% set page_title = "FutureFunded Pricing" %}
 {% set page_description = "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations." %}
-{% extends "platform/base.html" %}
+{% extends "platform/shells/marketing_base.html" %}
+{% set data = data or {} %}
 {% block platform_content %}
 <section class="ff-section" aria-labelledby="platformPricingHeroTitle">
   <div class="ff-container">
 
-    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
       <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
         <div class="ff-sectionhead__text ff-minw-0">
           <p class="ff-kicker ff-m-0">Pricing</p>
 
           <h1
-            class="ff-display ff-mt-2 ff-mb-0"
-            id="platformPricingHeroTitle"
-            style="max-width:11ch;"
+            class="ff-display ff-mt-2 ff-mb-0 ff-measure-11" id="platformPricingHeroTitle"
           >
             Launch a sponsor-ready fundraiser in minutes.
           </h1>
 
-          <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:42ch;">
+          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
             FutureFunded helps youth teams, schools, nonprofits, and clubs launch branded fundraising systems with direct giving, sponsor lanes, and recurring support from one premium workspace.
           </p>
 

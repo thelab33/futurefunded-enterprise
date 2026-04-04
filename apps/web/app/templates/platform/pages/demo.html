@@ -1,19 +1,20 @@
 {% set platform_page = "demo" %}
 {% set page_title = "FutureFunded Demo" %}
 {% set page_description = "See FutureFunded in action — public fundraiser, onboarding flow, operator dashboard, and founder-ready pricing in one guided demo." %}
-{% extends "platform/base.html" %}
+{% extends "platform/shells/marketing_base.html" %}
+{% set data = data or {} %}
 {% block platform_content %}
 <section class="ff-section" aria-labelledby="platformDemoTitle">
   <div class="ff-container">
 
-    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
       <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
         <div class="ff-sectionhead__text ff-minw-0">
           <p class="ff-kicker ff-m-0">Demo</p>
-          <h1 class="ff-display ff-mt-2 ff-mb-0" id="platformDemoTitle" style="max-width:10ch;">
+          <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-10" id="platformDemoTitle">
             See FutureFunded in action.
           </h1>
-          <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:42ch;">
+          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
             This guided demo shows the public fundraiser, the onboarding flow, the operator dashboard, and the founder-ready pricing model as one connected revenue system.
           </p>
 

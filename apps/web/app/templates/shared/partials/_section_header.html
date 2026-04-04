@@ -1,0 +1,8 @@
+{# expects: eyebrow, title, body, section_id, compact #}
+<header class="ff-sectionhead ff-sectionhead--flagship{% if compact|default(true) %} ff-sectionhead--compact{% endif %}">
+  <div class="ff-sectionhead__text ff-minw-0">
+    {% if eyebrow %}<p class="ff-kicker ff-m-0">{{ eyebrow }}</p>{% endif %}
+    {% if title %}<h2 class="ff-h2 ff-m-0"{% if section_id %} id="{{ section_id|e }}"{% endif %}>{{ title }}</h2>{% endif %}
+    {% if body %}<p class="ff-lead ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+  </div>
+</header>

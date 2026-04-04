@@ -1,0 +1,20 @@
+{# FutureFunded shared pill / badge macros #}
+
+{% macro ff_pill(label, variant='soft') -%}
+  {% set _class = 'ff-pill ff-pill--soft' %}
+  {% if variant == 'ghost' %}
+    {% set _class = 'ff-pill ff-pill--ghost' %}
+  {% elif variant == 'accent' %}
+    {% set _class = 'ff-pill ff-pill--accent' %}
+  {% endif %}
+  <span class="{{ _class }}">{{ label }}</span>
+{%- endmacro %}
+
+
+{% macro ff_pill_list(items, variant='soft') -%}
+  <div class="ff-row ff-wrap ff-gap-2" role="list">
+    {% for item in (items or []) %}
+      <span role="listitem">{{ ff_pill(item, variant) }}</span>
+    {% endfor %}
+  </div>
+{%- endmacro %}
