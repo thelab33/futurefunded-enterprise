@@ -1335,7 +1335,7 @@ CONTRACTS PRESERVED
 
                     <aside class="ff-stack ff-gap-3 ff-checkoutAside" aria-label="Checkout summary">
                       <section class="ff-checkoutCard ff-checkoutCard--summary" aria-labelledby="checkoutSummaryTitle">
-                        <div class="ff-checkoutCard__head"><h3 class="ff-label ff-m-0" id="checkoutSummaryTitle">Summary</h3><span class="ff-pill ff-pill--soft">Live preview</span></div>
+                        <div class="ff-checkoutCard__head"><h3 class="ff-label ff-m-0" id="checkoutSummaryTitle">Summary</h3><span class="ff-pill ff-pill--soft">{% if ff_data_mode == "live" %}Live{% else %}Preview{% endif %}</span></div>
                         <div class="ff-proofMini ff-proofMini--checkoutAmount ff-mt-2" aria-label="Selected support amount"><p class="ff-kicker ff-m-0">Selected amount</p><p class="ff-h3 ff-mt-1 ff-mb-0 ff-num" data-ff-summary-amount="">{{ money(0) }}</p><p class="ff-help ff-muted ff-mt-1 ff-mb-0">Your final payment amount appears here as you make changes.</p></div>
                       </section>
                       <div class="ff-callout ff-callout--flagship ff-checkoutSponsorLane" role="note"><div class="ff-checkoutSponsorLane__head"><p class="ff-kicker ff-m-0">Bigger support option</p><h3 class="ff-h3 ff-mt-1 ff-mb-0">Need a sponsorship package instead?</h3></div><p class="ff-help ff-mt-2 ff-mb-0">Use the sponsor path for larger gifts, business support, or recognition packages.</p><div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="group" aria-label="Sponsor actions"><a class="ff-btn ff-btn--primary ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="">Explore sponsor options</a></div></div>

@@ -29,7 +29,7 @@ def _public_base_url() -> str:
             )
         return configured
 
-    return configured or "http://127.0.0.1:5000"
+    return configured or "https://getfuturefunded.com"
 
 def _is_localish_url(value: str | None) -> bool:
     if not value:
