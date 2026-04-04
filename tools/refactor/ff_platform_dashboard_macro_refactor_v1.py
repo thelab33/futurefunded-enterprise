@@ -1,4 +1,10 @@
-{% set platform_page = "dashboard" %}
+from __future__ import annotations
+from pathlib import Path
+
+ROOT = Path.home() / "futurefunded-enterprise"
+DASHBOARD = ROOT / "apps/web/app/templates/platform/pages/dashboard.html"
+
+DASHBOARD_TEXT = r"""{% set platform_page = "dashboard" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
 {% set page_description = "Manage the live fundraiser, sponsor tiers, and recurring support lanes from one premium FutureFunded workspace." %}
@@ -151,3 +157,19 @@
   </div>
 </section>
 {% endblock %}
+"""
+
+def main() -> None:
+    if not DASHBOARD.exists():
+        raise SystemExit(f"Missing dashboard template: {DASHBOARD}")
+
+    backup = DASHBOARD.with_name(DASHBOARD.name + ".bak-dashboard-macro-refactor-v1")
+    if not backup.exists():
+        backup.write_text(DASHBOARD.read_text(encoding="utf-8"), encoding="utf-8")
+
+    DASHBOARD.write_text(DASHBOARD_TEXT, encoding="utf-8")
+    print(f"✅ wrote {DASHBOARD}")
+    print(f"🛟 backup: {backup}")
+
+if __name__ == "__main__":
+    main()
