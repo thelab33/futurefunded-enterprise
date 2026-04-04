@@ -1,4 +1,11 @@
-{% set platform_page = "onboarding" %}
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path.home() / "futurefunded-enterprise"
+ONBOARDING = ROOT / "apps/web/app/templates/platform/pages/onboarding.html"
+
+ONBOARDING_TEXT = r"""{% set platform_page = "onboarding" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Onboarding") %}
 {% set page_description = "Create your first organization and campaign, then hand off directly into the operating dashboard." %}
@@ -141,3 +148,19 @@
   </div>
 </section>
 {% endblock %}
+"""
+
+def main() -> None:
+    if not ONBOARDING.exists():
+        raise SystemExit(f"Missing onboarding template: {ONBOARDING}")
+
+    backup = ONBOARDING.with_name(ONBOARDING.name + ".bak-onboarding-macro-refactor-v1")
+    if not backup.exists():
+        backup.write_text(ONBOARDING.read_text(encoding="utf-8"), encoding="utf-8")
+
+    ONBOARDING.write_text(ONBOARDING_TEXT, encoding="utf-8")
+    print(f"✅ wrote {ONBOARDING}")
+    print(f"🛟 backup: {backup}")
+
+if __name__ == "__main__":
+    main()
