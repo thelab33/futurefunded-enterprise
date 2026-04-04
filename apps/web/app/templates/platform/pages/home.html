@@ -6,20 +6,19 @@
 <section class="ff-section" aria-labelledby="platformHeroTitle">
   <div class="ff-container">
 
-    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
 
       <article class="ff-card ff-glass ff-pad">
         <p class="ff-kicker ff-m-0">{{ data.hero.eyebrow }}</p>
 
         <h1
           id="platformHeroTitle"
-          class="ff-display ff-mt-2 ff-mb-0"
-          style="max-width:11ch;"
+          class="ff-display ff-mt-2 ff-mb-0 ff-measure-11"
         >
           {{ data.hero.title }}
         </h1>
 
-        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:38ch;">
+        <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-38">
           {{ data.hero.body }}
         </p>
 
@@ -93,7 +92,6 @@
           </div>
         </article>
 
-
         <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformRevenueOsTitle">
           <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
             <h2 class="ff-h2 ff-m-0" id="platformRevenueOsTitle">Why teams buy this</h2>
@@ -126,13 +124,12 @@
 
         <h2
           id="platformFeatureLeftTitle"
-          class="ff-display ff-mt-2 ff-mb-0"
-          style="max-width:10ch;"
+          class="ff-display ff-mt-2 ff-mb-0 ff-measure-10"
         >
           {{ data.left_feature.title }}
         </h2>
 
-        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:36ch;">
+        <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-36">
           {{ data.left_feature.body }}
         </p>
 
@@ -148,13 +145,12 @@
 
         <h2
           id="platformFeatureRightTitle"
-          class="ff-display ff-mt-2 ff-mb-0"
-          style="max-width:10ch;"
+          class="ff-display ff-mt-2 ff-mb-0 ff-measure-10"
         >
           {{ data.right_feature.title }}
         </h2>
 
-        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:36ch;">
+        <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-36">
           {{ data.right_feature.body }}
         </p>
 
@@ -196,37 +192,33 @@
       </article>
     </div>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformFounderOfferTitle">
-      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-        <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Founder offer</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformFounderOfferTitle">First five customers get founder pricing.</h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Lock in an early rate, launch fast, and grow into sponsor and membership lanes without rebuilding from scratch.
-          </p>
-        </div>
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live example</a>
-        </div>
-      </div>
-    </div>
+    {% set promo_actions = [
+      {'href': '/platform/onboarding', 'label': 'Claim founder setup', 'variant': 'primary'},
+      {'href': '/c/spring-fundraiser', 'label': 'View live example', 'variant': 'secondary'}
+    ] %}
+    {% with
+      kicker='Founder offer',
+      title='First five customers get founder pricing.',
+      title_id='platformFounderOfferTitle',
+      body='Lock in an early rate, launch fast, and grow into sponsor and membership lanes without rebuilding from scratch.',
+      actions=promo_actions
+    %}
+      {% include "platform/_partials/_promo_bar.html" %}
+    {% endwith %}
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformSellNowTitle">
-      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-        <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Sell it now</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSellNowTitle">Use this platform as your live sales demo.</h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Show the public fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a full revenue system for youth programs.
-          </p>
-        </div>
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
-        </div>
-      </div>
-    </div>
+    {% set promo_actions = [
+      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'primary'},
+      {'href': '/platform/dashboard', 'label': 'Open dashboard', 'variant': 'secondary'}
+    ] %}
+    {% with
+      kicker='Sell it now',
+      title='Use this platform as your live sales demo.',
+      title_id='platformSellNowTitle',
+      body='Show the public fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a full revenue system for youth programs.',
+      actions=promo_actions
+    %}
+      {% include "platform/_partials/_promo_bar.html" %}
+    {% endwith %}
 
     <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformPricingGridTitle">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
@@ -260,19 +252,17 @@
       </div>
     </div>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformHomeCloseTitle">
-      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-        <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Launch your first customer</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeCloseTitle">Use FutureFunded as the page you sell from.</h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Show the live fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a premium revenue system for youth programs.
-          </p>
-        </div>
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/demo">Open guided demo</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
-        </div>
-      </div>
-    </div>
+    {% set promo_actions = [
+      {'href': '/platform/demo', 'label': 'Open guided demo', 'variant': 'primary'},
+      {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'}
+    ] %}
+    {% with
+      kicker='Launch your first customer',
+      title='Use FutureFunded as the page you sell from.',
+      title_id='platformHomeCloseTitle',
+      body='Show the live fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a premium revenue system for youth programs.',
+      actions=promo_actions
+    %}
+      {% include "platform/_partials/_promo_bar.html" %}
+    {% endwith %}
 {% endblock %}

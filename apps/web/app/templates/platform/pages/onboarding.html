@@ -6,66 +6,38 @@
 <section class="ff-section" aria-labelledby="platformOnboardingTitle">
   <div class="ff-container">
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
-      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
-        <div class="ff-sectionhead__text ff-minw-0">
-          <p class="ff-kicker ff-m-0">Step 1 · Launch your first org</p>
+    {% set intro_pills = ['Real API', 'Brand-ready', 'Launch today'] %}
+    {% set intro_aside_items = [
+      {'title': 'Brand setup', 'body': 'Name, slug, and color system for the organization shell.'},
+      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/<campaign-slug>.'},
+      {'title': 'Operator handoff', 'body': 'Moves directly into the dashboard so you can manage the campaign immediately.'}
+    ] %}
+    {% with
+      eyebrow='Step 1 · Launch your first org',
+      title='Onboarding',
+      title_id='platformOnboardingTitle',
+      body='Create your first organization and campaign against the real API, then hand off directly into your operational dashboard.',
+      pills=intro_pills,
+      pills_label='Launch qualities',
+      aside_kicker='Launch brief',
+      aside_title='Start with one org. Publish one live campaign.',
+      aside_id='platformLaunchBriefTitle',
+      aside_body='This setup gives you the minimum premium launch surface: a branded organization, a live fundraiser route, and a direct dashboard handoff.',
+      aside_items=intro_aside_items
+    %}
+      {% include "platform/_partials/_intro_split.html" %}
+    {% endwith %}
 
-          <h1
-            class="ff-display ff-mt-2 ff-mb-0 ff-measure-10"
-            id="platformOnboardingTitle"
-          >
-            Onboarding
-          </h1>
-
-          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
-            Create your first organization and campaign against the real API, then hand off directly into your operational dashboard.
-          </p>
-
-          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Launch qualities">
-            <span class="ff-pill ff-pill--soft" role="listitem">Real API</span>
-            <span class="ff-pill ff-pill--soft" role="listitem">Brand-ready</span>
-            <span class="ff-pill ff-pill--ghost" role="listitem">Launch today</span>
-          </div>
-
-          <section class="ff-card ff-glass ff-pad ff-mt-3" aria-label="Launch steps">
-            <div class="ff-row ff-wrap ff-gap-2" role="list" aria-label="Onboarding steps">
-              <span class="ff-platformInlinePill" role="listitem">1. Program</span>
-              <span class="ff-platformInlinePill" role="listitem">2. Branding</span>
-              <span class="ff-platformInlinePill" role="listitem">3. Launch</span>
-            </div>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              We’ll generate the public fundraiser route, operator dashboard handoff, and a sponsor-ready starting point from one simple setup.
-            </p>
-          </section>
-        </div>
-      </header>
-
-      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchBriefTitle">
-        <p class="ff-kicker ff-m-0">Launch brief</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchBriefTitle">Start with one org. Publish one live campaign.</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This setup gives you the minimum premium launch surface: a branded organization, a live fundraiser route, and a direct dashboard handoff.
-        </p>
-
-        <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Brand setup</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Name, slug, and color system for the organization shell.</p>
-          </article>
-
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Public route</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Creates a live fundraiser at <code>/c/&lt;campaign-slug&gt;</code>.</p>
-          </article>
-
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Operator handoff</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Moves directly into the dashboard so you can manage the campaign immediately.</p>
-          </article>
-        </div>
-      </aside>
-    </div>
+    <section class="ff-card ff-glass ff-pad ff-mt-3" aria-label="Launch steps">
+      <div class="ff-row ff-wrap ff-gap-2" role="list" aria-label="Onboarding steps">
+        <span class="ff-platformInlinePill" role="listitem">1. Program</span>
+        <span class="ff-platformInlinePill" role="listitem">2. Branding</span>
+        <span class="ff-platformInlinePill" role="listitem">3. Launch</span>
+      </div>
+      <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+        We’ll generate the public fundraiser route, operator dashboard handoff, and a sponsor-ready starting point from one simple setup.
+      </p>
+    </section>
 
     
       <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformFounderPriorityTitle">
@@ -268,19 +240,17 @@
   </div>
 </section>
 
-      <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformOnboardingCloseTitle">
-        <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-          <div class="ff-minw-0">
-            <p class="ff-kicker ff-m-0">Founder setup lane</p>
-            <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOnboardingCloseTitle">Use this form as your guided launch close.</h2>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              For self-serve users, it gets them live fast. For founder-led customers, it becomes the intake step for a done-with-you setup offer.
-            </p>
-          </div>
-          <div class="ff-row ff-wrap ff-gap-2">
-            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
-            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">View demo</a>
-          </div>
-        </div>
-      </div>
+      {% set promo_actions = [
+        {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'},
+        {'href': '/platform/demo', 'label': 'View demo', 'variant': 'secondary'}
+      ] %}
+      {% with
+        kicker='Founder setup lane',
+        title='Use this form as your guided launch close.',
+        title_id='platformOnboardingCloseTitle',
+        body='For self-serve users, it gets them live fast. For founder-led customers, it becomes the intake step for a done-with-you setup offer.',
+        actions=promo_actions
+      %}
+        {% include "platform/_partials/_promo_bar.html" %}
+      {% endwith %}
 {% endblock %}

@@ -108,8 +108,13 @@ Deterministic platform shell
   <link rel="canonical" href="{{ canonical|e }}" />
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/ff.css') }}?v={{ _asset_v|e }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
+  {% set _platform_use_premium_bridge = (
+    platform_use_premium_bridge|default(false, true)
+  ) %}
+  {% if _platform_use_premium_bridge %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}" />
+  {% endif %}
 
   <script
     id="ffPlatformConfig"
@@ -145,7 +150,7 @@ Deterministic platform shell
     <div class="ff-shellBg" aria-hidden="true"></div>
 
     <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
-      <div class="ff-container" style="padding-top:1.25rem;">
+      <div class="ff-container ff-platformChrome__inner">
         <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
           <a
             href="/platform/"
@@ -155,10 +160,7 @@ Deterministic platform shell
             <span class="ff-platformBrand__disc" aria-hidden="true"></span>
             <span class="ff-platformBrand__wordmark">
               <strong>FutureFunded</strong>
-              <span
-                class="ff-help ff-muted"
-                style="display:block; letter-spacing:.08em; text-transform:uppercase;"
-              >
+              <span class="ff-help ff-muted ff-platformBrand__subline">
                 Platform
               </span>
             </span>

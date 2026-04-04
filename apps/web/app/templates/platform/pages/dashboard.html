@@ -6,56 +6,27 @@
 <section class="ff-section" aria-labelledby="platformDashboardTitle">
   <div class="ff-container">
 
-    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
-      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
-        <div class="ff-sectionhead__text ff-minw-0">
-          <p class="ff-kicker ff-m-0">Admin dashboard</p>
-
-          <h1
-            class="ff-display ff-mt-2 ff-mb-0"
-            id="platformDashboardTitle"
-            style="max-width:12ch;"
-          >
-            FutureFunded command center
-          </h1>
-
-          <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:42ch;">
-            Manage the live Connect ATX Elite fundraiser, sponsor packages, and recurring booster support from one premium workspace.
-          </p>
-
-          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Workspace qualities">
-            <span class="ff-pill ff-pill--soft" role="listitem">Live workspace</span>
-            <span class="ff-pill ff-pill--soft" role="listitem">Brand-ready</span>
-            <span class="ff-pill ff-pill--ghost" role="listitem">Operator view</span>
-          </div>
-        </div>
-      </header>
-
-      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformWorkspaceBriefTitle">
-        <p class="ff-kicker ff-m-0">Workspace brief</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformWorkspaceBriefTitle">One place to launch, manage, and expand.</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This dashboard is your control layer for live fundraising, sponsor packages, and recurring support lanes.
-        </p>
-
-        <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Live campaign</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Connect ATX Elite is already launched with a public campaign page and dashboard access.</p>
-          </article>
-
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Sponsor lanes</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Manage sponsor packages that feel credible to local businesses and community partners.</p>
-          </article>
-
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Recurring support</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Keep momentum going beyond one-time gifts with monthly and annual memberships.</p>
-          </article>
-        </div>
-      </aside>
-    </div>
+    {% set intro_pills = ['Live workspace', 'Brand-ready', 'Operator view'] %}
+    {% set intro_aside_items = [
+      {'title': 'Live campaign', 'body': 'Connect ATX Elite is already launched with a public campaign page and dashboard access.'},
+      {'title': 'Sponsor lanes', 'body': 'Manage sponsor packages that feel credible to local businesses and community partners.'},
+      {'title': 'Recurring support', 'body': 'Keep momentum going beyond one-time gifts with monthly and annual memberships.'}
+    ] %}
+    {% with
+      eyebrow='Admin dashboard',
+      title='FutureFunded command center',
+      title_id='platformDashboardTitle',
+      body='Manage the live Connect ATX Elite fundraiser, sponsor packages, and recurring booster support from one premium workspace.',
+      pills=intro_pills,
+      pills_label='Workspace qualities',
+      aside_kicker='Workspace brief',
+      aside_title='One place to launch, manage, and expand.',
+      aside_id='platformWorkspaceBriefTitle',
+      aside_body='This dashboard is your control layer for live fundraising, sponsor packages, and recurring support lanes.',
+      aside_items=intro_aside_items
+    %}
+      {% include "platform/_partials/_intro_split.html" %}
+    {% endwith %}
 
     <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" aria-label="Revenue snapshot">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformRevenueRaisedTitle">
@@ -231,21 +202,19 @@
   </div>
 </section>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformRevenueFocusTitle">
-      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-        <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Revenue focus</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformRevenueFocusTitle">The next money move is sponsor conversion.</h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Direct giving gets the fundraiser live. Sponsor packages and recurring memberships are what turn it into a longer-term revenue system.
-          </p>
-        </div>
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser#sponsors">Open sponsor section</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Create another launch</a>
-        </div>
-      </div>
-    </div>
+    {% set promo_actions = [
+      {'href': '/c/spring-fundraiser#sponsors', 'label': 'Open sponsor section', 'variant': 'primary'},
+      {'href': '/platform/onboarding', 'label': 'Create another launch', 'variant': 'secondary'}
+    ] %}
+    {% with
+      kicker='Revenue focus',
+      title='The next money move is sponsor conversion.',
+      title_id='platformRevenueFocusTitle',
+      body='Direct giving gets the fundraiser live. Sponsor packages and recurring memberships are what turn it into a longer-term revenue system.',
+      actions=promo_actions
+    %}
+      {% include "platform/_partials/_promo_bar.html" %}
+    {% endwith %}
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3" aria-labelledby="platformPlanCardTitle">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPlanCardTitle">
@@ -265,19 +234,17 @@
       </article>
     </div>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformSalesOpsTitle">
-      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-        <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Sales operator note</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSalesOpsTitle">This dashboard is part of the sales pitch.</h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            The strongest demo is showing that one org can launch a public fundraiser, activate sponsor-ready lanes, and manage everything from one branded operator surface.
-          </p>
-        </div>
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/">Open platform home</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-        </div>
-      </div>
-    </div>
+    {% set promo_actions = [
+      {'href': '/platform/', 'label': 'Open platform home', 'variant': 'primary'},
+      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'secondary'}
+    ] %}
+    {% with
+      kicker='Sales operator note',
+      title='This dashboard is part of the sales pitch.',
+      title_id='platformSalesOpsTitle',
+      body='The strongest demo is showing that one org can launch a public fundraiser, activate sponsor-ready lanes, and manage everything from one branded operator surface.',
+      actions=promo_actions
+    %}
+      {% include "platform/_partials/_promo_bar.html" %}
+    {% endwith %}
 {% endblock %}

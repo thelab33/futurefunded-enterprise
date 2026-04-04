@@ -1,0 +1,66 @@
+{# ---------------------------------------------------------------------------
+Platform intro split
+Inputs:
+- eyebrow
+- title
+- title_id (optional)
+- body
+- pills (optional list)
+- pills_label (optional)
+- aside_kicker
+- aside_title
+- aside_id (optional)
+- aside_body
+- aside_items (optional list of {title, body})
+- aside_actions (optional list of {href, label, variant})
+--------------------------------------------------------------------------- #}
+<div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
+  <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
+    <div class="ff-sectionhead__text ff-minw-0">
+      <p class="ff-kicker ff-m-0">{{ eyebrow }}</p>
+
+      <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-12"{% if title_id %} id="{{ title_id }}"{% endif %}>
+        {{ title }}
+      </h1>
+
+      <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">{{ body }}</p>
+
+      {% if pills %}
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="{{ pills_label|default('Page signals', true) }}">
+          {% for pill in pills %}
+            <span class="ff-pill {% if loop.first or loop.index == 2 %}ff-pill--soft{% else %}ff-pill--ghost{% endif %}" role="listitem">{{ pill }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <aside class="ff-card ff-glass ff-pad" {% if aside_id %}aria-labelledby="{{ aside_id }}"{% endif %}>
+    <p class="ff-kicker ff-m-0">{{ aside_kicker }}</p>
+
+    <h2 class="ff-h2 ff-mt-2 ff-mb-0"{% if aside_id %} id="{{ aside_id }}"{% endif %}>
+      {{ aside_title }}
+    </h2>
+
+    <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ aside_body }}</p>
+
+    {% if aside_items %}
+      <div class="ff-platformMiniList ff-mt-3">
+        {% for item in aside_items %}
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">{{ item.title }}</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.body }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if aside_actions %}
+      <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+        {% for action in aside_actions %}
+          <a class="ff-btn ff-btn--{{ action.variant|default('secondary', true) }} ff-btn--pill" href="{{ action.href }}">{{ action.label }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </aside>
+</div>

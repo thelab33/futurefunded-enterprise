@@ -166,7 +166,7 @@ def _fallback_dashboard() -> dict:
 def home():
     data = get_json("/api/v1/platform/home", _fallback_home())
     return render_template(
-        "platform/home.html",
+        "platform/pages/home.html",
         page_title=data.get("page_title", "FutureFunded Platform Home"),
         platform_page="home",
         data=data,
@@ -177,7 +177,7 @@ def home():
 def onboarding():
     data = get_json("/api/v1/platform/onboarding", _fallback_onboarding())
     return render_template(
-        "platform/onboarding.html",
+        "platform/pages/onboarding.html",
         page_title=data.get("page_title", "FutureFunded Onboarding"),
         platform_page="onboarding",
         data=data,
@@ -188,7 +188,7 @@ def onboarding():
 def dashboard():
     data = get_json("/api/v1/platform/dashboard", _fallback_dashboard())
     return render_template(
-        "platform/dashboard.html",
+        "platform/pages/dashboard.html",
         page_title=data.get("page_title", "FutureFunded Dashboard"),
         platform_page="dashboard",
         data=data,
@@ -198,13 +198,17 @@ def dashboard():
 @bp.get("/pricing")
 def pricing():
     return render_template(
-        "platform/pricing.html"
+        "platform/pages/pricing.html",
+        page_title="FutureFunded Pricing",
+        platform_page="pricing",
     )
 
 
 @bp.get("/demo")
 def demo():
     return render_template(
-        "platform/demo.html"
+        "platform/pages/demo.html",
+        page_title="FutureFunded Demo",
+        platform_page="demo",
     )
 
