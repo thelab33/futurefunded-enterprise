@@ -1,0 +1,25 @@
+{
+  "summer-travel-fund": {
+    "config": {},
+    "org_name": "Demo Booster Club",
+    "campaign_name": "Summer Travel Fund",
+    "campaign_location": "Austin, TX",
+    "campaign_headline": "Help send our team to summer events.",
+    "campaign_subhead": "Back the athletes of",
+    "campaign_tagline": "Support travel, training, tournament fees, and shared team costs with one secure gift.",
+    "fundraiser_goal": 15000,
+    "amount_raised": 0,
+    "goal": 15000,
+    "raised": 0,
+    "announcement_text": "Demo Booster Club is live on FutureFunded.",
+    "proof_blurb": "Demo Booster Club now has a live, sponsor-ready campaign page supporters can share instantly.",
+    "policy_blurb": "Questions, corrections, or receipts: email the organizer address listed on this page.",
+    "terms_url": "https://getfuturefunded.com/terms",
+    "privacy_url": "https://getfuturefunded.com/privacy",
+    "teams_list": [],
+    "share_url": "/c/summer-travel-fund",
+    "campaign_url": "/c/summer-travel-fund",
+    "org_slug": "demo-booster-club",
+    "campaign_slug": "summer-travel-fund"
+  }
+}

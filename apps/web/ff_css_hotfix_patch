@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import shutil, time
+
+root = Path.cwd()
+ff = root / 'app/static/css/ff.css'
+pp = root / 'app/static/css/platform-pages.css'
+
+stamp = time.strftime('%Y%m%d-%H%M%S')
+
+if not ff.exists() or not pp.exists():
+    raise SystemExit('❌ Run this from ~/futurefunded-enterprise/apps/web')
+
+# backup
+for p in (ff, pp):
+    bak = p.with_name(f'{p.name}.bak-hotfix-{stamp}')
+    shutil.copy2(p, bak)
+    print(f'🛟 backup: {bak}')
+
+# ff.css: remove lone stray brace immediately after the success analytics end marker
+ff_text = ff.read_text(encoding='utf-8')
+old = """/* FF_WAVE_E_SUCCESS_ANALYTICS_V1_END */\n\n\n}\n\n/* FF_PREMIUM_MOTION_POLISH_V1_START */"""
+new = """/* FF_WAVE_E_SUCCESS_ANALYTICS_V1_END */\n\n/* FF_PREMIUM_MOTION_POLISH_V1_START */"""
+if old in ff_text:
+    ff_text = ff_text.replace(old, new, 1)
+    ff.write_text(ff_text, encoding='utf-8')
+    print(f'✅ removed stray brace in {ff}')
+else:
+    raise SystemExit('❌ Expected ff.css stray-brace pattern not found; inspect manually.')
+
+# platform-pages.css: remove syntactically broken dangling block fragment
+pp_text = pp.read_text(encoding='utf-8')
+old_block = """  .ff-platformStatPill,\n\n  @media (max-width: 71.99rem) {\n    .ff-platformFormGrid,\n  }\n\n\n"""
+new_block = """"""
+if old_block in pp_text:
+    pp_text = pp_text.replace(old_block, new_block, 1)
+    pp.write_text(pp_text, encoding='utf-8')
+    print(f'✅ removed broken platform-pages fragment in {pp}')
+else:
+    raise SystemExit('❌ Expected platform-pages broken fragment not found; inspect manually.')
+
+print('\nRun next:')
+print('  npm run lint:css')
+print('  npm run lint:js')
+print('  python -m djlint app/templates/campaign/index.html --profile=jinja --check')

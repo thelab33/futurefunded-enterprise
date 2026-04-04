@@ -1,0 +1,384 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from collections import Counter, defaultdict
+from dataclasses import dataclass, asdict
+from pathlib import Path
+from typing import Iterable
+
+JINJA_TOKENS = ("{{", "{%", "{#")
+ATTR_RE = re.compile(r'(\b[\w:-]+)\s*=\s*"([^"]*)"', re.S)
+SCRIPT_RE = re.compile(r'<script\b[^>]*\bid\s*=\s*"([^"]+)"[^>]*>(.*?)</script>', re.I | re.S)
+TAG_RE = re.compile(r'<\s*([a-zA-Z][\w:-]*)\b')
+DATA_HOOK_RE = re.compile(r'\b(data-ff-[a-zA-Z0-9_-]+)\b')
+CLASS_TOKEN_RE = re.compile(r'(?<![\w-])\.([_a-zA-Z][-_a-zA-Z0-9]*)')
+ID_TOKEN_RE = re.compile(r'(?<![\w-])#([_a-zA-Z][-_a-zA-Z0-9]*)')
+ATTR_SELECTOR_RE = re.compile(r'\[\s*(data-ff-[a-zA-Z0-9_-]+)(?:[~|^$*]?=[^\]]+)?\s*\]')
+STRING_RE = re.compile(r'(["\'])(?P<val>(?:\\.|(?!\1).)*)\1')
+
+SELECTOR_METHOD_PATTERNS = [
+    re.compile(r'\b(?:querySelector|querySelectorAll|matches|closest)\s*\(\s*(["\'])(?P<sel>(?:\\.|(?!\1).)*)\1\s*\)'),
+    re.compile(r'\bgetElementById\s*\(\s*(["\'])(?P<sel>(?:\\.|(?!\1).)*)\1\s*\)'),
+    re.compile(r'\b(?:setAttribute|getAttribute|hasAttribute|removeAttribute)\s*\(\s*(["\'])(?P<sel>(?:\\.|(?!\1).)*)\1'),
+]
+
+REF_ATTRS = ("href", "aria-controls", "aria-labelledby", "aria-describedby")
+
+
+@dataclass
+class Surface:
+    ids_static: set[str]
+    ids_dynamic: set[str]
+    classes_static: set[str]
+    classes_dynamic: set[str]
+    hooks: set[str]
+    tags: set[str]
+    refs_static: dict[str, list[str]]
+    refs_dynamic: dict[str, list[str]]
+    ffselectors_hooks: set[str]
+    ffselectors_ids: set[str]
+    ffselectors_classes: set[str]
+
+
+@dataclass
+class AuditResult:
+    template: str
+    css_files: list[str]
+    js_files: list[str]
+    counts: dict
+    missing_ref_targets: list[str]
+    template_ids_missing_in_css_and_js: list[str]
+    template_hooks_missing_in_css_and_js: list[str]
+    template_classes_missing_in_css: list[str]
+    css_ids_missing_in_template: list[str]
+    css_hooks_missing_in_template: list[str]
+    css_classes_missing_in_template: list[str]
+    js_ids_missing_in_template: list[str]
+    js_hooks_missing_in_template: list[str]
+    js_classes_missing_in_template: list[str]
+    js_selectors_missing_in_template: list[str]
+    summary_score: dict
+
+
+def has_jinja(value: str) -> bool:
+    return any(tok in value for tok in JINJA_TOKENS)
+
+
+def normalize_whitespace(text: str) -> str:
+    return re.sub(r'\s+', ' ', text).strip()
+
+
+def extract_selector_tokens(selector: str) -> tuple[set[str], set[str], set[str]]:
+    ids = set(ID_TOKEN_RE.findall(selector))
+    classes = set(CLASS_TOKEN_RE.findall(selector))
+    hooks = set(ATTR_SELECTOR_RE.findall(selector))
+    return ids, classes, hooks
+
+
+def safe_split_classes(value: str) -> tuple[set[str], set[str]]:
+    static: set[str] = set()
+    dynamic: set[str] = set()
+    for token in re.split(r'\s+', value.strip()):
+        if not token:
+            continue
+        (dynamic if has_jinja(token) else static).add(token)
+    return static, dynamic
+
+
+def extract_template_surface(text: str) -> Surface:
+    ids_static: set[str] = set()
+    ids_dynamic: set[str] = set()
+    classes_static: set[str] = set()
+    classes_dynamic: set[str] = set()
+    hooks = set(DATA_HOOK_RE.findall(text))
+    tags = {m.group(1).lower() for m in TAG_RE.finditer(text)}
+    refs_static: dict[str, list[str]] = defaultdict(list)
+    refs_dynamic: dict[str, list[str]] = defaultdict(list)
+    ffselectors_hooks: set[str] = set()
+    ffselectors_ids: set[str] = set()
+    ffselectors_classes: set[str] = set()
+
+    for attr, raw in ATTR_RE.findall(text):
+        attr = attr.lower()
+        if attr == 'id':
+            (ids_dynamic if has_jinja(raw) else ids_static).add(raw)
+        elif attr == 'class':
+            s, d = safe_split_classes(raw)
+            classes_static |= s
+            classes_dynamic |= d
+        elif attr.startswith('data-ff-'):
+            hooks.add(attr)
+
+        if attr in REF_ATTRS:
+            vals = [raw[1:]] if attr == 'href' and raw.startswith('#') else raw.split()
+            for val in vals:
+                if not val:
+                    continue
+                target = normalize_whitespace(val)
+                if has_jinja(target):
+                    refs_dynamic[target].append(attr)
+                else:
+                    refs_static[target].append(attr)
+
+    for script_id, body in SCRIPT_RE.findall(text):
+        if script_id != 'ffSelectors':
+            continue
+        body = body.strip()
+        try:
+            payload = json.loads(body)
+        except Exception:
+            continue
+        hook_map = payload.get('hooks', {}) if isinstance(payload, dict) else {}
+        if isinstance(hook_map, dict):
+            for _name, selector in hook_map.items():
+                if not isinstance(selector, str):
+                    continue
+                ids, classes, selector_hooks = extract_selector_tokens(selector)
+                ffselectors_ids |= ids
+                ffselectors_classes |= classes
+                ffselectors_hooks |= selector_hooks
+
+    return Surface(
+        ids_static=ids_static,
+        ids_dynamic=ids_dynamic,
+        classes_static=classes_static,
+        classes_dynamic=classes_dynamic,
+        hooks=hooks,
+        tags=tags,
+        refs_static=dict(refs_static),
+        refs_dynamic=dict(refs_dynamic),
+        ffselectors_hooks=ffselectors_hooks,
+        ffselectors_ids=ffselectors_ids,
+        ffselectors_classes=ffselectors_classes,
+    )
+
+
+def extract_css_surface(texts: Iterable[str]) -> tuple[Counter, Counter, Counter]:
+    ids = Counter()
+    classes = Counter()
+    hooks = Counter()
+    for text in texts:
+        for token in ID_TOKEN_RE.findall(text):
+            ids[token] += 1
+        for token in CLASS_TOKEN_RE.findall(text):
+            classes[token] += 1
+        for token in ATTR_SELECTOR_RE.findall(text):
+            hooks[token] += 1
+    return ids, classes, hooks
+
+
+def extract_js_surface(texts: Iterable[str]) -> tuple[Counter, Counter, Counter, set[str]]:
+    ids = Counter()
+    classes = Counter()
+    hooks = Counter()
+    selector_strings: set[str] = set()
+
+    for text in texts:
+        for pattern in SELECTOR_METHOD_PATTERNS:
+            for m in pattern.finditer(text):
+                raw = m.group('sel')
+                selector_strings.add(raw)
+                if pattern.pattern.startswith('\\bgetElementById'):
+                    if raw and not has_jinja(raw):
+                        ids[raw] += 1
+                    continue
+                if raw.startswith('data-ff-'):
+                    hooks[raw] += 1
+                sid, sclass, shook = extract_selector_tokens(raw)
+                for token in sid:
+                    ids[token] += 1
+                for token in sclass:
+                    classes[token] += 1
+                for token in shook:
+                    hooks[token] += 1
+
+        # catch free string literals that are raw data-ff hook names
+        for m in STRING_RE.finditer(text):
+            raw = m.group('val')
+            if raw.startswith('data-ff-'):
+                hooks[raw] += 1
+
+    return ids, classes, hooks, selector_strings
+
+
+def list_files(root: Path, glob_pattern: str) -> list[Path]:
+    return sorted(root.glob(glob_pattern))
+
+
+def build_result(template_path: Path, css_paths: list[Path], js_paths: list[Path]) -> AuditResult:
+    template_text = template_path.read_text(encoding='utf-8')
+    css_texts = [p.read_text(encoding='utf-8', errors='replace') for p in css_paths]
+    js_texts = [p.read_text(encoding='utf-8', errors='replace') for p in js_paths]
+
+    template = extract_template_surface(template_text)
+    css_ids, css_classes, css_hooks = extract_css_surface(css_texts)
+    js_ids, js_classes, js_hooks, js_selector_strings = extract_js_surface(js_texts)
+
+    template_ids_all = set(template.ids_static) | set(template.ffselectors_ids)
+    template_classes_all = set(template.classes_static) | set(template.ffselectors_classes)
+    template_hooks_all = set(template.hooks) | set(template.ffselectors_hooks)
+
+    missing_ref_targets = sorted(k for k in template.refs_static if k not in template.ids_static)
+
+    template_ids_missing_in_css_and_js = sorted(
+        x for x in template.ids_static if x not in css_ids and x not in js_ids
+    )
+    template_hooks_missing_in_css_and_js = sorted(
+        x for x in template_hooks_all if x not in css_hooks and x not in js_hooks
+    )
+    template_classes_missing_in_css = sorted(
+        x for x in template.classes_static if x not in css_classes
+    )
+
+    css_ids_missing_in_template = sorted(x for x in css_ids if x not in template_ids_all)
+    css_hooks_missing_in_template = sorted(x for x in css_hooks if x not in template_hooks_all)
+    css_classes_missing_in_template = sorted(x for x in css_classes if x not in template_classes_all)
+
+    js_ids_missing_in_template = sorted(x for x in js_ids if x not in template_ids_all)
+    js_hooks_missing_in_template = sorted(x for x in js_hooks if x not in template_hooks_all)
+    js_classes_missing_in_template = sorted(x for x in js_classes if x not in template_classes_all)
+
+    js_selectors_missing_in_template = sorted(
+        s for s in js_selector_strings
+        if ((extract_selector_tokens(s)[0] - template_ids_all)
+            or (extract_selector_tokens(s)[1] - template_classes_all)
+            or (extract_selector_tokens(s)[2] - template_hooks_all))
+    )
+
+    counts = {
+        'template': {
+            'ids_static': len(template.ids_static),
+            'ids_dynamic': len(template.ids_dynamic),
+            'classes_static': len(template.classes_static),
+            'classes_dynamic': len(template.classes_dynamic),
+            'hooks': len(template.hooks),
+            'tags': len(template.tags),
+            'ref_targets_static': len(template.refs_static),
+            'ffselectors_ids': len(template.ffselectors_ids),
+            'ffselectors_classes': len(template.ffselectors_classes),
+            'ffselectors_hooks': len(template.ffselectors_hooks),
+        },
+        'css': {
+            'files': len(css_paths),
+            'ids': len(css_ids),
+            'classes': len(css_classes),
+            'hooks': len(css_hooks),
+        },
+        'js': {
+            'files': len(js_paths),
+            'ids': len(js_ids),
+            'classes': len(js_classes),
+            'hooks': len(js_hooks),
+            'selectors': len(js_selector_strings),
+        },
+    }
+
+    summary_score = {
+        'broken_static_refs': len(missing_ref_targets),
+        'template_ids_missing_in_css_and_js': len(template_ids_missing_in_css_and_js),
+        'template_hooks_missing_in_css_and_js': len(template_hooks_missing_in_css_and_js),
+        'css_ids_missing_in_template': len(css_ids_missing_in_template),
+        'css_hooks_missing_in_template': len(css_hooks_missing_in_template),
+        'js_ids_missing_in_template': len(js_ids_missing_in_template),
+        'js_hooks_missing_in_template': len(js_hooks_missing_in_template),
+    }
+
+    return AuditResult(
+        template=str(template_path),
+        css_files=[str(p) for p in css_paths],
+        js_files=[str(p) for p in js_paths],
+        counts=counts,
+        missing_ref_targets=missing_ref_targets,
+        template_ids_missing_in_css_and_js=template_ids_missing_in_css_and_js,
+        template_hooks_missing_in_css_and_js=template_hooks_missing_in_css_and_js,
+        template_classes_missing_in_css=template_classes_missing_in_css,
+        css_ids_missing_in_template=css_ids_missing_in_template,
+        css_hooks_missing_in_template=css_hooks_missing_in_template,
+        css_classes_missing_in_template=css_classes_missing_in_template,
+        js_ids_missing_in_template=js_ids_missing_in_template,
+        js_hooks_missing_in_template=js_hooks_missing_in_template,
+        js_classes_missing_in_template=js_classes_missing_in_template,
+        js_selectors_missing_in_template=js_selectors_missing_in_template,
+        summary_score=summary_score,
+    )
+
+
+def print_section(title: str, items: Iterable[str], limit: int) -> None:
+    items = list(items)
+    print(f'\n== {title} ==')
+    if not items:
+        print('✅ none')
+        return
+    for item in items[:limit]:
+        print(item)
+    if len(items) > limit:
+        print(f'... +{len(items) - limit} more')
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description='Audit template/CSS/JS selector contract drift.')
+    parser.add_argument('--root', default='.', help='Run from apps/web; defaults to cwd.')
+    parser.add_argument('--template', default='app/templates/campaign/index.html')
+    parser.add_argument('--css-glob', default='app/static/css/**/*.css')
+    parser.add_argument('--js-glob', default='app/static/js/**/*.js')
+    parser.add_argument('--json-out', default='', help='Optional path to write JSON report.')
+    parser.add_argument('--limit', type=int, default=50)
+    parser.add_argument('--strict', action='store_true', help='Exit non-zero when drift exists.')
+    args = parser.parse_args()
+
+    root = Path(args.root).resolve()
+    template_path = root / args.template
+    css_paths = list_files(root, args.css_glob)
+    js_paths = list_files(root, args.js_glob)
+
+    if not template_path.exists():
+        print(f'❌ Missing template: {template_path}', file=sys.stderr)
+        return 2
+    if not css_paths:
+        print(f'❌ No CSS files matched: {args.css_glob}', file=sys.stderr)
+        return 2
+    if not js_paths:
+        print(f'❌ No JS files matched: {args.js_glob}', file=sys.stderr)
+        return 2
+
+    result = build_result(template_path, css_paths, js_paths)
+
+    print('== FF CONTRACT SURFACE AUDIT ==')
+    print(f'Template: {result.template}')
+    print(f'CSS files: {len(result.css_files)}')
+    print(f'JS files : {len(result.js_files)}')
+
+    print('\n== COUNTS ==')
+    print(json.dumps(result.counts, indent=2))
+
+    print_section('BROKEN STATIC REF TARGETS (href / aria-controls / aria-labelledby / aria-describedby)', result.missing_ref_targets, args.limit)
+    print_section('TEMPLATE IDS MISSING IN BOTH CSS + JS', result.template_ids_missing_in_css_and_js, args.limit)
+    print_section('TEMPLATE HOOKS MISSING IN BOTH CSS + JS', result.template_hooks_missing_in_css_and_js, args.limit)
+    print_section('TEMPLATE CLASSES MISSING IN CSS', result.template_classes_missing_in_css, args.limit)
+    print_section('CSS IDS MISSING IN TEMPLATE', result.css_ids_missing_in_template, args.limit)
+    print_section('CSS HOOKS MISSING IN TEMPLATE', result.css_hooks_missing_in_template, args.limit)
+    print_section('CSS CLASSES MISSING IN TEMPLATE', result.css_classes_missing_in_template, args.limit)
+    print_section('JS IDS MISSING IN TEMPLATE', result.js_ids_missing_in_template, args.limit)
+    print_section('JS HOOKS MISSING IN TEMPLATE', result.js_hooks_missing_in_template, args.limit)
+    print_section('JS CLASSES MISSING IN TEMPLATE', result.js_classes_missing_in_template, args.limit)
+    print_section('JS SELECTOR STRINGS WITH TOKENS MISSING IN TEMPLATE', result.js_selectors_missing_in_template, args.limit)
+
+    print('\n== SUMMARY SCORE ==')
+    print(json.dumps(result.summary_score, indent=2))
+
+    if args.json_out:
+        out_path = (root / args.json_out).resolve()
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(asdict(result), indent=2), encoding='utf-8')
+        print(f'\n✅ wrote JSON report: {out_path}')
+
+    drift_total = sum(result.summary_score.values())
+    return 1 if args.strict and drift_total else 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

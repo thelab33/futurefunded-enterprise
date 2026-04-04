@@ -1,0 +1,103 @@
+{
+  "private": true,
+  "packageManager": "npm@10",
+  "engines": {
+    "node": ">=20.18 <21",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "lint": "run-s lint:css lint:js lint:html",
+    "lint:css": "stylelint 'apps/web/app/static/css/**/*.css' --allow-empty-input",
+    "lint:css:fix": "stylelint 'apps/web/app/static/css/**/*.css' --allow-empty-input --fix",
+    "lint:js": "eslint 'apps/web/app/static/js/**/*.js'",
+    "lint:html": "htmlhint 'apps/web/app/templates/**/*.html'",
+
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+
+    "audit:ff:selectors": "python3 scripts/audit/ff_selector_contract_audit.py",
+    "audit:ff:css": "python3 scripts/audit/ff_css_authority_audit.py",
+    "audit:ff:runtime": "FF_PLATFORM_HOME_PATH=/platform scripts/audit/ff_launch_runtime_gate.sh",
+    "audit:ff": "run-s audit:ff:selectors audit:ff:css audit:ff:runtime",
+
+    "qa:launch": "run-s lint audit:ff",
+    "qa:fundraiser": "run-s audit:ff:selectors audit:ff:css test:prod:fundraiser",
+    "qa:prod": "run-s lint audit:ff test:prod:fundraiser test:prod:platform",
+
+    "test:prod:install": "playwright install chromium",
+    "test:prod": "playwright test --config=playwright.config.ts",
+    "test:prod:fundraiser": "playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts",
+    "test:prod:platform": "playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts",
+    "test:prod:desktop": "playwright test --config=playwright.config.ts --project=chromium",
+    "test:prod:mobile": "playwright test --config=playwright.config.ts --project=mobile-chrome",
+    "test:prod:headed": "playwright test --config=playwright.config.ts --headed",
+    "test:prod:debug": "playwright test --config=playwright.config.ts --debug",
+    "test:prod:report": "playwright show-report playwright-report-prod",
+
+    "test:live:fundraiser": "cross-env FF_BASE_URL=https://getfuturefunded.com FF_FUNDRAISER_PATH=/c/spring-fundraiser playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts --project=chromium",
+    "test:live:platform": "cross-env FF_BASE_URL=https://getfuturefunded.com playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts --project=chromium"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.59.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^10.1.0",
+    "htmlhint": "^1.9.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0"
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard"
+    ],
+    "ignoreFiles": [
+      "**/node_modules/**",
+      "**/playwright-report*/**",
+      "**/test-results/**",
+      "**/.next/**",
+      "**/dist/**",
+      "**/coverage/**"
+    ],
+    "rules": {
+      "alpha-value-notation": null,
+      "color-function-alias-notation": null,
+      "color-function-notation": null,
+      "color-hex-length": null,
+      "custom-property-empty-line-before": null,
+      "custom-property-pattern": null,
+      "declaration-block-no-redundant-longhand-properties": null,
+      "declaration-block-single-line-max-declarations": null,
+      "font-family-name-quotes": null,
+      "function-no-unknown": [
+        true,
+        {
+          "ignoreFunctions": [
+            "color-mix",
+            "env"
+          ]
+        }
+      ],
+      "keyframes-name-pattern": null,
+      "media-feature-range-notation": null,
+      "no-descending-specificity": null,
+      "property-no-vendor-prefix": null,
+      "selector-class-pattern": null,
+      "selector-id-pattern": null,
+      "selector-not-notation": null,
+      "shorthand-property-no-redundant-values": null,
+      "value-keyword-case": null
+    },
+    "overrides": [
+      {
+        "files": [
+          "apps/web/app/static/css/ff-above-main-premium.css"
+        ],
+        "rules": {
+          "block-no-empty": null
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "counts": {
+    "python_files": 40,
+    "html_files": 10,
+    "css_files": 7,
+    "js_files": 5
+  },
+  "key_files_present": {
+    "apps/web/app/routes/campaign.py": true,
+    "apps/web/app/routes/platform.py": true,
+    "apps/web/app/templates/campaign/index.html": true,
+    "apps/web/app/static/css/ff.css": true,
+    "apps/web/app/static/css/ff-above-main-premium.css": true,
+    "apps/web/app/static/js/ff-app.js": true
+  },
+  "routes": [],
+  "render_calls": [
+    {
+      "file": "apps/web/app/routes/campaign.py",
+      "template": "campaign/index.html"
+    },
+    {
+      "file": "apps/web/app/routes/platform.py",
+      "template": "platform/home.html"
+    },
+    {
+      "file": "apps/web/app/routes/platform.py",
+      "template": "platform/onboarding.html"
+    },
+    {
+      "file": "apps/web/app/routes/platform.py",
+      "template": "platform/dashboard.html"
+    },
+    {
+      "file": "apps/web/app/routes/platform.py",
+      "template": "platform/pricing.html"
+    },
+    {
+      "file": "apps/web/app/routes/platform.py",
+      "template": "platform/demo.html"
+    }
+  ],
+  "static_refs": [
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/logo.webp"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/fundchamps-fc.svg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/fundchamps-fc.svg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/og_connect_atx_elite.webp"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/og.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thBlack.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/8thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team_3.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thBlack.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/8thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/favicon.ico"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/icon-32.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/icon-192.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/apple-touch-icon.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/safari-pinned-tab.svg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "manifest.webmanifest"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "css/ff.css"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "css/ff-above-main-premium.css"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "js/ff-app.js"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "js/ff-sponsor-leads-v1.js"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/logo.webp"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/7thBlack.png"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/8thGold.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/campaign/index.html",
+      "static_file": "images/connect-atx-team_3.jpg"
+    },
+    {
+      "file": "apps/web/app/templates/platform/base.html",
+      "static_file": "css/ff.css"
+    },
+    {
+      "file": "apps/web/app/templates/platform/base.html",
+      "static_file": "css/ff-above-main-premium.css"
+    },
+    {
+      "file": "apps/web/app/templates/platform/base.html",
+      "static_file": "css/platform-pages.css"
+    }
+  ]
+}

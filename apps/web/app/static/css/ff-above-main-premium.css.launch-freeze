@@ -1,0 +1,32 @@
+/* ==========================================================================
+   FutureFunded — ff-above-main-premium.css
+   Residual bridge only
+   --------------------------------------------------------------------------
+   Purpose
+   - temporary migration shim while ff.css becomes the sole authority file
+   - keep only truly residual fundraiser-specific bridge rules here
+   - delete this file entirely once these last rules are absorbed or removed
+   ========================================================================== */
+
+@layer ff.overrides {
+  /* ------------------------------------------------------------
+     Residual bridge 1
+     Hide embedded onboarding UI on the public fundraiser page.
+     ------------------------------------------------------------ */
+  body[data-ff-page="fundraiser"] #ff-onboarding,
+  body[data-ff-page="fundraiser"] #ffOnboardPanel2,
+  body[data-ff-page="fundraiser"] #ffOnboardPanel3,
+  body[data-ff-page="fundraiser"] #ffOnboardPanel4 {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------
+     Residual bridge 2
+     Hide public triggers that would reopen the embedded onboarding UI.
+     ------------------------------------------------------------ */
+  body[data-ff-page="fundraiser"] [aria-controls="ff-onboarding"],
+  body[data-ff-page="fundraiser"] [href="#ff-onboarding"],
+  body[data-ff-page="fundraiser"] [data-ff-open-onboarding] {
+    display: none !important;
+  }
+}

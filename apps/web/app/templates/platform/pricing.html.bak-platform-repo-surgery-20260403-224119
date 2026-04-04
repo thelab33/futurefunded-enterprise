@@ -1,0 +1,173 @@
+{% set platform_page = "pricing" %}
+{% set page_title = "FutureFunded Pricing" %}
+{% set page_description = "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations." %}
+{% extends "platform/base.html" %}
+{% block platform_content %}
+<section class="ff-section" aria-labelledby="platformPricingHeroTitle">
+  <div class="ff-container">
+
+    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
+      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
+        <div class="ff-sectionhead__text ff-minw-0">
+          <p class="ff-kicker ff-m-0">Pricing</p>
+
+          <h1
+            class="ff-display ff-mt-2 ff-mb-0"
+            id="platformPricingHeroTitle"
+            style="max-width:11ch;"
+          >
+            Launch a sponsor-ready fundraiser in minutes.
+          </h1>
+
+          <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:42ch;">
+            FutureFunded helps youth teams, schools, nonprofits, and clubs launch branded fundraising systems with direct giving, sponsor lanes, and recurring support from one premium workspace.
+          </p>
+
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Pricing hero signals">
+            <span class="ff-pill ff-pill--soft" role="listitem">Founder-friendly</span>
+            <span class="ff-pill ff-pill--soft" role="listitem">Sponsor-ready</span>
+            <span class="ff-pill ff-pill--ghost" role="listitem">Launch fast</span>
+          </div>
+        </div>
+      </header>
+
+      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformFounderOfferTitle">
+        <p class="ff-kicker ff-m-0">Founder offer</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformFounderOfferTitle">First five programs get founder pricing.</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Start with a lower entry point, get live fast, and grow into sponsor packages and recurring support without rebuilding your system later.
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live demo</a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" aria-labelledby="platformPlansTitle">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformStarterTitle">
+        <p class="ff-kicker ff-m-0">Starter</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformStarterTitle">$49 setup</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Best for teams that want a premium public fundraiser fast.
+        </p>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Includes</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">One fundraiser page, branding setup, and a clean launch path.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Use case</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Perfect for first launches and founder-led setup offers.</p>
+          </article>
+        </div>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformGrowthTitle">
+        <p class="ff-kicker ff-m-0">Growth</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformGrowthTitle">$79/mo</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Best for programs ready to add sponsor packages and recurring support.
+        </p>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Includes</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Public fundraiser, sponsor-ready packages, recurring lanes, and operator dashboard access.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Use case</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Great for schools, clubs, and growing youth programs.</p>
+          </article>
+        </div>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <span class="ff-platformInlinePill">Most practical</span>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Choose Growth</a>
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformWhiteLabelTitle">
+        <p class="ff-kicker ff-m-0">White-label</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformWhiteLabelTitle">Custom</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Best for schools, nonprofits, and larger organizations that want a fuller branded operating system.
+        </p>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Includes</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Advanced setup, branded system direction, and room for broader revenue workflows.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Use case</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Best when you want the platform to feel like your organization’s own system.</p>
+          </article>
+        </div>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformIncludedTitle">
+        <p class="ff-kicker ff-m-0">What’s included</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformIncludedTitle">A cleaner fundraising system from day one.</h2>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Public fundraiser</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A polished page for direct giving and sponsor-ready presentation.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Operator dashboard</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A premium workspace for launch, oversight, and expansion.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Future revenue lanes</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Sponsor packages and recurring support that extend value beyond one campaign.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPricingDemoTitle">
+        <p class="ff-kicker ff-m-0">Live example</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingDemoTitle">See what a live FutureFunded launch looks like.</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Use the current spring fundraiser as your live demo when pitching teams, schools, or community organizations.
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformPricingCloseTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Ready to launch?</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingCloseTitle">Get your program live this week.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Start with founder pricing, launch the public fundraiser first, then expand into sponsor packages and recurring support as the program grows.
+          </p>
+        </div>
+        <div class="ff-row ff-wrap ff-gap-2">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

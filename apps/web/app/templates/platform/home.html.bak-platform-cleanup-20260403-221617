@@ -1,0 +1,278 @@
+{% set platform_page = "home" %}
+{% set page_title = "FutureFunded Platform Home" %}
+{% set page_description = "Explore the FutureFunded platform for youth teams, schools, nonprofits, and clubs — launch branded fundraising pages, sponsor-ready campaigns, and recurring memberships from one premium workspace." %}
+{% extends "platform/base.html" %}
+{% block platform_content %}
+<section class="ff-section" aria-labelledby="platformHeroTitle">
+  <div class="ff-container">
+
+    <div class="ff-grid ff-grid--2 ff-gap-3" style="align-items:start;">
+
+      <article class="ff-card ff-glass ff-pad">
+        <p class="ff-kicker ff-m-0">{{ data.hero.eyebrow }}</p>
+
+        <h1
+          id="platformHeroTitle"
+          class="ff-display ff-mt-2 ff-mb-0"
+          style="max-width:11ch;"
+        >
+          {{ data.hero.title }}
+        </h1>
+
+        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:38ch;">
+          {{ data.hero.body }}
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-4">
+          <a
+            class="ff-btn ff-btn--primary ff-btn--pill"
+            href="{{ data.hero.primary_cta_href }}"
+          >
+            {{ data.hero.primary_cta_label }}
+          </a>
+
+          <a
+            class="ff-btn ff-btn--secondary ff-btn--pill"
+            href="{{ data.hero.secondary_cta_href }}"
+          >
+            {{ data.hero.secondary_cta_label }}
+          </a>
+        </div>
+
+        <div class="ff-proofMini ff-mt-3" aria-label="Launch trust note">
+          <p class="ff-kicker ff-m-0">What you’re launching</p>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            A public fundraiser, sponsor packages, and a clean operator dashboard that makes the program look credible fast.
+          </p>
+        </div>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Hero signals">
+          {% for pill in data.hero.pills %}
+            <span class="ff-pill ff-pill--soft" role="listitem">{{ pill }}</span>
+          {% endfor %}
+        </div>
+      </article>
+
+      <div class="ff-stack ff-gap-3">
+
+        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchTitle">
+          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+            <h2 class="ff-h2 ff-m-0" id="platformLaunchTitle">What you can launch</h2>
+            <span class="ff-platformInlinePill">Launch-ready</span>
+          </div>
+
+          <div class="ff-grid ff-grid--2 ff-gap-2 ff-mt-3">
+            {% for card in data.launch_cards %}
+              <div class="ff-proofMini">
+                <p class="ff-kicker ff-m-0">{{ card.title }}</p>
+                <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ card.body }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformStatusTitle">
+          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+            <h2 class="ff-h2 ff-m-0" id="platformStatusTitle">Launch status</h2>
+            <span class="ff-platformInlinePill">Operator readout</span>
+          </div>
+
+          <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3">
+            {% for card in data.status_cards %}
+              <div class="ff-proofMini">
+                <p class="ff-kicker ff-m-0">{{ card.label }}</p>
+                <p class="ff-h2 ff-mt-2 ff-mb-0">{{ card.value }}</p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Launch status tags">
+            {% for pill in data.status_pills %}
+              <span class="ff-pill ff-pill--ghost" role="listitem">{{ pill }}</span>
+            {% endfor %}
+          </div>
+        </article>
+
+
+        <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformRevenueOsTitle">
+          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+            <h2 class="ff-h2 ff-m-0" id="platformRevenueOsTitle">Why teams buy this</h2>
+            <span class="ff-platformInlinePill">Sellable system</span>
+          </div>
+
+          <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3">
+            <div class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">Direct giving</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A clean donation path that looks credible to families and supporters.</p>
+            </div>
+            <div class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">Sponsor lanes</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Business-ready packages that add revenue beyond one-time gifts.</p>
+            </div>
+            <div class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">Recurring support</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Memberships and booster plans that keep momentum going after launch.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformFeatureLeftTitle">
+        <p class="ff-kicker ff-m-0">{{ data.left_feature.eyebrow }}</p>
+
+        <h2
+          id="platformFeatureLeftTitle"
+          class="ff-display ff-mt-2 ff-mb-0"
+          style="max-width:10ch;"
+        >
+          {{ data.left_feature.title }}
+        </h2>
+
+        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:36ch;">
+          {{ data.left_feature.body }}
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Left feature signals">
+          {% for pill in data.left_feature.pills %}
+            <span class="ff-pill ff-pill--ghost" role="listitem">{{ pill }}</span>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformFeatureRightTitle">
+        <p class="ff-kicker ff-m-0">{{ data.right_feature.eyebrow }}</p>
+
+        <h2
+          id="platformFeatureRightTitle"
+          class="ff-display ff-mt-2 ff-mb-0"
+          style="max-width:10ch;"
+        >
+          {{ data.right_feature.title }}
+        </h2>
+
+        <p class="ff-lead ff-mt-3 ff-mb-0" style="max-width:36ch;">
+          {{ data.right_feature.body }}
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Right feature signals">
+          {% for pill in data.right_feature.pills %}
+            <span class="ff-pill ff-pill--ghost" role="listitem">{{ pill }}</span>
+          {% endfor %}
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+    <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" aria-labelledby="platformPricingTitle">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPricingTitle">
+        <p class="ff-kicker ff-m-0">Launch packages</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingTitle">A simple way to start selling FutureFunded.</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Start with a founder-friendly offer, prove value fast, then expand into recurring platform revenue.
+        </p>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-label="Starter package">
+        <p class="ff-kicker ff-m-0">Starter</p>
+        <h3 class="ff-h2 ff-mt-2 ff-mb-0">$49<span class="ff-help ff-muted"> setup</span></h3>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          One fundraiser page, basic branding, and launch support for teams that need to get moving fast.
+        </p>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-label="Growth package">
+        <p class="ff-kicker ff-m-0">Growth</p>
+        <h3 class="ff-h2 ff-mt-2 ff-mb-0">$79<span class="ff-help ff-muted"> / month</span></h3>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          Adds sponsor packages, recurring support lanes, and a cleaner operator experience for programs ready to grow.
+        </p>
+      </article>
+    </div>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformFounderOfferTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Founder offer</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformFounderOfferTitle">First five customers get founder pricing.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Lock in an early rate, launch fast, and grow into sponsor and membership lanes without rebuilding from scratch.
+          </p>
+        </div>
+        <div class="ff-row ff-wrap ff-gap-2">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live example</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformSellNowTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Sell it now</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSellNowTitle">Use this platform as your live sales demo.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Show the public fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a full revenue system for youth programs.
+          </p>
+        </div>
+        <div class="ff-row ff-wrap ff-gap-2">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformPricingGridTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Pricing snapshot</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingGridTitle">Simple pricing that is easy to explain and easy to sell.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Start with a founder-friendly launch offer, then expand into monthly platform revenue as programs adopt sponsor and membership lanes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3">
+        <article class="ff-proofMini">
+          <p class="ff-kicker ff-m-0">Founder launch</p>
+          <p class="ff-h2 ff-mt-2 ff-mb-0">$49</p>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Setup-focused offer for the first wave of teams and programs.</p>
+        </article>
+
+        <article class="ff-proofMini">
+          <p class="ff-kicker ff-m-0">Growth plan</p>
+          <p class="ff-h2 ff-mt-2 ff-mb-0">$79/mo</p>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Public fundraiser + sponsor lanes + recurring support.</p>
+        </article>
+
+        <article class="ff-proofMini">
+          <p class="ff-kicker ff-m-0">White-label path</p>
+          <p class="ff-h2 ff-mt-2 ff-mb-0">Custom</p>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">For schools, clubs, and orgs that want a fuller branded system.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformHomeCloseTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Launch your first customer</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeCloseTitle">Use FutureFunded as the page you sell from.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Show the live fundraiser, the onboarding flow, and the dashboard together to position FutureFunded as a premium revenue system for youth programs.
+          </p>
+        </div>
+        <div class="ff-row ff-wrap ff-gap-2">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

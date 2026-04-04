@@ -1,0 +1,1747 @@
+/*!
+ * FutureFunded — ff-app.js
+ * Flagship campaign runtime
+ */
+(function () {
+  "use strict";
+
+  const doc = document;
+  const root = doc.documentElement;
+  const body = doc.body;
+
+  function parseJSONScript(id, fallback) {
+    const el = doc.getElementById(id);
+    if (!el) return fallback;
+    try {
+      return JSON.parse(el.textContent || "");
+    } catch (_err) {
+      return fallback;
+    }
+  }
+
+  const defaultHooks = {
+    openCheckout: "[data-ff-open-checkout]",
+    closeCheckout: "[data-ff-close-checkout]",
+    checkoutSheet: "[data-ff-checkout-sheet]",
+    checkoutViewport: "[data-ff-checkout-viewport]",
+    checkoutContent: "[data-ff-checkout-content]",
+    checkoutScroll: "[data-ff-checkout-scroll]",
+    checkoutShell: "[data-ff-checkout-shell]",
+    checkoutSuccess: "[data-ff-checkout-success]",
+    checkoutError: "[data-ff-checkout-error]",
+    checkoutStatus: "[data-ff-checkout-status]",
+    donationForm: "#donationForm",
+    amountInput: "[data-ff-amount-input]",
+    amountChip: "[data-ff-amount]",
+    teamId: "input[data-ff-team-id][name=\"team_id\"]",
+    donorName: "[data-ff-donor-name]",
+    donorEmail: "[data-ff-email]",
+    donorMessage: "[data-ff-message]",
+    summaryAmount: "[data-ff-summary-amount]",
+    paymentMount: "[data-ff-payment-element]",
+    stripeMount: "[data-ff-stripe-mount]",
+    paypalMount: "[data-ff-paypal-mount]",
+    toasts: "[data-ff-toasts]",
+    live: "[data-ff-live]",
+    share: "[data-ff-share]",
+    themeToggle: "[data-ff-theme-toggle]",
+    openDrawer: "[data-ff-open-drawer]",
+    closeDrawer: "[data-ff-close-drawer]",
+    drawer: "[data-ff-drawer]",
+    openSponsor: "[data-ff-open-sponsor]",
+    closeSponsor: "[data-ff-close-sponsor]",
+    sponsorModal: "[data-ff-sponsor-modal]",
+    sponsorForm: "#sponsorForm",
+    sponsorWall: "[data-ff-sponsor-wall]",
+    sponsorWallEmpty: "[data-ff-sponsor-wall-empty]",
+    sponsorTier: "[data-ff-sponsor-tier]",
+    sponsorTierGrid: "[data-ff-sponsor-tier-grid]",
+    sponsorTierSelected: "[data-ff-sponsor-tier-selected]",
+    sponsorSubmit: "[data-ff-sponsor-submit]",
+    sponsorStatus: "[data-ff-sponsor-status]",
+    sponsorError: "[data-ff-sponsor-error]",
+    sponsorSuccess: "[data-ff-sponsor-success]",
+    openVideo: "[data-ff-open-video]",
+    closeVideo: "[data-ff-close-video]",
+    videoModal: "[data-ff-video-modal]",
+    videoFrame: "[data-ff-video-frame]",
+    videoMount: "[data-ff-video-mount]",
+    videoPanel: "[data-ff-video-panel]",
+    videoStatus: "[data-ff-video-status]",
+    openTerms: "[data-ff-open-terms]",
+    closeTerms: "[data-ff-close-terms]",
+    termsModal: "[data-ff-terms-modal]",
+    openPrivacy: "[data-ff-open-privacy]",
+    closePrivacy: "[data-ff-close-privacy]",
+    privacyModal: "[data-ff-privacy-modal]",
+    openOnboard: "[data-ff-open-onboard]",
+    closeOnboard: "[data-ff-close-onboard]",
+    onboardModal: "[data-ff-onboard-modal]",
+    onboardForm: "[data-ff-onboard-form]",
+    onboardNext: "[data-ff-onboard-next]",
+    onboardPrev: "[data-ff-onboard-prev]",
+    onboardFinish: "[data-ff-onboard-finish]",
+    onboardCopy: "[data-ff-onboard-copy]",
+    onboardEmail: "[data-ff-onboard-email]",
+    onboardSummary: "[data-ff-onboard-summary]",
+    onboardStatus: "[data-ff-onboard-status]",
+    onboardResult: "[data-ff-onboard-result]",
+    stepPill: "[data-ff-step-pill]",
+    stepPanel: "[data-ff-step]",
+    floatingDonate: "[data-ff-floating-donate]",
+    backToTop: "[data-ff-backtotop]",
+    tabs: "[data-ff-tabs]",
+    liveFeed: "[data-ff-live-feed]",
+    story: "[data-ff-story]",
+    burst: "[data-ff-burst]"
+  };
+
+  const ffSelectors = parseJSONScript("ffSelectors", { hooks: defaultHooks });
+  const hooks = {
+    ...defaultHooks,
+    ...(ffSelectors && ffSelectors.hooks ? ffSelectors.hooks : {}),
+  };
+  const ffConfig = parseJSONScript("ffConfig", {});
+  const meta = {
+    stripePk: doc.querySelector('meta[name="ff-stripe-pk"]')?.content?.trim() || "",
+    stripeIntentEndpoint:
+      doc.querySelector('meta[name="ff-stripe-intent-endpoint"]')?.content?.trim() || "",
+    stripeReturnUrl:
+      doc.querySelector('meta[name="ff-stripe-return-url"]')?.content?.trim() || "",
+    stripeJs: doc.querySelector('meta[name="ff-stripe-js"]')?.content?.trim() || "https://js.stripe.com/v3/",
+    paypalClientId:
+      doc.querySelector('meta[name="ff-paypal-client-id"]')?.content?.trim() || "",
+    paypalCurrency:
+      doc.querySelector('meta[name="ff-paypal-currency"]')?.content?.trim() || "USD",
+    paypalIntent:
+      doc.querySelector('meta[name="ff-paypal-intent"]')?.content?.trim() || "capture",
+    paypalCreateEndpoint:
+      doc.querySelector('meta[name="ff-paypal-create-endpoint"]')?.content?.trim() || "",
+    paypalCaptureEndpoint:
+      doc.querySelector('meta[name="ff-paypal-capture-endpoint"]')?.content?.trim() || "",
+    shareUrl:
+      body?.dataset?.ffShareUrl ||
+      doc.querySelector('meta[name="ff-share-url"]')?.content?.trim() ||
+      window.location.href,
+    termsUrl: doc.querySelector('meta[name="ff-terms-url"]')?.content?.trim() || "",
+    privacyUrl: doc.querySelector('meta[name="ff-privacy-url"]')?.content?.trim() || "",
+  };
+
+  function q(selector, scope) {
+    if (!selector) return null;
+    try {
+      return (scope || doc).querySelector(selector);
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  function qa(selector, scope) {
+    if (!selector) return [];
+    try {
+      return Array.from((scope || doc).querySelectorAll(selector));
+    } catch (_err) {
+      return [];
+    }
+  }
+
+  function firstPanel(container) {
+    if (!container) return null;
+    return (
+      q("[role='document']", container) ||
+      q(".ff-sheet__panel", container) ||
+      q(".ff-modal__panel", container) ||
+      q(".ff-drawer__panel", container) ||
+      container
+    );
+  }
+
+  function ensureToastHost() {
+    let host = q(hooks.toasts);
+    if (host) return host;
+
+    host = doc.createElement("div");
+    host.setAttribute("data-ff-toasts", "");
+    host.setAttribute("aria-live", "polite");
+    host.setAttribute("aria-atomic", "false");
+    host.style.position = "fixed";
+    host.style.top = "max(0.9rem, calc(0.9rem + env(safe-area-inset-top, 0px)))";
+    host.style.right = "max(0.9rem, calc(0.9rem + env(safe-area-inset-right, 0px)))";
+    host.style.zIndex = "1200";
+    host.style.display = "grid";
+    host.style.gap = "0.5rem";
+    host.style.width = "min(22rem, calc(100vw - 1.25rem))";
+    host.style.pointerEvents = "none";
+    doc.body.appendChild(host);
+    return host;
+  }
+
+  function applyInlineMediaFallback(target, label) {
+    if (!target || target.dataset.ffFallbackApplied === "true") return;
+    target.dataset.ffFallbackApplied = "true";
+    target.style.position = "relative";
+    target.style.overflow = "hidden";
+    target.style.background =
+      "radial-gradient(circle at top right, rgb(14 165 233 / 0.08), transparent 38%)," +
+      "linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0))," +
+      "var(--ff-panel, #f8fafc)";
+    target.style.boxShadow = "inset 0 1px 0 rgb(255 255 255 / 0.18)";
+
+    const badge = doc.createElement("span");
+    badge.className = "ff-pill ff-pill--ghost";
+    badge.textContent = label || "Media";
+    badge.style.position = "absolute";
+    badge.style.left = "0.75rem";
+    badge.style.bottom = "0.75rem";
+    badge.style.zIndex = "2";
+    badge.style.pointerEvents = "none";
+    target.appendChild(badge);
+  }
+
+  function bindImageFallback(wrapper, img, label) {
+    if (!wrapper) return;
+    if (!img) {
+      applyInlineMediaFallback(wrapper, label);
+      return;
+    }
+
+    const fail = () => applyInlineMediaFallback(wrapper, label);
+    img.addEventListener("error", fail, { once: true });
+
+    const src = (img.getAttribute("src") || "").trim();
+    if (!src) {
+      fail();
+      return;
+    }
+
+    if (img.complete && !(img.naturalWidth > 0)) {
+      fail();
+    }
+  }
+
+  function initMediaFallbacks() {
+    qa('[data-ff-fallback-bound="true"]', doc).forEach((media) => {
+      const label = media.getAttribute("data-ff-fallback-label") || "Team photo";
+      bindImageFallback(media, q("img", media), label);
+    });
+
+    qa("[data-ff-story-poster]", doc).forEach((poster) => {
+      bindImageFallback(poster, q("img", poster), "Program story");
+    });
+  }
+
+  function escapeId(value) {
+    const raw = String(value || "");
+    if (globalThis.CSS && typeof globalThis.CSS.escape === "function") {
+      return globalThis.CSS.escape(raw);
+    }
+    return raw.replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+  }
+
+  function formDataObject(form) {
+    if (!form) return {};
+    const out = {};
+    const fd = new FormData(form);
+    fd.forEach((value, key) => {
+      out[key] = typeof value === "string" ? value.trim() : value;
+    });
+    return out;
+  }
+
+  function money(value) {
+    const amount = Number(value || 0);
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: meta.paypalCurrency || "USD",
+        maximumFractionDigits: 0,
+      }).format(amount);
+    } catch (_err) {
+      return `$${Math.round(amount || 0).toLocaleString("en-US")}`;
+    }
+  }
+
+  function setHidden(el, hidden) {
+    if (!el) return;
+    if (hidden) {
+      el.setAttribute("hidden", "");
+      el.setAttribute("aria-hidden", "true");
+    } else {
+      el.removeAttribute("hidden");
+      if (el.hasAttribute("aria-hidden")) el.setAttribute("aria-hidden", "false");
+    }
+  }
+
+  function showMessage(el, message) {
+    if (!el) return;
+    if (message) {
+      el.textContent = message;
+      el.removeAttribute("hidden");
+    } else {
+      el.setAttribute("hidden", "");
+    }
+  }
+
+  function announce(message) {
+    const live = q(hooks.live);
+    if (live && message) {
+      live.textContent = message;
+    }
+  }
+
+  function toast(message, kind) {
+    if (!message) return;
+    const host = ensureToastHost();
+    const item = doc.createElement("div");
+    item.className =
+      "ff-alert " +
+      (kind === "error"
+        ? "ff-alert--error"
+        : kind === "success"
+          ? "ff-alert--success"
+          : "ff-alert--info");
+    item.textContent = message;
+    item.style.pointerEvents = "auto";
+    host.appendChild(item);
+    announce(message);
+    window.setTimeout(() => {
+      item.remove();
+    }, 3200);
+  }
+
+  function copyText(text) {
+    if (!text) return Promise.reject(new Error("Nothing to copy"));
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    const area = doc.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    doc.body.appendChild(area);
+    area.select();
+    try {
+      doc.execCommand("copy");
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(err);
+    } finally {
+      area.remove();
+    }
+  }
+
+  function getFocusable(container) {
+    if (!container) return [];
+    return qa(
+      [
+        "a[href]:not([tabindex='-1'])",
+        "button:not([disabled]):not([tabindex='-1'])",
+        "input:not([disabled]):not([type='hidden']):not([tabindex='-1'])",
+        "select:not([disabled]):not([tabindex='-1'])",
+        "textarea:not([disabled]):not([tabindex='-1'])",
+        "[tabindex]:not([tabindex='-1'])",
+      ].join(","),
+      container
+    ).filter((el) => !el.hasAttribute("hidden") && el.getAttribute("aria-hidden") !== "true");
+  }
+
+  const overlayState = {
+    activeKey: null,
+    lastTrigger: null,
+  };
+
+  const overlays = {
+    checkout: {
+      key: "checkout",
+      container: q(hooks.checkoutSheet),
+      panel: firstPanel(q(hooks.checkoutSheet)),
+      openers: hooks.openCheckout,
+      closers: hooks.closeCheckout,
+    },
+    drawer: {
+      key: "drawer",
+      container: q(hooks.drawer),
+      panel: q("#ffDrawerPanel") || firstPanel(q(hooks.drawer)),
+      openers: hooks.openDrawer,
+      closers: hooks.closeDrawer,
+    },
+    sponsor: {
+      key: "sponsor",
+      container: q(hooks.sponsorModal),
+      panel: firstPanel(q(hooks.sponsorModal)),
+      openers: hooks.openSponsor,
+      closers: hooks.closeSponsor,
+    },
+    video: {
+      key: "video",
+      container: q(hooks.videoModal),
+      panel: q(hooks.videoPanel) || firstPanel(q(hooks.videoModal)),
+      openers: hooks.openVideo,
+      closers: hooks.closeVideo,
+    },
+    terms: {
+      key: "terms",
+      container: q(hooks.termsModal),
+      panel: firstPanel(q(hooks.termsModal)),
+      openers: hooks.openTerms,
+      closers: hooks.closeTerms,
+    },
+    privacy: {
+      key: "privacy",
+      container: q(hooks.privacyModal),
+      panel: firstPanel(q(hooks.privacyModal)),
+      openers: hooks.openPrivacy,
+      closers: hooks.closePrivacy,
+    },
+    onboard: {
+      key: "onboard",
+      container: q(hooks.onboardModal),
+      panel: firstPanel(q(hooks.onboardModal)),
+      openers: hooks.openOnboard,
+      closers: hooks.closeOnboard,
+    },
+  };
+
+  function closeAllOverlays(exceptKey) {
+    Object.values(overlays).forEach((overlay) => {
+      if (!overlay || !overlay.container || overlay.key === exceptKey) return;
+      setHidden(overlay.container, true);
+      overlay.container.dataset.open = "false";
+    });
+    if (!exceptKey) {
+      body.classList.remove("ff-lock-scroll");
+      overlayState.activeKey = null;
+    }
+  }
+
+  function openOverlay(key, trigger) {
+    const overlay = overlays[key];
+    if (!overlay || !overlay.container) return;
+    closeAllOverlays(key);
+    overlayState.activeKey = key;
+    overlayState.lastTrigger = trigger || doc.activeElement;
+    setHidden(overlay.container, false);
+    overlay.container.dataset.open = "true";
+    body.classList.add("ff-lock-scroll");
+    window.setTimeout(() => {
+      const target = overlay.panel || overlay.container;
+      target?.focus?.();
+    }, 0);
+  }
+
+  function closeOverlay(key) {
+    const overlay = overlays[key];
+    if (!overlay || !overlay.container) return;
+    setHidden(overlay.container, true);
+    overlay.container.dataset.open = "false";
+    if (overlayState.activeKey === key) {
+      overlayState.activeKey = null;
+      body.classList.remove("ff-lock-scroll");
+      if (overlayState.lastTrigger && typeof overlayState.lastTrigger.focus === "function") {
+        overlayState.lastTrigger.focus();
+      }
+    }
+    if (key === "video") {
+      unloadVideo();
+    }
+  }
+
+  doc.addEventListener("keydown", (event) => {
+    const active = overlayState.activeKey ? overlays[overlayState.activeKey] : null;
+    if (!active?.container) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeOverlay(active.key);
+      return;
+    }
+
+    if (event.key === "Tab") {
+      const panel = active.panel || active.container;
+      const focusables = getFocusable(panel);
+      if (!focusables.length) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (event.shiftKey && doc.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && doc.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  function readTriggerData(el) {
+    if (!el) return {};
+    return {
+      amount: el.getAttribute("data-ff-amount") || "",
+      teamId: el.getAttribute("data-ff-team-id") || "",
+      playerId: el.getAttribute("data-ff-player-id") || "",
+      sponsorAmount: el.getAttribute("data-ff-sponsor-amount") || "",
+      videoSrc: el.getAttribute("data-ff-video-src") || "",
+      videoTitle: el.getAttribute("data-ff-video-title") || "",
+      sponsorTier:
+        el.getAttribute("data-ff-sponsor-tier") ||
+        el.closest("[data-tier]")?.getAttribute("data-tier") ||
+        "",
+    };
+  }
+
+  const checkoutEls = {
+    form: q(hooks.donationForm),
+    amountInput: q(hooks.amountInput),
+    amountChips: qa(hooks.amountChip),
+    summaryAmount: q(hooks.summaryAmount),
+    hiddenTeamId: q(hooks.teamId),
+    hiddenPlayerId: q('input[data-ff-player-id][name="player_id"]'),
+    hiddenSponsorAmount: q('input[data-ff-sponsor-amount][name="sponsor_amount"]'),
+    donorName: q(hooks.donorName),
+    donorEmail: q(hooks.donorEmail),
+    donorMessage: q(hooks.donorMessage),
+    stageForm: q('[data-ff-checkout-stage="form"]'),
+    stageSuccess: q('[data-ff-checkout-stage="success"]'),
+    status: q(hooks.checkoutStatus),
+    error: q(hooks.checkoutError),
+    stripeMount: q(hooks.stripeMount),
+    paypalMount: q(hooks.paypalMount),
+    stripeMessage: q('[data-ff-stripe-msg]'),
+    stripeError: q('[data-ff-stripe-error]'),
+    stripeSkeleton: q('[data-ff-stripe-skeleton]'),
+    paypalMessage: q('[data-ff-paypal-msg]'),
+    paypalError: q('[data-ff-paypal-error]'),
+    paypalSkeleton: q('[data-ff-paypal-skeleton]'),
+  };
+
+  const sponsorEls = {
+    form: q(hooks.sponsorForm),
+    tierButtons: qa(hooks.sponsorTier),
+    tierSelected: q(hooks.sponsorTierSelected),
+  };
+
+  const onboardEls = {
+    modal: overlays.onboard.container,
+    form: q(hooks.onboardForm),
+    stepPills: qa(hooks.stepPill),
+    panels: qa(hooks.stepPanel),
+    prev: q(hooks.onboardPrev),
+    next: q(hooks.onboardNext),
+    finish: q(hooks.onboardFinish),
+    copy: q(hooks.onboardCopy),
+    email: q(hooks.onboardEmail),
+    summary: q(hooks.onboardSummary),
+    status: q(hooks.onboardStatus),
+    result: q(hooks.onboardResult),
+    swatches: qa('[data-ff-onboard-swatch]'),
+  };
+
+  const uiEls = {
+    themeButtons: qa(hooks.themeToggle),
+    backToTop: q(hooks.backToTop),
+    tabs: q(hooks.tabs),
+    floatingDonate: q(hooks.floatingDonate),
+    burst: q(hooks.burst),
+    sponsorWall: q(hooks.sponsorWall),
+    sponsorWallEmpty: q(hooks.sponsorWallEmpty),
+    sectionRoots: qa('[data-ff-section]'),
+    hero: q("#home"),
+    successMount: q("#ffDonationSuccessMount"),
+    successTemplate: q("#ffDonationSuccessUpsellTemplate"),
+  };
+
+  function syncAmountUI(value) {
+    const num = Math.max(0, Number(value || 0));
+    if (checkoutEls.summaryAmount) checkoutEls.summaryAmount.textContent = money(num);
+
+    checkoutEls.amountChips.forEach((chip) => {
+      const chipValue = Number(chip.getAttribute("data-ff-amount") || 0);
+      chip.setAttribute("aria-pressed", chipValue === num && num > 0 ? "true" : "false");
+    });
+  }
+
+  function preloadCheckout(options) {
+    if (!checkoutEls.form) return;
+
+    const amount = Number(options.amount || checkoutEls.amountInput?.value || 0);
+    const teamId = options.teamId || checkoutEls.hiddenTeamId?.value || "default";
+    const playerId = options.playerId || checkoutEls.hiddenPlayerId?.value || "";
+    const sponsorAmount = options.sponsorAmount || "";
+
+    if (checkoutEls.amountInput && amount > 0) {
+      checkoutEls.amountInput.value = String(amount);
+    }
+    if (checkoutEls.hiddenTeamId) checkoutEls.hiddenTeamId.value = teamId || "default";
+    if (checkoutEls.hiddenPlayerId) checkoutEls.hiddenPlayerId.value = playerId || "";
+    if (checkoutEls.hiddenSponsorAmount) {
+      checkoutEls.hiddenSponsorAmount.value =
+        sponsorAmount || (playerId && amount > 0 ? String(amount) : "");
+    }
+
+    syncAmountUI(amount);
+    debounceIntentRefresh();
+  }
+
+  function setCheckoutStage(stage) {
+    const isSuccess = stage === "success";
+    setHidden(checkoutEls.stageForm, isSuccess);
+    setHidden(checkoutEls.stageSuccess, !isSuccess);
+    if (checkoutEls.stageForm) checkoutEls.stageForm.dataset.state = isSuccess ? "hidden" : "visible";
+    if (checkoutEls.stageSuccess) checkoutEls.stageSuccess.dataset.state = isSuccess ? "visible" : "hidden";
+  }
+
+  function validateCheckoutForm() {
+    if (!checkoutEls.form || !checkoutEls.amountInput || !checkoutEls.donorName || !checkoutEls.donorEmail) {
+      return false;
+    }
+
+    const amount = Number(checkoutEls.amountInput.value || 0);
+    let valid = true;
+    let firstInvalid = null;
+
+    const checks = [
+      [checkoutEls.amountInput, amount >= 1],
+      [checkoutEls.donorName, checkoutEls.donorName.value.trim().length >= 2],
+      [checkoutEls.donorEmail, /\S+@\S+\.\S+/.test(checkoutEls.donorEmail.value.trim())],
+    ];
+
+    checks.forEach(([field, ok]) => {
+      if (!field) return;
+      field.setAttribute("aria-invalid", ok ? "false" : "true");
+      if (!ok && !firstInvalid) firstInvalid = field;
+      valid = valid && ok;
+    });
+
+    if (!valid) {
+      showMessage(checkoutEls.error, "Please review the amount, name, and email, then try again.");
+      firstInvalid?.focus?.();
+      announce("Please review the amount, name, and email, then try again.");
+    } else {
+      showMessage(checkoutEls.error, "");
+    }
+
+    return valid;
+  }
+
+  function getDonationPayload() {
+    const payload = formDataObject(checkoutEls.form);
+    payload.amount = Number(payload.amount || 0);
+    payload.team_id = payload.team_id || "default";
+    payload.player_id = payload.player_id || "";
+    payload.sponsor_amount = payload.sponsor_amount || "";
+    return payload;
+  }
+
+  const paymentState = {
+    stripe: null,
+    elements: null,
+    paymentElement: null,
+    clientSecret: "",
+    clientAmount: 0,
+    stripeLoading: false,
+    stripeInitPromise: null,
+    paypalInitPromise: null,
+    paypalRendered: false,
+  };
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (!src) {
+        reject(new Error("Missing script URL"));
+        return;
+      }
+
+      const existing = doc.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          resolve(existing);
+        } else {
+          existing.addEventListener("load", () => resolve(existing), { once: true });
+          existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+        }
+        return;
+      }
+
+      const script = doc.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.defer = true;
+      script.addEventListener(
+        "load",
+        () => {
+          script.dataset.loaded = "true";
+          resolve(script);
+        },
+        { once: true }
+      );
+      script.addEventListener(
+        "error",
+        () => reject(new Error(`Failed to load ${src}`)),
+        { once: true }
+      );
+      doc.head.appendChild(script);
+    });
+  }
+
+  async function ensureStripeLibrary() {
+    if (!meta.stripePk || !meta.stripeJs) return null;
+    if (paymentState.stripe) return paymentState.stripe;
+    if (paymentState.stripeInitPromise) return paymentState.stripeInitPromise;
+
+    paymentState.stripeInitPromise = (async () => {
+      showMessage(checkoutEls.stripeMessage, "Preparing secure card entry…");
+      if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = false;
+
+      await loadScript(meta.stripeJs);
+
+      if (!window.Stripe) {
+        throw new Error("Stripe failed to load");
+      }
+
+      paymentState.stripe = window.Stripe(meta.stripePk);
+      showMessage(checkoutEls.stripeMessage, "");
+      if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = true;
+      return paymentState.stripe;
+    })();
+
+    try {
+      return await paymentState.stripeInitPromise;
+    } catch (_err) {
+      showMessage(checkoutEls.stripeMessage, "");
+      showMessage(checkoutEls.stripeError, "Stripe checkout is unavailable right now.");
+      if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = true;
+      return null;
+    }
+  }
+
+  async function createStripeIntent(payload) {
+    if (!meta.stripeIntentEndpoint) return null;
+
+    const response = await fetch(meta.stripeIntentEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+      credentials: "same-origin",
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data?.message || data?.error || "Unable to create payment session");
+    }
+
+    return data;
+  }
+
+  function getClientSecret(data) {
+    return (
+      data?.clientSecret ||
+      data?.client_secret ||
+      data?.secret ||
+      data?.paymentIntentClientSecret ||
+      ""
+    );
+  }
+
+  function buildStripeAppearance() {
+    const dark = root.getAttribute("data-theme") === "dark";
+    return {
+      theme: dark ? "night" : "stripe",
+      variables: {
+        colorPrimary: dark ? "#fb923c" : "#f97316",
+        colorBackground: dark ? "#0f172a" : "#ffffff",
+        colorText: dark ? "#f8fafc" : "#0f172a",
+        colorDanger: "#dc2626",
+        borderRadius: "16px",
+      },
+    };
+  }
+
+  async function mountStripeForCurrentAmount(force) {
+    if (!checkoutEls.amountInput || !checkoutEls.stripeMount || !meta.stripePk || !meta.stripeIntentEndpoint) {
+      return;
+    }
+
+    const amount = Number(checkoutEls.amountInput.value || 0);
+    if (amount < 1) return;
+
+    const stripe = await ensureStripeLibrary();
+    if (!stripe) return;
+
+    if (!force && paymentState.clientSecret && paymentState.clientAmount === amount && paymentState.paymentElement) {
+      return;
+    }
+
+    paymentState.stripeLoading = true;
+    showMessage(checkoutEls.stripeMessage, "Preparing secure card entry…");
+    if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = false;
+    showMessage(checkoutEls.stripeError, "");
+
+    try {
+      const payload = getDonationPayload();
+      const data = await createStripeIntent(payload);
+      const clientSecret = getClientSecret(data);
+
+      if (!clientSecret) {
+        throw new Error("Missing payment client secret");
+      }
+
+      paymentState.clientSecret = clientSecret;
+      paymentState.clientAmount = amount;
+
+      if (paymentState.paymentElement) {
+        paymentState.paymentElement.unmount();
+        paymentState.paymentElement = null;
+      }
+
+      paymentState.elements = stripe.elements({
+        clientSecret,
+        appearance: buildStripeAppearance(),
+      });
+
+      paymentState.paymentElement = paymentState.elements.create("payment");
+      checkoutEls.stripeMount.innerHTML = "";
+      paymentState.paymentElement.mount(checkoutEls.stripeMount);
+
+      showMessage(checkoutEls.stripeMessage, "");
+      if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = true;
+    } catch (err) {
+      showMessage(checkoutEls.stripeMessage, "");
+      showMessage(checkoutEls.stripeError, err?.message || "Stripe checkout is unavailable right now.");
+      if (checkoutEls.stripeSkeleton) checkoutEls.stripeSkeleton.hidden = true;
+    } finally {
+      paymentState.stripeLoading = false;
+    }
+  }
+
+  async function ensurePayPal() {
+    if (
+      !meta.paypalClientId ||
+      !checkoutEls.paypalMount ||
+      !meta.paypalCreateEndpoint ||
+      !meta.paypalCaptureEndpoint
+    ) {
+      return null;
+    }
+
+    if (window.paypal?.Buttons) return window.paypal;
+    if (paymentState.paypalInitPromise) return paymentState.paypalInitPromise;
+
+    const sdkUrl =
+      `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(meta.paypalClientId)}` +
+      `&currency=${encodeURIComponent(meta.paypalCurrency)}` +
+      `&intent=${encodeURIComponent(meta.paypalIntent || "capture")}`;
+
+    paymentState.paypalInitPromise = (async () => {
+      showMessage(checkoutEls.paypalMessage, "Loading PayPal…");
+      if (checkoutEls.paypalSkeleton) checkoutEls.paypalSkeleton.hidden = false;
+
+      await loadScript(sdkUrl);
+
+      showMessage(checkoutEls.paypalMessage, "");
+      if (checkoutEls.paypalSkeleton) checkoutEls.paypalSkeleton.hidden = true;
+
+      return window.paypal || null;
+    })();
+
+    try {
+      return await paymentState.paypalInitPromise;
+    } catch (_err) {
+      showMessage(checkoutEls.paypalMessage, "");
+      showMessage(checkoutEls.paypalError, "PayPal checkout is unavailable right now.");
+      if (checkoutEls.paypalSkeleton) checkoutEls.paypalSkeleton.hidden = true;
+      return null;
+    }
+  }
+
+  async function renderPayPalButtons() {
+    if (paymentState.paypalRendered || !checkoutEls.paypalMount) return;
+
+    const paypal = await ensurePayPal();
+    if (!paypal?.Buttons) return;
+
+    checkoutEls.paypalMount.innerHTML = "";
+
+    paypal
+      .Buttons({
+        style: {
+          shape: "pill",
+          height: 44,
+          layout: "vertical",
+          color: "gold",
+        },
+        createOrder: async function () {
+          if (!validateCheckoutForm()) {
+            throw new Error("Please review the amount, name, and email, then try again.");
+          }
+
+          const response = await fetch(meta.paypalCreateEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(getDonationPayload()),
+            credentials: "same-origin",
+          });
+
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(data?.message || data?.error || "Unable to start PayPal");
+          }
+
+          return data?.orderID || data?.orderId || data?.id;
+        },
+
+
+        onApprove: async function (data) {
+          showMessage(checkoutEls.status, "Finalizing PayPal payment…");
+
+          const response = await fetch(meta.paypalCaptureEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              orderID: data.orderID,
+              orderId: data.orderID,
+              payload: getDonationPayload(),
+            }),
+            credentials: "same-origin",
+          });
+
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(result?.message || result?.error || "Unable to confirm PayPal payment");
+          }
+
+          onDonationSuccess();
+        },
+        onError: function (err) {
+          showMessage(checkoutEls.status, "");
+          showMessage(checkoutEls.paypalError, err?.message || "PayPal checkout is unavailable right now.");
+        },
+      })
+      .render(checkoutEls.paypalMount);
+
+    paymentState.paypalRendered = true;
+  }
+
+  let intentRefreshTimer = null;
+
+  function debounceIntentRefresh() {
+    if (intentRefreshTimer) window.clearTimeout(intentRefreshTimer);
+    intentRefreshTimer = window.setTimeout(() => {
+      mountStripeForCurrentAmount(false);
+    }, 550);
+  }
+
+  async function handleCheckoutSubmit(event) {
+    event.preventDefault();
+
+    if (!validateCheckoutForm()) return;
+
+    showMessage(checkoutEls.status, "Preparing secure payment…");
+    showMessage(checkoutEls.error, "");
+
+    const amount = Number(checkoutEls.amountInput?.value || 0);
+    syncAmountUI(amount);
+
+    if (meta.stripePk && meta.stripeIntentEndpoint) {
+      await mountStripeForCurrentAmount(true);
+
+      if (!paymentState.stripe || !paymentState.elements) {
+        showMessage(checkoutEls.status, "");
+        showMessage(checkoutEls.error, "A secure payment method could not be loaded. Please try again.");
+        return;
+      }
+
+      const result = await paymentState.stripe.confirmPayment({
+        elements: paymentState.elements,
+        confirmParams: {
+          return_url: meta.stripeReturnUrl || window.location.href,
+          receipt_email: checkoutEls.donorEmail?.value?.trim() || undefined,
+        },
+        redirect: "if_required",
+      });
+
+      if (result?.error) {
+        showMessage(checkoutEls.status, "");
+        showMessage(checkoutEls.error, result.error.message || "Payment could not be completed.");
+        return;
+      }
+
+      const status = result?.paymentIntent?.status;
+      if (status === "succeeded" || status === "processing" || status === "requires_capture") {
+        onDonationSuccess();
+        return;
+      }
+    }
+
+    if (meta.paypalClientId && meta.paypalCreateEndpoint) {
+      showMessage(checkoutEls.status, "Use PayPal below or card entry above to complete support.");
+      return;
+    }
+
+    showMessage(checkoutEls.status, "");
+    showMessage(checkoutEls.error, "A secure payment method could not be loaded. Please try again.");
+  }
+
+  function createBurst() {
+    const host = uiEls.burst;
+    if (!host) return;
+
+    host.innerHTML = "";
+    const rect = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+    for (let i = 0; i < 18; i += 1) {
+      const dot = doc.createElement("span");
+      dot.className = "ff-burst__dot";
+
+      const angle = (Math.PI * 2 * i) / 18;
+      const distance = 70 + Math.random() * 90;
+
+      dot.style.left = `${rect.x}px`;
+      dot.style.top = `${rect.y}px`;
+      dot.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+      dot.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+
+      if (i % 3 === 1) dot.style.background = "var(--ff-accent)";
+      if (i % 3 === 2) dot.style.background = "var(--ff-brand-2)";
+
+      host.appendChild(dot);
+    }
+
+    window.setTimeout(() => {
+      host.innerHTML = "";
+    }, 1100);
+  }
+
+  function cloneSuccessUpsell() {
+    if (!uiEls.successMount || !uiEls.successTemplate || uiEls.successMount.querySelector("[data-ff-success-upsell]")) {
+      return;
+    }
+
+    const tpl = uiEls.successTemplate;
+    if (!tpl || String(tpl.tagName).toUpperCase() !== "TEMPLATE") return;
+
+    uiEls.successMount.hidden = false;
+    uiEls.successMount.appendChild(tpl.content.cloneNode(true));
+  }
+
+  function onDonationSuccess() {
+    showMessage(checkoutEls.status, "");
+    showMessage(checkoutEls.error, "");
+    setCheckoutStage("success");
+    createBurst();
+    cloneSuccessUpsell();
+    toast("Support completed. Your receipt should arrive by email shortly.");
+    announce("Support completed. Your receipt should arrive by email shortly.");
+  }
+
+  function hydrateSuccessFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const redirectStatus = params.get("redirect_status");
+    const paymentIntent = params.get("payment_intent");
+    const paypalSuccess = params.get("paypal") || params.get("paypal_status") || params.get("status");
+
+    if (redirectStatus === "succeeded" || paymentIntent || paypalSuccess === "success") {
+      onDonationSuccess();
+      openOverlay("checkout");
+    }
+  }
+
+  function handleShare(event) {
+    if (event) event.preventDefault();
+
+    const title = doc.title || "FutureFunded fundraiser";
+    const text = "Support this fundraiser";
+    const url = meta.shareUrl || window.location.href;
+
+    if (navigator.share) {
+      navigator.share({ title, text, url }).catch(() => {});
+      return;
+    }
+
+    copyText(url)
+      .then(() => toast("Fundraiser link copied."))
+      .catch(() => toast("Share link ready: " + url));
+  }
+
+  function applyTheme(theme, persist) {
+    const nextTheme = theme === "dark" ? "dark" : "light";
+    root.setAttribute("data-theme", nextTheme);
+    root.style.colorScheme = nextTheme;
+    if (body) body.setAttribute("data-ff-theme", nextTheme);
+
+    if (persist !== false) {
+      try {
+        window.localStorage.setItem("ff-theme", nextTheme);
+        window.localStorage.setItem("ff.theme", nextTheme);
+      } catch (_err) {}
+    }
+
+    uiEls.themeButtons.forEach((btn) => {
+      btn.setAttribute("aria-pressed", nextTheme === "dark" ? "true" : "false");
+      btn.setAttribute(
+        "aria-label",
+        nextTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+      );
+      if (!btn.textContent || btn.textContent.trim() === "Theme" || btn.textContent.trim() === "Light mode") {
+        btn.textContent = nextTheme === "dark" ? "Light mode" : "Theme";
+      }
+    });
+
+    try {
+      doc.dispatchEvent(new CustomEvent("ff:theme-changed", { detail: { theme: nextTheme } }));
+    } catch (_err) {}
+
+    if (paymentState.clientSecret) {
+      mountStripeForCurrentAmount(true);
+    }
+  }
+
+  function initTheme() {
+    let stored = "";
+
+    try {
+      stored =
+        window.localStorage.getItem("ff-theme") ||
+        window.localStorage.getItem("ff.theme") ||
+        "";
+    } catch (_err) {}
+
+    if (stored === "dark" || stored === "light") {
+      applyTheme(stored, false);
+      return;
+    }
+
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    applyTheme(prefersDark ? "dark" : (root.getAttribute("data-theme") || "light"), false);
+  }
+
+  function updateBackToTop() {
+    if (!uiEls.backToTop) return;
+    const visible = window.scrollY > 640;
+    uiEls.backToTop.classList.toggle("is-visible", visible);
+  }
+
+  function updateFloatingDonate() {
+    if (!uiEls.floatingDonate) return;
+
+    const show =
+      window.innerWidth < 1024 &&
+      window.scrollY > Math.max((uiEls.hero?.offsetHeight || 560) * 0.7, 420) &&
+      overlayState.activeKey !== "checkout";
+
+    uiEls.floatingDonate.classList.toggle("is-visible", show);
+    uiEls.floatingDonate.hidden = !show;
+  }
+
+  function initScrollSpy() {
+    const links = qa('[data-ff-scrollspy] a[href^="#"], .ff-tabs a[href^="#"]');
+    const map = new Map();
+
+    links.forEach((link) => {
+      const id = link.getAttribute("href")?.slice(1);
+      if (!id) return;
+      map.set(link, q(`#${escapeId(id)}`));
+    });
+
+    function refresh() {
+      let currentId = "home";
+      let bestTop = Number.NEGATIVE_INFINITY;
+
+      map.forEach((section) => {
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 140 && rect.top > bestTop) {
+          bestTop = rect.top;
+          currentId = section.id;
+        }
+      });
+
+      map.forEach((section, link) => {
+        const active = !!section && section.id === currentId;
+        if (active) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    refresh();
+    window.addEventListener("scroll", refresh, { passive: true });
+    window.addEventListener("resize", refresh);
+  }
+
+  function populateSponsorWall() {
+    const wall = uiEls.sponsorWall;
+    const empty = uiEls.sponsorWallEmpty;
+    if (!wall) return;
+
+    const sources = []
+      .concat(Array.isArray(ffConfig?.sponsors) ? ffConfig.sponsors : [])
+      .concat(Array.isArray(ffConfig?.sponsor_wall) ? ffConfig.sponsor_wall : [])
+      .concat(Array.isArray(ffConfig?.sponsorWall) ? ffConfig.sponsorWall : []);
+
+    const sponsors = sources
+      .filter(Boolean)
+      .map((item) => ({
+        name: item.name || item.business_name || item.title || "Sponsor",
+        tier: item.tier || item.level || item.package || "Community",
+        url: item.url || item.website || "",
+      }));
+
+    const grid = q("[data-ff-sponsor-grid]", wall) || wall;
+    grid.innerHTML = "";
+
+    if (!sponsors.length) {
+      wall.hidden = true;
+      if (empty) empty.hidden = false;
+      return;
+    }
+
+    sponsors.forEach((item) => {
+      const node = item.url ? doc.createElement("a") : doc.createElement("div");
+      node.className = "ff-proofMini ff-mt-0";
+      node.setAttribute("role", "listitem");
+      if (item.url) {
+        node.href = item.url;
+        node.target = "_blank";
+        node.rel = "noopener noreferrer";
+        node.style.textDecoration = "none";
+      }
+
+      const tier = doc.createElement("p");
+      tier.className = "ff-kicker ff-m-0";
+      tier.textContent = String(item.tier || "Community");
+
+      const name = doc.createElement("p");
+      name.className = "ff-h3 ff-mt-1 ff-mb-0";
+      name.textContent = String(item.name || "Sponsor");
+
+      node.appendChild(tier);
+      node.appendChild(name);
+      grid.appendChild(node);
+    });
+
+    wall.hidden = false;
+    if (empty) empty.hidden = true;
+  }
+
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function selectSponsorTier(value) {
+    if (!sponsorEls.tierSelected) return;
+    sponsorEls.tierSelected.value = value || "";
+    sponsorEls.tierButtons.forEach((button) => {
+      const active = button.getAttribute("data-ff-sponsor-tier") === value;
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  let currentOnboardStep = 1;
+
+  function buildOnboardingSummary() {
+    if (!onboardEls.form || !onboardEls.summary) return "";
+
+    const data = formDataObject(onboardEls.form);
+    const lines = [
+      ["Organization type", data.org_type],
+      ["Organization name", data.org_name],
+      ["Contact name", data.contact_name],
+      ["Contact email", data.contact_email],
+      ["Primary color", data.brand_primary],
+      ["Accent color", data.brand_accent],
+      ["Logo URL", data.logo_url],
+      ["Hero headline", data.headline],
+      ["Goal", data.goal ? money(Number(data.goal)) : ""],
+      ["Deadline", data.deadline],
+      ["Checkout", data.checkout],
+      ["Donation presets", data.presets],
+      ["Sponsor tiers", data.sponsor_tiers],
+      ["Announcement", data.announcement],
+    ].filter(([, value]) => value);
+
+    const html = `
+      <div class="ff-stack">
+        ${lines
+          .map(
+            ([label, value]) => `
+          <div class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">${escapeHTML(label)}</p>
+            <p class="ff-help ff-mt-1 ff-mb-0">${escapeHTML(value)}</p>
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+
+    onboardEls.summary.innerHTML = html;
+    return lines.map(([label, value]) => `${label}: ${value}`).join("\n");
+  }
+
+  function updateOnboardStep(targetStep) {
+    if (!onboardEls.panels.length || !onboardEls.stepPills.length) return;
+
+    currentOnboardStep = Math.max(1, Math.min(onboardEls.panels.length, Number(targetStep || 1)));
+
+    onboardEls.panels.forEach((panel) => {
+      const panelStep = Number(panel.getAttribute("data-ff-step") || 0);
+      const active = panelStep === currentOnboardStep;
+      setHidden(panel, !active);
+      panel.setAttribute("tabindex", active ? "0" : "-1");
+    });
+
+    onboardEls.stepPills.forEach((pill) => {
+      const step = Number(pill.getAttribute("data-ff-step-pill") || 0);
+      const active = step === currentOnboardStep;
+      pill.setAttribute("aria-selected", active ? "true" : "false");
+      pill.setAttribute("aria-current", active ? "step" : "false");
+      pill.setAttribute("tabindex", active ? "0" : "-1");
+    });
+
+    if (onboardEls.prev) onboardEls.prev.hidden = currentOnboardStep === 1;
+    if (onboardEls.next) onboardEls.next.hidden = currentOnboardStep === onboardEls.panels.length;
+    if (onboardEls.finish) onboardEls.finish.hidden = currentOnboardStep !== onboardEls.panels.length;
+
+    if (currentOnboardStep === onboardEls.panels.length) {
+      buildOnboardingSummary();
+    }
+  }
+
+  function updateOnboardSwatches() {
+    if (!onboardEls.form) return;
+    const data = formDataObject(onboardEls.form);
+
+    onboardEls.swatches.forEach((swatch) => {
+      const key = swatch.getAttribute("data-ff-onboard-swatch");
+      if (key === "primary") swatch.style.background = data.brand_primary || "#0ea5e9";
+      if (key === "accent") swatch.style.background = data.brand_accent || "#f97316";
+    });
+  }
+
+  async function submitOnboarding() {
+    if (!onboardEls.form) return;
+
+    const endpoint = overlays.onboard.container?.getAttribute("data-ff-onboard-endpoint") || "";
+    const brief = buildOnboardingSummary();
+
+    showMessage(onboardEls.status, "Sending your launch brief…");
+    showMessage(onboardEls.result, "");
+
+    if (!endpoint) {
+      showMessage(onboardEls.status, "");
+      showMessage(onboardEls.result, "Brief ready. Use Copy brief or Create draft.");
+      return;
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formDataObject(onboardEls.form)),
+        credentials: "same-origin",
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data?.message || data?.error || "Unable to submit onboarding brief");
+      }
+
+      showMessage(onboardEls.status, "");
+      showMessage(
+        onboardEls.result,
+        data?.message || "Launch brief received. We’ll follow up with a draft-ready next step."
+      );
+      toast("Launch brief received.");
+
+      if (brief) {
+        copyText(brief).catch(() => {});
+      }
+    } catch (err) {
+      showMessage(onboardEls.status, "");
+      showMessage(onboardEls.result, err?.message || "Unable to submit onboarding brief right now.");
+    }
+  }
+```
+
+### Part 3
+
+```javascript
+  function initVideoOpen(trigger) {
+    const data = readTriggerData(trigger);
+    const title = data.videoTitle || trigger?.getAttribute("aria-label") || "Watch the story";
+    const src = data.videoSrc || "";
+    const titleNode = q('[data-ff-video-title]');
+    const statusNode = q(hooks.videoStatus);
+
+    if (titleNode) titleNode.textContent = title;
+    if (statusNode) statusNode.textContent = src ? "Loading on open." : "Video source unavailable.";
+
+    if (src) {
+      window.setTimeout(() => loadVideo(src, title), 40);
+    }
+  }
+
+  function loadVideo(src, title) {
+    const mount = q(hooks.videoMount);
+    const statusNode = q(hooks.videoStatus);
+    if (!mount || !src) return;
+
+    mount.innerHTML = "";
+
+    const iframe = doc.createElement("iframe");
+    iframe.src = src;
+    iframe.title = title || "Program video";
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("loading", "lazy");
+    iframe.setAttribute(
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    );
+
+    mount.appendChild(iframe);
+
+    if (statusNode) statusNode.textContent = "Video ready.";
+  }
+
+  function unloadVideo() {
+    const mount = q(hooks.videoMount);
+    const statusNode = q(hooks.videoStatus);
+    if (mount) mount.innerHTML = "";
+    if (statusNode) statusNode.textContent = "Ready when you are.";
+  }
+
+  doc.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!target || target.nodeType !== 1) return;
+
+    const openCheckout = target.closest(hooks.openCheckout || "");
+    if (openCheckout) {
+      event.preventDefault();
+      const data = readTriggerData(openCheckout);
+      preloadCheckout(data);
+      setCheckoutStage("form");
+      openOverlay("checkout", openCheckout);
+
+      if (checkoutEls.amountInput && !checkoutEls.amountInput.value) {
+        checkoutEls.amountInput.focus();
+      }
+
+      mountStripeForCurrentAmount(false);
+      renderPayPalButtons();
+      return;
+    }
+
+    const openDrawer = target.closest(hooks.openDrawer || "");
+    if (openDrawer) {
+      event.preventDefault();
+      openOverlay("drawer", openDrawer);
+      return;
+    }
+
+    const openSponsor = target.closest(hooks.openSponsor || "");
+    if (openSponsor) {
+      event.preventDefault();
+      const data = readTriggerData(openSponsor);
+      if (data.sponsorTier) selectSponsorTier(data.sponsorTier);
+      openOverlay("sponsor", openSponsor);
+      return;
+    }
+
+    const openVideo = target.closest(hooks.openVideo || "");
+    if (openVideo) {
+      event.preventDefault();
+      openOverlay("video", openVideo);
+      initVideoOpen(openVideo);
+      return;
+    }
+
+    const openTerms = target.closest(hooks.openTerms || "");
+    if (openTerms) {
+      event.preventDefault();
+      openOverlay("terms", openTerms);
+      return;
+    }
+
+    const openPrivacy = target.closest(hooks.openPrivacy || "");
+    if (openPrivacy) {
+      event.preventDefault();
+      openOverlay("privacy", openPrivacy);
+      return;
+    }
+
+    const openOnboard = target.closest(hooks.openOnboard || "");
+    if (openOnboard) {
+      event.preventDefault();
+      openOverlay("onboard", openOnboard);
+      updateOnboardStep(1);
+      return;
+    }
+
+    const closeCheckout = target.closest(hooks.closeCheckout || "");
+    if (closeCheckout) {
+      event.preventDefault();
+      closeOverlay("checkout");
+      return;
+    }
+
+    const closeDrawer = target.closest(hooks.closeDrawer || "");
+    if (closeDrawer) {
+      event.preventDefault();
+      closeOverlay("drawer");
+      return;
+    }
+
+    const closeSponsor = target.closest(hooks.closeSponsor || "");
+    if (closeSponsor) {
+      event.preventDefault();
+      closeOverlay("sponsor");
+      return;
+    }
+
+    const closeVideo = target.closest(hooks.closeVideo || "");
+    if (closeVideo) {
+      event.preventDefault();
+      closeOverlay("video");
+      return;
+    }
+
+    const closeTerms = target.closest(hooks.closeTerms || "");
+    if (closeTerms) {
+      event.preventDefault();
+      closeOverlay("terms");
+      return;
+    }
+
+    const closePrivacy = target.closest(hooks.closePrivacy || "");
+    if (closePrivacy) {
+      event.preventDefault();
+      closeOverlay("privacy");
+      return;
+    }
+
+    const closeOnboard = target.closest(hooks.closeOnboard || "");
+    if (closeOnboard) {
+      event.preventDefault();
+      closeOverlay("onboard");
+      return;
+    }
+
+    const share = target.closest(hooks.share || "");
+    if (share) {
+      handleShare(event);
+      return;
+    }
+
+    const themeToggle = target.closest(hooks.themeToggle || "");
+    if (themeToggle) {
+      event.preventDefault();
+      applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      return;
+    }
+
+    const amountChip = target.closest(hooks.amountChip || "");
+    if (amountChip) {
+      event.preventDefault();
+      const amount = Number(amountChip.getAttribute("data-ff-amount") || 0);
+      preloadCheckout({ amount });
+
+      if (checkoutEls.amountInput && overlayState.activeKey !== "checkout") {
+        openOverlay("checkout", amountChip);
+      }
+      return;
+    }
+
+    const sponsorTier = target.closest(hooks.sponsorTier || "");
+    if (sponsorTier) {
+      event.preventDefault();
+      selectSponsorTier(sponsorTier.getAttribute("data-ff-sponsor-tier") || "");
+      return;
+    }
+
+    const stepPill = target.closest(hooks.stepPill || "");
+    if (stepPill) {
+      event.preventDefault();
+      updateOnboardStep(stepPill.getAttribute("data-ff-step-pill") || "1");
+      return;
+    }
+
+    const successShare = target.closest("[data-ff-success-share]");
+    if (successShare) {
+      handleShare(event);
+      return;
+    }
+
+    const successCopy = target.closest("[data-ff-success-copy]");
+    if (successCopy) {
+      event.preventDefault();
+      copyText(meta.shareUrl)
+        .then(() => toast("Fundraiser link copied."))
+        .catch(() => toast("Unable to copy the fundraiser link."));
+    }
+  });
+
+  if (checkoutEls.amountInput) {
+    checkoutEls.amountInput.addEventListener("input", () => {
+      syncAmountUI(checkoutEls.amountInput.value);
+      debounceIntentRefresh();
+    });
+  }
+
+  if (checkoutEls.form) {
+    checkoutEls.form.addEventListener("submit", handleCheckoutSubmit);
+  }
+
+  if (sponsorEls.tierButtons.length) {
+    selectSponsorTier("");
+  }
+
+  if (onboardEls.form) {
+    onboardEls.form.addEventListener("input", () => {
+      updateOnboardSwatches();
+      if (currentOnboardStep === onboardEls.panels.length) {
+        buildOnboardingSummary();
+      }
+    });
+
+    onboardEls.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submitOnboarding();
+    });
+  }
+
+  if (onboardEls.prev) {
+    onboardEls.prev.addEventListener("click", () => updateOnboardStep(currentOnboardStep - 1));
+  }
+
+  if (onboardEls.next) {
+    onboardEls.next.addEventListener("click", () => updateOnboardStep(currentOnboardStep + 1));
+  }
+
+  if (onboardEls.finish) {
+    onboardEls.finish.addEventListener("click", (event) => {
+      event.preventDefault();
+      submitOnboarding();
+    });
+  }
+
+  if (onboardEls.copy) {
+    onboardEls.copy.addEventListener("click", async () => {
+      const brief = buildOnboardingSummary();
+      try {
+        await copyText(brief);
+        toast("Launch brief copied.");
+      } catch (_err) {
+        toast("Unable to copy the launch brief.");
+      }
+    });
+  }
+
+  if (onboardEls.email) {
+    onboardEls.email.addEventListener("click", () => {
+      const target =
+        onboardEls.email?.getAttribute("data-ff-onboard-email-target") ||
+        "hello@getfuturefunded.com";
+      const brief = encodeURIComponent(buildOnboardingSummary());
+      const subject = encodeURIComponent("FutureFunded launch brief");
+      window.location.href = `mailto:${encodeURIComponent(target)}?subject=${subject}&body=${brief}`;
+    });
+  }
+
+  if (uiEls.backToTop) {
+    uiEls.backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      updateBackToTop();
+      updateFloatingDonate();
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("resize", updateFloatingDonate);
+
+  function initHashOpen() {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+
+    if (hash === "checkout") {
+      openOverlay("checkout");
+      mountStripeForCurrentAmount(false);
+      renderPayPalButtons();
+    } else if (hash === "sponsor-interest") {
+      openOverlay("sponsor");
+    } else if (hash === "press-video") {
+      openOverlay("video");
+    } else if (hash === "terms") {
+      openOverlay("terms");
+    } else if (hash === "privacy") {
+      openOverlay("privacy");
+    } else if (hash === "ff-onboarding") {
+      openOverlay("onboard");
+      updateOnboardStep(1);
+    }
+  }
+
+  if (window.matchMedia) {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    if (media && media.addEventListener) {
+      media.addEventListener("change", (event) => {
+        let stored = "";
+        try {
+          stored = window.localStorage.getItem("ff-theme") || window.localStorage.getItem("ff.theme") || "";
+        } catch (_err) {}
+        if (stored === "dark" || stored === "light") return;
+        applyTheme(event.matches ? "dark" : "light", false);
+      });
+    }
+  }
+
+  initTheme();
+  syncAmountUI(checkoutEls.amountInput?.value || 0);
+  updateBackToTop();
+  updateFloatingDonate();
+  initScrollSpy();
+  populateSponsorWall();
+  initMediaFallbacks();
+  updateOnboardSwatches();
+  updateOnboardStep(1);
+  hydrateSuccessFromUrl();
+  initHashOpen();
+
+  if (overlays.checkout.container?.hasAttribute("data-ff-stripe-preload")) {
+    mountStripeForCurrentAmount(false);
+    renderPayPalButtons();
+  }
+})();
+
+
