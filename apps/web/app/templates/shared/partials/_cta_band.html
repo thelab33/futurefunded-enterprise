@@ -1,1 +1,10 @@
-{# FutureFunded shared CTA band partial #}
+{# expects: kicker, title, body, primary_label, primary_href, secondary_label, secondary_href #}
+<section class="ff-card ff-glass ff-pad" aria-label="Call to action">
+  {% if kicker %}<p class="ff-kicker ff-m-0">{{ kicker }}</p>{% endif %}
+  {% if title %}<h2 class="ff-h2 ff-mt-2 ff-mb-0">{{ title }}</h2>{% endif %}
+  {% if body %}<p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+  <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+    {% if primary_label %}<a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_href|default('#')|e }}">{{ primary_label }}</a>{% endif %}
+    {% if secondary_label %}<a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_href|default('#')|e }}">{{ secondary_label }}</a>{% endif %}
+  </div>
+</section>

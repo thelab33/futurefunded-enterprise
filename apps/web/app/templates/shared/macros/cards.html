@@ -1,1 +1,46 @@
 {# FutureFunded shared card macros #}
+
+{% from "shared/macros/pills.html" import ff_pill_list %}
+
+{% macro metric_card(title='', body='', value='') -%}
+  <article class="ff-card ff-glass ff-pad">
+    {% if title %}<p class="ff-kicker ff-m-0">{{ title }}</p>{% endif %}
+    {% if value %}<h3 class="ff-h2 ff-mt-1 ff-mb-0">{{ value }}</h3>{% endif %}
+    {% if body %}<p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+  </article>
+{%- endmacro %}
+
+
+{% macro feature_card(title='', body='', pills=None) -%}
+  <article class="ff-card ff-glass ff-pad">
+    {% if title %}<h3 class="ff-h3 ff-m-0">{{ title }}</h3>{% endif %}
+    {% if body %}<p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+    {% if pills %}
+      <div class="ff-mt-3">
+        {{ ff_pill_list(pills, 'soft') }}
+      </div>
+    {% endif %}
+  </article>
+{%- endmacro %}
+
+
+{% macro plan_card(name='', price='', body='', fit='', featured=False, cta_label='', cta_href='#') -%}
+  <article class="ff-card ff-glass ff-pad{% if featured %} ff-card--lift{% endif %}">
+    <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+      <div class="ff-minw-0">
+        {% if name %}<p class="ff-kicker ff-m-0">{{ name }}</p>{% endif %}
+        {% if price %}<h3 class="ff-h2 ff-mt-1 ff-mb-0">{{ price }}</h3>{% endif %}
+      </div>
+      {% if featured %}
+        <span class="ff-pill ff-pill--accent">Featured</span>
+      {% endif %}
+    </div>
+    {% if body %}<p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+    {% if fit %}<p class="ff-help ff-mt-3 ff-mb-0"><strong>Best for:</strong> {{ fit }}</p>{% endif %}
+    {% if cta_label %}
+      <div class="ff-mt-3">
+        <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ cta_href|e }}">{{ cta_label }}</a>
+      </div>
+    {% endif %}
+  </article>
+{%- endmacro %}

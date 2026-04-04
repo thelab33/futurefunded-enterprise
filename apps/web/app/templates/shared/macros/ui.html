@@ -1,1 +1,47 @@
 {# FutureFunded shared UI macros #}
+
+{% macro ff_button(label, href='#', variant='primary', size='md', pill=True, attrs='') -%}
+  {% set _classes = ['ff-btn'] %}
+  {% if variant == 'secondary' %}
+    {% set _classes = _classes + ['ff-btn--secondary'] %}
+  {% elif variant == 'ghost' %}
+    {% set _classes = _classes + ['ff-btn--ghost'] %}
+  {% else %}
+    {% set _classes = _classes + ['ff-btn--primary'] %}
+  {% endif %}
+
+  {% if size == 'sm' %}
+    {% set _classes = _classes + ['ff-btn--sm'] %}
+  {% elif size == 'lg' %}
+    {% set _classes = _classes + ['ff-btn--lg'] %}
+  {% endif %}
+
+  {% if pill %}
+    {% set _classes = _classes + ['ff-btn--pill'] %}
+  {% endif %}
+
+  <a class="{{ _classes|join(' ') }}" href="{{ href|e }}"{% if attrs %} {{ attrs|safe }}{% endif %}>{{ label }}</a>
+{%- endmacro %}
+
+
+{% macro ff_section_header(eyebrow='', title='', body='', section_id='', compact=True) -%}
+  <header class="ff-sectionhead ff-sectionhead--flagship{% if compact %} ff-sectionhead--compact{% endif %}">
+    <div class="ff-sectionhead__text ff-minw-0">
+      {% if eyebrow %}<p class="ff-kicker ff-m-0">{{ eyebrow }}</p>{% endif %}
+      {% if title %}<h2 class="ff-h2 ff-m-0"{% if section_id %} id="{{ section_id|e }}"{% endif %}>{{ title }}</h2>{% endif %}
+      {% if body %}<p class="ff-lead ff-mt-2 ff-mb-0">{{ body }}</p>{% endif %}
+    </div>
+  </header>
+{%- endmacro %}
+
+
+{% macro ff_cta_pair(primary_label='', primary_href='#', secondary_label='', secondary_href='#') -%}
+  <div class="ff-row ff-wrap ff-gap-2">
+    {% if primary_label %}
+      {{ ff_button(primary_label, primary_href, 'primary', 'md', True) }}
+    {% endif %}
+    {% if secondary_label %}
+      {{ ff_button(secondary_label, secondary_href, 'secondary', 'md', True) }}
+    {% endif %}
+  </div>
+{%- endmacro %}
