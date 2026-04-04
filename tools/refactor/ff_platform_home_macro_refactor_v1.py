@@ -1,4 +1,11 @@
-{% set platform_page = "home" %}
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path.home() / "futurefunded-enterprise"
+HOME = ROOT / "apps/web/app/templates/platform/pages/home.html"
+
+HOME_TEXT = r"""{% set platform_page = "home" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Platform Home") %}
 {% set page_description = "Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace." %}
@@ -127,3 +134,19 @@
   </div>
 </section>
 {% endblock %}
+"""
+
+def main() -> None:
+    if not HOME.exists():
+        raise SystemExit(f"Missing home template: {HOME}")
+
+    backup = HOME.with_name(HOME.name + ".bak-home-macro-refactor-v1")
+    if not backup.exists():
+        backup.write_text(HOME.read_text(encoding="utf-8"), encoding="utf-8")
+
+    HOME.write_text(HOME_TEXT, encoding="utf-8")
+    print(f"✅ wrote {HOME}")
+    print(f"🛟 backup: {backup}")
+
+if __name__ == "__main__":
+    main()
