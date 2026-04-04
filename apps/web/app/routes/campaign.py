@@ -47,6 +47,11 @@ def _normalize_campaign_context(data: dict, slug: str) -> dict:
     ctx["canonical"] = campaign_url
     ctx["share_url"] = campaign_url
     ctx["campaign_url"] = campaign_url
+    # Public-surface source of truth for the Jinja contract.
+    # The campaign template reads these early for canonical/meta/schema/return wiring.
+    ctx["ff_public_base_url"] = base
+    ctx["canonical_url"] = campaign_url
+    ctx["stripe_return_url"] = campaign_url
     ctx["_share_url_resolved"] = campaign_url
     ctx["_stripe_return"] = campaign_url
 

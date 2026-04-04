@@ -726,38 +726,29 @@ CONTRACTS PRESERVED
 ============================================================================ #}
 
 {# FF_CAMPAIGN_TRUTH_LOCK_V1_START #}
-{% set _app_env_locked = (_cfg.get('APP_ENV') or _cfg.get('FLASK_ENV') or _cfg.get('ENV') or '')|string|lower|trim %}
-{% set _public_base_locked = (
-    ff_public_base_url
-    |default(_cfg.get('FF_PUBLIC_BASE_URL') or _cfg.get('PUBLIC_BASE_URL') or _cfg.get('CANONICAL_BASE_URL') or canonical or '', true)
-  )|string|trim %}
-{% set _public_base_locked_lower = _public_base_locked|lower %}
-{% set _prodish_truth_lock = (
-  _app_env_locked == 'production'
-  or (
-    _public_base_locked_lower.startswith('https://')
-    and 'localhost' not in _public_base_locked_lower
-    and '127.0.0.1' not in _public_base_locked_lower
-    and '[::1]' not in _public_base_locked_lower
-  )
-) %}
-{% if _prodish_truth_lock %}
-  {% if not _public_base_locked or 'localhost' in _public_base_locked_lower or '127.0.0.1' in _public_base_locked_lower or '[::1]' in _public_base_locked_lower %}
-    {% set _public_base_locked = 'https://getfuturefunded.com' %}
-  {% endif %}
-  {% if _public_base_locked.endswith('/') %}
-    {% set _public_base_locked = _public_base_locked[:-1] %}
-  {% endif %}
-  {% set _locked_campaign_url = _public_base_locked ~ request.path %}
-  {% set _public_base = _public_base_locked %}
-  {% set canonical = _locked_campaign_url %}
-  {% set _share_url_resolved = _locked_campaign_url %}
-  {% set _stripe_return = _locked_campaign_url %}
-  {% set ff_data_mode = ('preview' if _demo_payments else 'live') %}
-  {% set _totals_verified = true %}
-  {% if not _demo_payments %}
-    {% set _show_demo_banner = false %}
-  {% endif %}
+{% set _ff_public_base = ff_public_base_url|default('', true)|trim %}
+{% set _canonical_from_ctx = canonical_url|default('', true)|trim %}
+{% set _stripe_return_from_ctx = stripe_return_url|default('', true)|trim %}
+{% set _share_from_ctx = share_url|default('', true)|trim %}
+
+{% set _fallback_campaign_url = campaign_url|default('', true)|trim %}
+{% set _request_url = request.url_root.rstrip('/') if request and request.url_root else '' %}
+{% set _request_path = request.path if request and request.path else '' %}
+
+{% set _public_base_locked = _ff_public_base or _request_url %}
+{% set _locked_campaign_url = _canonical_from_ctx or _fallback_campaign_url or (_public_base_locked ~ _request_path if _public_base_locked and _request_path else '') %}
+
+{% set _public_base = _public_base_locked %}
+{% set canonical = _locked_campaign_url %}
+{% set canonical_url = _locked_campaign_url %}
+{% set share_url = _share_from_ctx or _locked_campaign_url %}
+{% set _share_url_resolved = _share_from_ctx or _locked_campaign_url %}
+{% set _stripe_return = _stripe_return_from_ctx or _locked_campaign_url %}
+{% set stripe_return_url = _stripe_return_from_ctx or _locked_campaign_url %}
+
+{% if _public_base_locked %}
+  {% set og_image = (_public_base_locked ~ '/static/images/og.jpg?v=dev') %}
+  {% set org_logo_url = (_public_base_locked ~ '/static/images/logo.webp?v=dev') %}
 {% endif %}
 {# FF_CAMPAIGN_TRUTH_LOCK_V1_END #}
 
