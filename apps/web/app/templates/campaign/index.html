@@ -651,34 +651,64 @@ CONTRACTS PRESERVED
   <script defer src="{{ _app|e }}" {{ nonce_attr() }}></script>
   <script defer src="{{ _sponsor_leads_app|e }}" {{ nonce_attr() }}></script>
 
-  {% set _schema_graph = {
+  {% set _schema_public_base = _public_base %}
+{% set _schema_canonical = canonical %}
+{% set _schema_og_jpg = og_jpg %}
+
+{% set _schema_public_base_lower = _schema_public_base|lower %}
+{% if _is_prod and _schema_public_base_lower.startswith('http://') %}
+  {% set _schema_public_base = _schema_public_base|replace('http://', 'https://', 1) %}
+{% endif %}
+{% if _is_prod and ('localhost' in _schema_public_base_lower or '127.0.0.1' in _schema_public_base_lower or '[::1]' in _schema_public_base_lower) %}
+  {% set _schema_public_base = 'https://getfuturefunded.com' %}
+{% endif %}
+
+{% set _schema_canonical_lower = _schema_canonical|lower %}
+{% if _is_prod and _schema_canonical_lower.startswith('http://') %}
+  {% set _schema_canonical = _schema_canonical|replace('http://', 'https://', 1) %}
+  {% set _schema_canonical_lower = _schema_canonical|lower %}
+{% endif %}
+{% if _is_prod and ('localhost' in _schema_canonical_lower or '127.0.0.1' in _schema_canonical_lower or '[::1]' in _schema_canonical_lower) %}
+  {% set _schema_canonical = _schema_public_base ~ _path %}
+{% endif %}
+
+{% set _schema_og_jpg_lower = _schema_og_jpg|lower %}
+{% if _is_prod and _schema_og_jpg_lower.startswith('http://') %}
+  {% set _schema_og_jpg = _schema_og_jpg|replace('http://', 'https://', 1) %}
+  {% set _schema_og_jpg_lower = _schema_og_jpg|lower %}
+{% endif %}
+{% if _is_prod and ('localhost' in _schema_og_jpg_lower or '127.0.0.1' in _schema_og_jpg_lower or '[::1]' in _schema_og_jpg_lower) %}
+  {% set _schema_og_jpg = _schema_public_base ~ url_for('static', filename='images/og.jpg') ~ '?v=' ~ _v %}
+{% endif %}
+
+{% set _schema_graph = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': ['Organization', 'SportsOrganization'],
-        '@id': canonical ~ '#org',
+        '@id': _schema_canonical ~ '#org',
         'name': _org_name,
-        'url': canonical,
+        'url': _schema_canonical,
         'email': _email,
-        'logo': _public_base ~ url_for('static', filename='images/logo.webp') ~ '?v=' ~ _v
+        'logo': _schema_public_base ~ url_for('static', filename='images/logo.webp') ~ '?v=' ~ _v
       },
       {
         '@type': 'WebSite',
-        '@id': _public_base ~ '#website',
+        '@id': _schema_public_base ~ '#website',
         'name': 'FutureFunded',
-        'url': _public_base
+        'url': _schema_public_base
       },
       {
         '@type': 'WebPage',
-        '@id': canonical ~ '#webpage',
-        'url': canonical,
+        '@id': _schema_canonical ~ '#webpage',
+        'url': _schema_canonical,
         'name': page_title_final,
         'description': page_desc_final,
-        'isPartOf': {'@id': _public_base ~ '#website'},
-        'about': {'@id': canonical ~ '#org'},
+        'isPartOf': {'@id': _schema_public_base ~ '#website'},
+        'about': {'@id': _schema_canonical ~ '#org'},
         'primaryImageOfPage': {
           '@type': 'ImageObject',
-          'url': og_jpg
+          'url': _schema_og_jpg
         }
       }
     ]
