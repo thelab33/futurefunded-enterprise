@@ -29,7 +29,12 @@ def _public_base_url() -> str:
             )
         return configured
 
-    return configured or "https://getfuturefunded.com"
+    if configured:
+        host = configured.split("://", 1)[-1].split("/", 1)[0].split(":", 1)[0].strip("[]").lower()
+        if host in {"127.0.0.1", "localhost", "::1"}:
+            return "https://getfuturefunded.com"
+        return configured
+    return "https://getfuturefunded.com" 
 
 def _is_localish_url(value: str | None) -> bool:
     if not value:
