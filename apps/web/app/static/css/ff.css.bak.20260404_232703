@@ -1,0 +1,2803 @@
+/* ==========================================================================
+   FutureFunded — ff.css
+   Version: v6.0.0 "Unified Fundraiser Authority"
+   --------------------------------------------------------------------------
+   Scope:
+   - canonical fundraiser authority file
+   - mobile-first, accessible, reduced-motion safe
+   - premium glass / flagship fundraising presentation
+   - single-source ownership for the campaign surface
+   ========================================================================== */
+
+@layer ff.tokens, ff.base, ff.layout, ff.components, ff.sections, ff.overlays, ff.utilities;
+
+/* ==========================================================================
+   TOKENS
+   ========================================================================== */
+@layer ff.tokens {
+  :root,
+  html.ff-root {
+    color-scheme: light;
+
+    --ff-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --ff-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    --ff-bg: #edf3f8;
+    --ff-bg-soft: #f7fafd;
+    --ff-bg-elev: #ffffff;
+    --ff-panel: rgb(255 255 255 / 0.76);
+    --ff-panel-strong: rgb(255 255 255 / 0.9);
+    --ff-panel-solid: #ffffff;
+
+    --ff-text: #0f172a;
+    --ff-text-soft: #1f3144;
+    --ff-text-muted: #5f6f84;
+    --ff-text-faint: #7a8798;
+    --ff-inverse: #ffffff;
+
+    --ff-brand: #f97316;
+    --ff-brand-strong: #ea580c;
+    --ff-brand-soft: rgb(249 115 22 / 0.12);
+
+    --ff-accent: #0f766e;
+    --ff-accent-soft: rgb(15 118 110 / 0.12);
+
+    --ff-info: #0ea5e9;
+    --ff-info-soft: rgb(14 165 233 / 0.12);
+    --ff-success: #0f766e;
+    --ff-success-soft: rgb(15 118 110 / 0.12);
+    --ff-danger: #b91c1c;
+    --ff-danger-soft: rgb(185 28 28 / 0.1);
+
+    --ff-border: rgb(15 23 42 / 0.1);
+    --ff-border-strong: rgb(15 23 42 / 0.14);
+    --ff-line: rgb(15 23 42 / 0.08);
+
+    --ff-shadow-1:
+      0 1px 2px rgb(15 23 42 / 0.04),
+      0 10px 24px rgb(15 23 42 / 0.05);
+    --ff-shadow-2:
+      0 10px 30px rgb(15 23 42 / 0.08),
+      0 2px 10px rgb(15 23 42 / 0.04);
+    --ff-shadow-3:
+      0 20px 60px rgb(15 23 42 / 0.14),
+      0 8px 20px rgb(15 23 42 / 0.06);
+    --ff-shadow-focus:
+      0 0 0 2px var(--ff-bg),
+      0 0 0 4px rgb(14 165 233 / 0.3);
+
+    --ff-radius-1: 0.75rem;
+    --ff-radius-2: 1rem;
+    --ff-radius-3: 1.25rem;
+    --ff-radius-4: 1.5rem;
+    --ff-pill: 999px;
+
+    --ff-0: 0;
+    --ff-1: 0.25rem;
+    --ff-2: 0.5rem;
+    --ff-3: 0.75rem;
+    --ff-4: 1rem;
+    --ff-5: 1.25rem;
+    --ff-6: 1.5rem;
+    --ff-7: 2rem;
+    --ff-8: 2.5rem;
+    --ff-9: 3rem;
+    --ff-10: 4rem;
+
+    --ff-max: 76rem;
+    --ff-max-wide: 82rem;
+    --ff-safe-top: env(safe-area-inset-top, 0px);
+    --ff-safe-right: env(safe-area-inset-right, 0px);
+    --ff-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --ff-safe-left: env(safe-area-inset-left, 0px);
+
+    --ff-header-offset: 6rem;
+    --ff-tabs-offset: 4.5rem;
+    --ff-blur: 18px;
+
+    --ff-space-card: clamp(0.9rem, 0.82rem + 0.35vw, 1.12rem);
+    --ff-space-grid: clamp(0.85rem, 0.78rem + 0.32vw, 1rem);
+    --ff-space-section: clamp(1.7rem, 1.25rem + 1.5vw, 3rem);
+
+    --ff-display-size: clamp(2.2rem, 7vw, 4.5rem);
+    --ff-h2-size: clamp(1.35rem, 2.2vw, 2rem);
+    --ff-h3-size: clamp(1rem, 1.35vw, 1.22rem);
+
+    --ff-ease: 180ms cubic-bezier(.2, .7, .2, 1);
+    --ff-ease-emph: 260ms cubic-bezier(.16, 1, .3, 1);
+
+    --ff-bg-glow-a: rgb(14 165 233 / 0.05);
+    --ff-bg-glow-b: rgb(249 115 22 / 0.065);
+  }
+
+  html.ff-root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --ff-bg: #09121f;
+    --ff-bg-soft: #0d1727;
+    --ff-bg-elev: #101a2b;
+    --ff-panel: rgb(9 17 30 / 0.76);
+    --ff-panel-strong: rgb(11 20 35 / 0.9);
+    --ff-panel-solid: #111c2d;
+
+    --ff-text: #edf4ff;
+    --ff-text-soft: #dfe9f7;
+    --ff-text-muted: #b6c4d8;
+    --ff-text-faint: #91a0b7;
+
+    --ff-border: rgb(226 232 240 / 0.11);
+    --ff-border-strong: rgb(226 232 240 / 0.16);
+    --ff-line: rgb(226 232 240 / 0.1);
+
+    --ff-brand-soft: rgb(249 115 22 / 0.18);
+    --ff-accent-soft: rgb(15 118 110 / 0.18);
+    --ff-info-soft: rgb(14 165 233 / 0.18);
+    --ff-success-soft: rgb(15 118 110 / 0.18);
+    --ff-danger-soft: rgb(239 68 68 / 0.16);
+
+    --ff-shadow-1:
+      0 1px 0 rgb(255 255 255 / 0.03) inset,
+      0 10px 24px rgb(0 0 0 / 0.24);
+    --ff-shadow-2:
+      0 1px 0 rgb(255 255 255 / 0.04) inset,
+      0 18px 40px rgb(0 0 0 / 0.34);
+    --ff-shadow-3:
+      0 1px 0 rgb(255 255 255 / 0.05) inset,
+      0 28px 80px rgb(0 0 0 / 0.46);
+
+    --ff-bg-glow-a: rgb(14 165 233 / 0.09);
+    --ff-bg-glow-b: rgb(249 115 22 / 0.12);
+  }
+
+  html.ff-root[data-ff-theme="signal-glass"] {
+    --ff-brand: #7c3aed;
+    --ff-brand-strong: #6d28d9;
+    --ff-brand-soft: rgb(124 58 237 / 0.16);
+    --ff-info: #38bdf8;
+  }
+
+  html.ff-root[data-ff-theme="school-spirit"] {
+    --ff-brand: #dc2626;
+    --ff-brand-strong: #b91c1c;
+    --ff-brand-soft: rgb(220 38 38 / 0.13);
+    --ff-accent: #ca8a04;
+    --ff-info: #2563eb;
+  }
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+@layer ff.base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html.ff-root {
+    background: var(--ff-bg);
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--ff-header-offset) + var(--ff-safe-top));
+    text-size-adjust: 100%;
+  }
+
+  @supports not (overflow: clip) {
+    html.ff-root {
+      overflow-x: hidden;
+    }
+  }
+
+  body.ff-body {
+    min-width: 320px;
+    min-height: 100dvh;
+    margin: 0;
+    color: var(--ff-text);
+    font-family: var(--ff-font-sans);
+    line-height: 1.55;
+    background:
+      radial-gradient(circle at 10% 0%, var(--ff-bg-glow-a), transparent 24rem),
+      radial-gradient(circle at 100% 0%, var(--ff-bg-glow-b), transparent 24rem),
+      linear-gradient(180deg, var(--ff-bg-soft), var(--ff-bg));
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    accent-color: var(--ff-brand);
+  }
+
+  main,
+  section,
+  article,
+  aside,
+  footer,
+  header,
+  nav,
+  div {
+    min-width: 0;
+  }
+
+  img,
+  picture,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  img {
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.14em;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  progress {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--ff-header-offset) + var(--ff-safe-top));
+  }
+
+  :where(
+    a,
+    button,
+    [role="button"],
+    summary,
+    input[type="submit"],
+    input[type="button"],
+    input[type="reset"],
+    label[for]
+  ) {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    background: rgb(14 165 233 / 0.2);
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--ff-shadow-focus);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .ff-root[data-theme="dark"] .ff-storyPoster__play,
+  .ff-root[data-theme="dark"] .ff-teamCard__summary,
+  .ff-root[data-theme="dark"] .ff-teamStat__value,
+  .ff-root[data-theme="dark"] .ff-chip__amt,
+  .ff-root[data-theme="dark"] .ff-impactChoice__amt {
+    color: var(--ff-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.ff-root {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   LAYOUT + COMMON COMPONENTS
+   ========================================================================== */
+@layer ff.layout {
+  .ff-shell {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .ff-shellBg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 14% 6%, var(--ff-bg-glow-a), transparent 20rem),
+      radial-gradient(circle at 84% 0%, var(--ff-bg-glow-b), transparent 20rem);
+  }
+
+  .ff-container {
+    width: min(100% - 1.25rem, var(--ff-max));
+    margin-inline: auto;
+  }
+
+  .ff-main {
+    position: relative;
+    padding-bottom: calc(var(--ff-tabs-offset) + 1.25rem + var(--ff-safe-bottom));
+  }
+
+  .ff-section {
+    position: relative;
+    padding-block: var(--ff-space-section);
+  }
+
+  @supports (content-visibility: auto) {
+    .ff-section:not(.ff-section--hero) {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 800px;
+    }
+  }
+
+  .ff-section--hero {
+    padding-top: 0.9rem;
+  }
+
+  .ff-row {
+    display: flex;
+    gap: var(--ff-3);
+  }
+
+  .ff-row--between {
+    justify-content: space-between;
+  }
+
+  .ff-wrap {
+    flex-wrap: wrap;
+  }
+
+  .ff-ais {
+    align-items: center;
+  }
+
+  .ff-stack {
+    display: grid;
+    gap: var(--ff-space-card);
+  }
+
+  .ff-grid,
+  .ff-hero__grid,
+  .ff-impactLayout,
+  .ff-storyGrid,
+  .ff-checkoutLayout,
+  .ff-footerGrid,
+  .ff-teamGrid,
+  .ff-impactTierGrid,
+  .ff-impactChoiceGrid {
+    display: grid;
+    gap: var(--ff-space-grid);
+  }
+
+  .ff-grid--2,
+  .ff-grid--3,
+  .ff-teamGrid,
+  .ff-impactTierGrid,
+  .ff-impactChoiceGrid,
+  .ff-footerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ff-minw-0 {
+    min-width: 0 !important;
+  }
+
+  .ff-w-100 {
+    width: 100% !important;
+  }
+
+  .ff-nounderline {
+    text-decoration: none;
+  }
+
+  .ff-nowrap {
+    white-space: nowrap;
+  }
+
+  .ff-pad {
+    padding: clamp(0.95rem, 0.9rem + 0.35vw, 1.15rem);
+  }
+
+  .ff-gap-2 {
+    gap: var(--ff-2);
+  }
+
+  .ff-gap-3 {
+    gap: var(--ff-3);
+  }
+
+  .ff-m-0 {
+    margin: 0 !important;
+  }
+
+  .ff-mt-0 {
+    margin-top: 0 !important;
+  }
+
+  .ff-mt-1 {
+    margin-top: var(--ff-1) !important;
+  }
+
+  .ff-mt-2 {
+    margin-top: var(--ff-2) !important;
+  }
+
+  .ff-mt-3 {
+    margin-top: var(--ff-3) !important;
+  }
+
+  .ff-mt-4 {
+    margin-top: var(--ff-4) !important;
+  }
+
+  .ff-mb-0 {
+    margin-bottom: 0 !important;
+  }
+
+  .ff-mb-2 {
+    margin-bottom: var(--ff-2) !important;
+  }
+
+  .ff-num {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  .ff-skiplinks {
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 1500;
+    pointer-events: none;
+  }
+
+  .ff-skip {
+    position: absolute;
+    left: max(var(--ff-3), calc(var(--ff-3) + var(--ff-safe-left)));
+    top: calc(var(--ff-3) + var(--ff-safe-top));
+    transform: translateY(-160%);
+    pointer-events: auto;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--ff-border-strong);
+    border-radius: var(--ff-pill);
+    background: var(--ff-panel-solid);
+    color: var(--ff-text);
+    text-decoration: none;
+    box-shadow: var(--ff-shadow-2);
+    transition: transform var(--ff-ease-emph);
+  }
+
+  .ff-skip:focus-visible {
+    transform: translateY(0);
+  }
+
+  .ff-display,
+  .ff-h2,
+  .ff-h3,
+  .ff-modal__title {
+    margin: 0;
+    letter-spacing: -0.025em;
+    color: var(--ff-text);
+    text-wrap: balance;
+  }
+
+  .ff-display {
+    font-size: var(--ff-display-size);
+    line-height: 0.95;
+    font-weight: 800;
+    max-width: 12ch;
+  }
+
+  .ff-h2,
+  .ff-modal__title {
+    font-size: var(--ff-h2-size);
+    line-height: 1.08;
+    font-weight: 760;
+  }
+
+  .ff-h3 {
+    font-size: var(--ff-h3-size);
+    line-height: 1.18;
+    font-weight: 720;
+  }
+
+  .ff-lead {
+    margin: 0;
+    max-width: 62ch;
+    font-size: clamp(1rem, 1rem + 0.15vw, 1.075rem);
+    line-height: 1.66;
+    color: var(--ff-text-soft);
+    text-wrap: pretty;
+  }
+
+  .ff-kicker,
+  .ff-label,
+  .ff-footerNav__title,
+  .ff-impactChoice__eyebrow,
+  .ff-progressMini__label,
+  .ff-teamStat__label,
+  .ff-topbarGoal__label,
+  .ff-topbarGoal__progressLabel {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ff-text-faint);
+  }
+
+  .ff-help,
+  .ff-brand__sub,
+  .ff-storyQuote__meta,
+  .ff-progressMini__note,
+  .ff-chip__meta,
+  .ff-impactChoice__meta,
+  .ff-drawer__trustText,
+  .ff-backtotop__text {
+    font-size: 0.93rem;
+    line-height: 1.5;
+  }
+
+  .ff-muted,
+  .ff-help.ff-muted,
+  .ff-brand__sub,
+  .ff-storyQuote__meta,
+  .ff-progressMini__note,
+  .ff-chip__meta,
+  .ff-impactChoice__meta,
+  .ff-drawer__trustText {
+    color: var(--ff-text-muted);
+  }
+
+  .ff-link,
+  .ff-footer__link {
+    color: var(--ff-accent);
+    text-decoration: none;
+  }
+
+  .ff-link:hover,
+  .ff-footer__link:hover {
+    color: var(--ff-brand-strong);
+  }
+
+  .ff-divider {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--ff-line);
+  }
+}
+
+@layer ff.components {
+  .ff-sr,
+  .ff-focus-probe,
+  #ff_focus_probe {
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .ff-card,
+  .ff-glass,
+  .ff-surface,
+  .ff-proofMini,
+  .ff-progressMini,
+  .ff-callout,
+  .ff-topbar__capsule,
+  .ff-topbarGoal,
+  .ff-hero__capsule,
+  .ff-checkoutShell,
+  .ff-footerShell,
+  .ff-drawer__panel,
+  .ff-sheet__panel,
+  .ff-modal__panel,
+  .ff-teamCard,
+  .ff-sponsorCell,
+  .ff-impactTier,
+  .ff-checkoutCard,
+  .ff-storyPoster,
+  .ff-disclosure {
+    position: relative;
+    border: 1px solid var(--ff-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+    box-shadow: var(--ff-shadow-1);
+  }
+
+  .ff-glass,
+  .ff-surface,
+  .ff-topbar__capsule,
+  .ff-topbarGoal,
+  .ff-hero__capsule,
+  .ff-checkoutShell,
+  .ff-footerShell,
+  .ff-drawer__panel,
+  .ff-sheet__panel,
+  .ff-modal__panel {
+    -webkit-backdrop-filter: blur(var(--ff-blur)) saturate(1.06);
+    backdrop-filter: blur(var(--ff-blur)) saturate(1.06);
+  }
+
+  .ff-card,
+  .ff-glass,
+  .ff-surface,
+  .ff-checkoutShell,
+  .ff-footerShell,
+  .ff-drawer__panel,
+  .ff-sheet__panel,
+  .ff-modal__panel,
+  .ff-teamCard,
+  .ff-impactTier,
+  .ff-sponsorCell,
+  .ff-checkoutCard,
+  .ff-disclosure,
+  .ff-storyPoster {
+    border-radius: var(--ff-radius-3);
+  }
+
+  .ff-topbarGoal,
+  .ff-navPill,
+  .ff-pill,
+  .ff-btn--pill,
+  .ff-chip--pill,
+  .ff-tab--pill {
+    border-radius: var(--ff-pill);
+  }
+
+  .ff-proofMini,
+  .ff-progressMini,
+  .ff-callout {
+    padding: 0.88rem 0.96rem;
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-proofMini strong,
+  .ff-progressMini__value,
+  .ff-teamStat__value,
+  .ff-chip__amt,
+  .ff-impactChoice__amt,
+  .ff-topbarGoal__raised,
+  .ff-topbarGoal__goal,
+  .ff-topbarGoal__percent {
+    color: var(--ff-text);
+    font-weight: 780;
+  }
+
+  .ff-card--premium,
+  .ff-impactTier--premium,
+  .ff-impactPick--premium,
+  .ff-impactProof--premium,
+  .ff-impactChoice--feature,
+  .ff-successUpsell,
+  .ff-checkoutCard--summary,
+  .is-featured {
+    border-color: rgb(249 115 22 / 0.2);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.08), rgb(249 115 22 / 0)),
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+  }
+
+  .ff-card--lift,
+  .ff-impactTier--recommended {
+    box-shadow:
+      0 0 0 1px rgb(249 115 22 / 0.08),
+      var(--ff-shadow-2);
+  }
+
+  .ff-disclosure[open],
+  .ff-teamCard:focus-within,
+  .ff-impactTier:focus-within,
+  .ff-sponsorCell:focus-within,
+  .ff-checkoutCard:focus-within {
+    border-color: rgb(14 165 233 / 0.28);
+    box-shadow:
+      0 0 0 1px rgb(14 165 233 / 0.1),
+      var(--ff-shadow-2);
+  }
+
+  .ff-btn,
+  .ff-tab,
+  .ff-drawer__link,
+  .ff-nav__link,
+  .ff-footer__link--button,
+  .ff-iconbtn,
+  .ff-chip,
+  .ff-themeToggle {
+    transition:
+      transform var(--ff-ease),
+      background-color var(--ff-ease),
+      border-color var(--ff-ease),
+      box-shadow var(--ff-ease),
+      color var(--ff-ease),
+      opacity var(--ff-ease);
+  }
+
+  .ff-btn,
+  .ff-tab,
+  .ff-drawer__link,
+  .ff-nav__link,
+  .ff-footer__link--button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.7rem;
+    padding: 0.68rem 1rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-pill);
+    background: var(--ff-panel-solid);
+    color: var(--ff-text);
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .ff-btn--sm {
+    min-height: 2.3rem;
+    padding: 0.54rem 0.84rem;
+    font-size: 0.92rem;
+  }
+
+  .ff-btn--lg {
+    min-height: 2.95rem;
+    padding: 0.82rem 1.12rem;
+  }
+
+  .ff-btn--primary,
+  .ff-donate-btn,
+  .ff-tab--cta {
+    border-color: transparent;
+    color: var(--ff-inverse);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0)),
+      linear-gradient(180deg, var(--ff-brand), var(--ff-brand-strong));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.14),
+      0 10px 22px rgb(249 115 22 / 0.2);
+  }
+
+  .ff-btn--secondary,
+  .ff-btn--ghost,
+  .ff-tab,
+  .ff-nav__link,
+  .ff-drawer__link,
+  .ff-footer__link--button,
+  .ff-iconbtn,
+  .ff-chip,
+  .ff-themeToggle {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+    color: var(--ff-text-soft);
+  }
+
+  .ff-btn--ghost {
+    background: transparent;
+  }
+
+  .ff-btn:disabled,
+  .ff-chip:disabled,
+  .ff-tab:disabled,
+  .ff-iconbtn:disabled,
+  .ff-input:disabled,
+  .ff-themeToggle:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .ff-iconbtn,
+  .ff-themeToggle {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.45rem;
+    block-size: 2.45rem;
+    min-inline-size: 2.45rem;
+    padding: 0;
+    border: 1px solid var(--ff-border);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.75rem;
+    padding: 0.28rem 0.68rem;
+    border: 1px solid transparent;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.15;
+  }
+
+  .ff-pill--soft {
+    border-color: rgb(14 165 233 / 0.18);
+    background: var(--ff-info-soft);
+    color: var(--ff-text);
+  }
+
+  .ff-pill--ghost {
+    border-color: var(--ff-border);
+    background: transparent;
+    color: var(--ff-text-muted);
+  }
+
+  .ff-pill--accent {
+    border-color: rgb(249 115 22 / 0.22);
+    background: var(--ff-brand-soft);
+    color: var(--ff-brand-strong);
+  }
+
+  .ff-navPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.26rem;
+    padding: 0.24rem;
+    border: 1px solid var(--ff-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-nav__link {
+    min-height: 2.1rem;
+    padding: 0.46rem 0.72rem;
+    font-size: 0.92rem;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .ff-nav__link:hover,
+  .ff-nav__link:focus-visible,
+  .ff-tab:hover,
+  .ff-tab:focus-visible,
+  .ff-btn--secondary:hover,
+  .ff-btn--secondary:focus-visible,
+  .ff-btn--ghost:hover,
+  .ff-btn--ghost:focus-visible,
+  .ff-drawer__link:hover,
+  .ff-drawer__link:focus-visible,
+  .ff-chip:hover,
+  .ff-chip:focus-visible,
+  .ff-iconbtn:hover,
+  .ff-iconbtn:focus-visible,
+  .ff-themeToggle:hover,
+  .ff-themeToggle:focus-visible,
+  .ff-footer__link--button:hover,
+  .ff-footer__link--button:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--ff-border-strong);
+    box-shadow: var(--ff-shadow-1);
+  }
+
+  .ff-btn--primary:hover,
+  .ff-btn--primary:focus-visible,
+  .ff-donate-btn:hover,
+  .ff-donate-btn:focus-visible,
+  .ff-tab--cta:hover,
+  .ff-tab--cta:focus-visible {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.16),
+      0 12px 26px rgb(249 115 22 / 0.24);
+  }
+
+  .ff-chip {
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    width: 100%;
+    min-height: 4rem;
+    padding: 0.8rem 0.9rem;
+    text-align: left;
+    border: 1px solid var(--ff-border);
+  }
+
+  .ff-chip--impact {
+    min-height: 4.6rem;
+  }
+
+  .ff-chip__amt,
+  .ff-impactChoice__amt {
+    font-size: 1.04rem;
+    line-height: 1.05;
+  }
+
+  .ff-chip__meta,
+  .ff-impactChoice__meta {
+    margin-top: 0.22rem;
+  }
+
+  .ff-input {
+    width: 100%;
+    min-height: 2.9rem;
+    padding: 0.76rem 0.9rem;
+    border: 1px solid var(--ff-border-strong);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0)),
+      var(--ff-panel-solid);
+    color: var(--ff-text);
+    box-shadow: inset 0 1px 1px rgb(15 23 42 / 0.03);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  textarea.ff-input {
+    min-height: 6.5rem;
+    resize: vertical;
+  }
+
+  .ff-onboardColor {
+    padding: 0.36rem;
+    min-height: 3rem;
+  }
+
+  .ff-input:focus,
+  .ff-input:focus-visible {
+    outline: none;
+    border-color: rgb(14 165 233 / 0.42);
+    box-shadow:
+      0 0 0 4px rgb(14 165 233 / 0.14),
+      inset 0 1px 1px rgb(15 23 42 / 0.02);
+  }
+
+  .ff-input[aria-invalid="true"] {
+    border-color: rgb(185 28 28 / 0.42);
+    box-shadow:
+      0 0 0 4px rgb(185 28 28 / 0.12),
+      inset 0 1px 1px rgb(15 23 42 / 0.02);
+  }
+
+  .ff-alert {
+    padding: 0.82rem 0.92rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    font-size: 0.94rem;
+    line-height: 1.45;
+  }
+
+  .ff-alert--info {
+    border-color: rgb(14 165 233 / 0.22);
+    background: linear-gradient(180deg, rgb(14 165 233 / 0.09), rgb(14 165 233 / 0));
+    color: var(--ff-text);
+  }
+
+  .ff-alert--error {
+    border-color: rgb(185 28 28 / 0.24);
+    background: linear-gradient(180deg, rgb(185 28 28 / 0.09), rgb(185 28 28 / 0));
+    color: var(--ff-text);
+  }
+
+  .ff-alert--success {
+    border-color: rgb(15 118 110 / 0.24);
+    background: linear-gradient(180deg, rgb(15 118 110 / 0.09), rgb(15 118 110 / 0));
+    color: var(--ff-text);
+  }
+
+  .ff-skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ff-radius-2);
+    border: 1px solid var(--ff-border);
+    background:
+      linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent),
+      linear-gradient(180deg, var(--ff-panel), var(--ff-panel-strong));
+    background-size: 240% 100%, 100% 100%;
+    animation: ff-skeleton 1.4s linear infinite;
+  }
+
+  .ff-skeleton--payment {
+    min-height: 4.25rem;
+  }
+
+  .ff-skeleton--video {
+    min-height: min(56vw, 28rem);
+    aspect-ratio: 16 / 9;
+  }
+
+  @keyframes ff-skeleton {
+    0% { background-position: 200% 0, 0 0; }
+    100% { background-position: -40% 0, 0 0; }
+  }
+}
+
+/* ==========================================================================
+   SECTIONS
+   ========================================================================== */
+@layer ff.sections {
+  .ff-chrome {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    padding-top: max(0.3rem, var(--ff-safe-top));
+    background: linear-gradient(180deg, rgb(247 250 253 / 0.92), rgb(247 250 253 / 0.52) 68%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .ff-root[data-theme="dark"] .ff-chrome {
+    background: linear-gradient(180deg, rgb(9 18 31 / 0.92), rgb(9 18 31 / 0.52) 68%, transparent);
+  }
+
+  .ff-topbar__capsule {
+    padding: 0.82rem;
+    border-radius: var(--ff-radius-4);
+  }
+
+  .ff-topbar__capsuleInner,
+  .ff-topbar__mainRow,
+  .ff-hero__capsuleInner,
+  .ff-successUpsell__intro,
+  .ff-checkoutCard__head,
+  .ff-impactPick__head,
+  .ff-impactPlayers__head,
+  .ff-checkoutSponsorLane__head,
+  .ff-faqEndcap__header,
+  .ff-footerBrand,
+  .ff-footerMeta,
+  .ff-checkoutBody,
+  .ff-onboardModal__body,
+  .ff-onboardSummary {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .ff-platformBrand,
+  .ff-topbarBrand,
+  .ff-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  .ff-platformBrand__disc {
+    inline-size: 2rem;
+    block-size: 2rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--ff-border);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.15), rgb(255 255 255 / 0)),
+      var(--ff-panel-solid);
+    box-shadow: var(--ff-shadow-1);
+  }
+
+  .ff-platformBrand__logo,
+  .ff-topbarBrand__logo,
+  .ff-drawer__orgLogo {
+    border-radius: 0.9rem;
+    object-fit: cover;
+  }
+
+  .ff-topbarBrand__stack {
+    display: grid;
+    gap: 0.08rem;
+    min-width: 0;
+  }
+
+  .ff-topbarBrand__text,
+  .ff-brand__title {
+    font-size: 0.98rem;
+    font-weight: 760;
+    line-height: 1.15;
+    color: var(--ff-text);
+  }
+
+  .ff-topbarBrand__sub {
+    font-size: 0.82rem;
+  }
+
+  .ff-topbar__desktop-only {
+    display: none;
+  }
+
+  .ff-topbar__mobile-only {
+    display: flex;
+  }
+
+  .ff-topbarGoal {
+    padding: 0.8rem 0.92rem;
+  }
+
+  .ff-topbarGoal__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .ff-topbarGoal__metric {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .ff-topbarGoal__raised,
+  .ff-topbarGoal__goal,
+  .ff-topbarGoal__percent {
+    font-size: 0.98rem;
+    line-height: 1.08;
+  }
+
+  .ff-topbarGoal__percent {
+    color: var(--ff-brand-strong);
+  }
+
+  .ff-topbarGoal__progressWrap,
+  .ff-meter,
+  .ff-teamCard__meter {
+    display: grid;
+    gap: 0.36rem;
+  }
+
+  .ff-meter__progress,
+  .ff-teamCard__meterBar {
+    width: 100%;
+    height: 0.5rem;
+    border: 0;
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      rgb(15 23 42 / 0.06);
+    overflow: hidden;
+  }
+
+  .ff-meter__progress::-webkit-progress-bar,
+  .ff-teamCard__meterBar::-webkit-progress-bar {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      rgb(15 23 42 / 0.06);
+    border-radius: 999px;
+  }
+
+  .ff-meter__progress::-webkit-progress-value,
+  .ff-teamCard__meterBar::-webkit-progress-value,
+  .ff-meter__progress::-moz-progress-bar,
+  .ff-teamCard__meterBar::-moz-progress-bar {
+    border-radius: 999px;
+    background:
+      linear-gradient(90deg, rgb(255 255 255 / 0.18), rgb(255 255 255 / 0) 28%),
+      linear-gradient(90deg, var(--ff-info), var(--ff-brand));
+  }
+
+  .ff-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    pointer-events: none;
+  }
+
+  .ff-drawer__panel {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(26rem, calc(100vw - 1rem));
+    height: 100%;
+    padding: max(1rem, calc(1rem + var(--ff-safe-top))) 1rem calc(1rem + var(--ff-safe-bottom));
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    border-radius: 0 var(--ff-radius-4) var(--ff-radius-4) 0;
+    transform: translateX(-102%);
+    transition: transform var(--ff-ease-emph);
+    pointer-events: auto;
+    overflow-y: auto;
+  }
+
+  .ff-drawer[data-open="true"] .ff-drawer__panel,
+  .ff-drawer[data-open="true"] .ff-drawer__backdrop,
+  .ff-drawer:not([hidden]) .ff-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .ff-drawer__head,
+  .ff-drawer__body {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ff-drawer__grid {
+    display: grid;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ff-drawer__link {
+    justify-content: flex-start;
+    min-height: 2.7rem;
+  }
+
+  .ff-drawer__trust {
+    padding: 0.95rem;
+    border: 1px solid rgb(249 115 22 / 0.18);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.08), rgb(249 115 22 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-drawer__trustTitle {
+    font-weight: 760;
+    color: var(--ff-text);
+  }
+
+  .ff-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgb(2 6 23 / 0.5);
+    opacity: 0;
+    transition: opacity var(--ff-ease);
+  }
+
+  .ff-drawer[data-open="true"] .ff-drawer__backdrop,
+  .ff-drawer:not([hidden]) .ff-drawer__backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ff-hero__grid {
+    align-items: start;
+  }
+
+  .ff-hero__capsule {
+    padding: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);
+    border-radius: clamp(1.35rem, 2vw, 1.75rem);
+    box-shadow: var(--ff-shadow-2);
+  }
+
+  .ff-heroHeader,
+  .ff-heroFooter,
+  .ff-heroPanelHead {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .ff-heroTitle .ff-heroLine {
+    display: block;
+  }
+
+  .ff-heroAccent {
+    color: var(--ff-text);
+  }
+
+  .ff-heroName {
+    color: var(--ff-brand-strong);
+  }
+
+  .ff-heroSnapshotGrid,
+  .ff-storySupportGrid {
+    align-items: stretch;
+  }
+
+  .ff-heroCtas,
+  .ff-successUpsell__actions,
+  .ff-storyActions,
+  .ff-faqEndcap__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .ff-heroPanel {
+    position: relative;
+  }
+
+  .ff-heroPanel .ff-card {
+    border-radius: clamp(1.2rem, 2vw, 1.6rem);
+    box-shadow: var(--ff-shadow-2);
+  }
+
+  .ff-donationSuccessMount {
+    width: min(100% - 1.25rem, var(--ff-max));
+    margin: 0 auto;
+    padding-top: 0.25rem;
+  }
+
+  .ff-successUpsell {
+    margin-top: 0.25rem;
+  }
+
+  .ff-sectionhead {
+    display: grid;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .ff-sectionhead__actions {
+    align-items: center;
+  }
+
+  .ff-impactCard,
+  .ff-storyCard,
+  .ff-teamsShell,
+  .ff-faqEndcap,
+  .ff-sponsorsBoard,
+  .ff-footerShell {
+    overflow: clip;
+  }
+
+  .ff-impactLayout,
+  .ff-storyGrid,
+  .ff-checkoutLayout,
+  .ff-footerGrid {
+    align-items: start;
+  }
+
+  .ff-impactPick__chips,
+  .ff-impactTierGrid,
+  .ff-teamGrid,
+  .ff-faqList,
+  .ff-footerLinkList,
+  .ff-drawer__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ff-impactProofRail {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+  }
+
+  .ff-progressMini__value {
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  .ff-impactTier,
+  .ff-teamCard,
+  .ff-sponsorCell,
+  .ff-checkoutCard {
+    padding: clamp(0.95rem, 0.9rem + 0.35vw, 1.1rem);
+  }
+
+  .ff-impactTier__head,
+  .ff-impactTier__body,
+  .ff-teamCard__inner,
+  .ff-teamCard__body,
+  .ff-teamCard__head,
+  .ff-storyPanel,
+  .ff-footerShell,
+  .ff-sponsorWallBlock,
+  .ff-sponsorTierWrap {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .ff-impactTier__footer,
+  .ff-teamCard__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ff-teamCard__title {
+    text-wrap: balance;
+  }
+
+  .ff-teamCard__summary {
+    min-width: 7rem;
+  }
+
+  .ff-teamCard__media {
+    position: relative;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top right, rgb(14 165 233 / 0.1), transparent 38%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(15 23 42 / 0.04));
+  }
+
+  .ff-teamCard__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--ff-ease-emph), filter var(--ff-ease);
+  }
+
+  .ff-teamCard:hover .ff-teamCard__img,
+  .ff-teamCard:focus-within .ff-teamCard__img {
+    transform: scale(1.03);
+    filter: saturate(1.03);
+  }
+
+  .ff-teamCard__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    padding: 0.7rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-teamStat {
+    display: grid;
+    gap: 0.18rem;
+    padding: 0.48rem 0.55rem;
+    border: 1px solid var(--ff-line);
+    border-radius: 0.9rem;
+  }
+
+  .ff-teamStat__value {
+    font-size: 0.95rem;
+    line-height: 1.15;
+  }
+
+  .ff-teamCard__meterText {
+    font-size: 0.88rem;
+    color: var(--ff-text-muted);
+  }
+
+  .ff-sponsorWallRail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .ff-sponsorGhost {
+    min-height: 4.6rem;
+    border: 1px dashed var(--ff-border-strong);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0)),
+      rgb(15 23 42 / 0.03);
+  }
+
+  .ff-sponsorTierGrid {
+    margin-top: 0.9rem;
+  }
+
+  .ff-storyMediaCard {
+    margin: 0;
+  }
+
+  .ff-storyPoster {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    text-decoration: none;
+  }
+
+  .ff-storyPoster__picture,
+  .ff-storyPoster__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ff-storyPoster__img {
+    object-fit: cover;
+    transition: transform var(--ff-ease-emph), filter var(--ff-ease);
+  }
+
+  .ff-storyPoster:hover .ff-storyPoster__img,
+  .ff-storyPoster:focus-visible .ff-storyPoster__img {
+    transform: scale(1.03);
+    filter: saturate(1.03);
+  }
+
+  .ff-storyPoster__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem;
+    background:
+      linear-gradient(180deg, rgb(15 23 42 / 0.04), rgb(15 23 42 / 0.55) 72%, rgb(15 23 42 / 0.72));
+    color: #fff;
+  }
+
+  .ff-storyPoster__play,
+  .ff-storyPoster__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--ff-pill);
+    background: rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-weight: 700;
+  }
+
+  .ff-storyQuote {
+    padding: 1rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-storyQuote__body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ff-text-soft);
+  }
+
+  .ff-disclosure {
+    overflow: hidden;
+  }
+
+  .ff-disclosure__sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.95rem 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .ff-disclosure__sum::-webkit-details-marker {
+    display: none;
+  }
+
+  .ff-disclosure__sum::after {
+    content: "+";
+    flex: 0 0 auto;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--ff-text-faint);
+  }
+
+  .ff-disclosure[open] .ff-disclosure__sum::after {
+    content: "−";
+    color: var(--ff-brand-strong);
+  }
+
+  .ff-disclosure__panel {
+    padding: 0 1rem 1rem;
+  }
+
+  .ff-sep {
+    color: var(--ff-text-faint);
+  }
+
+  .ff-footerShell {
+    padding: clamp(1rem, 0.92rem + 0.45vw, 1.3rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ff-footerGrid {
+    gap: 1.25rem;
+  }
+
+  .ff-footerLinkList {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .ff-footerMeta {
+    padding-top: 1rem;
+    border-top: 1px solid var(--ff-line);
+  }
+
+  .ff-footer__link--button {
+    width: auto;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--ff-accent);
+    font-weight: 500;
+  }
+
+  .ff-backtotop {
+    position: fixed;
+    right: max(0.9rem, calc(0.9rem + var(--ff-safe-right)));
+    bottom: calc(var(--ff-tabs-offset) + 0.9rem + var(--ff-safe-bottom));
+    z-index: 55;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.58rem 0.82rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-pill);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+    text-decoration: none;
+    box-shadow: var(--ff-shadow-2);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.5rem);
+    transition: opacity var(--ff-ease), transform var(--ff-ease);
+  }
+
+  .ff-backtotop[href="#home"] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .ff-backtotop__icon {
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+
+  .ff-tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 70;
+    padding:
+      0.55rem
+      max(0.7rem, calc(0.7rem + var(--ff-safe-right)))
+      calc(0.55rem + var(--ff-safe-bottom))
+      max(0.7rem, calc(0.7rem + var(--ff-safe-left)));
+    background:
+      linear-gradient(180deg, rgb(247 250 253 / 0), rgb(247 250 253 / 0.82) 32%, rgb(247 250 253 / 0.95));
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .ff-root[data-theme="dark"] .ff-tabs {
+    background:
+      linear-gradient(180deg, rgb(9 18 31 / 0), rgb(9 18 31 / 0.82) 32%, rgb(9 18 31 / 0.95));
+  }
+
+  .ff-tabs__scroller {
+    max-width: var(--ff-max);
+    margin-inline: auto;
+  }
+
+  .ff-tabs__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    scrollbar-width: none;
+  }
+
+  .ff-tabs__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ff-tab {
+    min-height: 2.55rem;
+    padding: 0.64rem 0.9rem;
+    font-size: 0.92rem;
+  }
+
+  .ff-tabs__item--cta .ff-tab {
+    min-width: 6.1rem;
+  }
+
+  .ff-floatingDonate {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--ff-tabs-offset) + 1rem + var(--ff-safe-bottom));
+    transform: translateX(-50%);
+    z-index: 75;
+    box-shadow: var(--ff-shadow-3);
+  }
+
+  .ff-burst {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    pointer-events: none;
+  }
+}
+
+/* ==========================================================================
+   OVERLAYS
+   ========================================================================== */
+@layer ff.overlays {
+  .ff-sheet,
+  .ff-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    align-items: end;
+    justify-items: stretch;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .ff-modal {
+    align-items: center;
+    padding: 0.75rem;
+  }
+
+  .ff-sheet__backdrop,
+  .ff-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(2 6 23 / 0.64);
+    opacity: 0;
+    transition: opacity var(--ff-ease);
+    pointer-events: auto;
+  }
+
+  .ff-sheet__panel,
+  .ff-modal__panel {
+    position: relative;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--ff-ease),
+      transform var(--ff-ease-emph);
+    pointer-events: auto;
+  }
+
+  .ff-sheet[data-open="true"],
+  .ff-modal[data-open="true"],
+  .ff-sheet:not([hidden]),
+  .ff-modal:not([hidden]) {
+    pointer-events: auto;
+  }
+
+  .ff-sheet[data-open="true"] .ff-sheet__backdrop,
+  .ff-modal[data-open="true"] .ff-modal__backdrop,
+  .ff-sheet:not([hidden]) .ff-sheet__backdrop,
+  .ff-modal:not([hidden]) .ff-modal__backdrop {
+    opacity: 1;
+  }
+
+  .ff-sheet[data-open="true"] .ff-sheet__panel,
+  .ff-modal[data-open="true"] .ff-modal__panel,
+  .ff-sheet:not([hidden]) .ff-sheet__panel,
+  .ff-modal:not([hidden]) .ff-modal__panel {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ff-sheet__panel {
+    max-height: min(92dvh, 60rem);
+    border-radius: 1.35rem 1.35rem 0 0;
+    overflow: hidden;
+  }
+
+  .ff-modal__panel {
+    max-width: min(100%, 46rem);
+    margin-inline: auto;
+    border-radius: 1.35rem;
+    overflow: hidden;
+  }
+
+  .ff-modal--compact .ff-modal__panel {
+    max-width: min(100%, 40rem);
+  }
+
+  .ff-modal--video .ff-modal__panel {
+    max-width: min(100%, 72rem);
+  }
+
+  .ff-sheet__viewport,
+  .ff-sheet__content,
+  .ff-sheet__scroll {
+    min-height: 0;
+  }
+
+  .ff-sheet__viewport,
+  .ff-sheet__content {
+    display: grid;
+  }
+
+  .ff-sheet__scroll {
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .ff-sheet__header,
+  .ff-modal__head {
+    padding: 1rem 1rem 0;
+  }
+
+  .ff-modal__body {
+    padding: 0 1rem 1rem;
+  }
+
+  .ff-modal__foot--sticky,
+  .ff-checkoutFooter,
+  .ff-onboardModal__footer,
+  .ff-sponsorModal__footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin-top: 0.25rem;
+    padding: 0.9rem 0 0;
+    background:
+      linear-gradient(180deg, rgb(247 250 253 / 0), rgb(247 250 253 / 0.88) 30%, rgb(247 250 253 / 0.98));
+  }
+
+  .ff-root[data-theme="dark"] .ff-modal__foot--sticky,
+  .ff-root[data-theme="dark"] .ff-checkoutFooter,
+  .ff-root[data-theme="dark"] .ff-onboardModal__footer,
+  .ff-root[data-theme="dark"] .ff-sponsorModal__footer {
+    background:
+      linear-gradient(180deg, rgb(9 18 31 / 0), rgb(9 18 31 / 0.88) 30%, rgb(9 18 31 / 0.98));
+  }
+
+  .ff-checkoutShell {
+    padding: 1rem;
+    border-radius: 0;
+    border: 0;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+    box-shadow: none;
+  }
+
+  .ff-checkoutLayout {
+    gap: 1rem;
+  }
+
+  .ff-checkoutHead {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--ff-line);
+  }
+
+  .ff-checkoutContent {
+    min-height: 0;
+  }
+
+  .ff-checkoutScroll {
+    padding-top: 0.85rem;
+  }
+
+  .ff-checkoutStage {
+    min-height: 0;
+  }
+
+  .ff-checkoutSuccess .ff-checkoutCard {
+    max-width: 38rem;
+  }
+
+  .ff-empty,
+  .ff-teamsEmpty {
+    padding: 0.95rem;
+    border: 1px dashed var(--ff-border-strong);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(14 165 233 / 0.04), rgb(14 165 233 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-proofMini--hero,
+  .ff-proofMini--tile {
+    height: 100%;
+  }
+
+  .ff-proofMini--teams {
+    border-color: rgb(14 165 233 / 0.18);
+  }
+
+  .ff-sectionhead--compact {
+    gap: 0.55rem;
+  }
+
+  .ff-sectionhead__text {
+    min-width: 0;
+  }
+
+  .ff-checkoutMain,
+  .ff-checkoutAside,
+  .ff-checkoutPaymentStack {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ff-checkoutPaymentMount {
+    min-height: 4rem;
+    display: grid;
+    align-items: center;
+  }
+
+  .ff-checkoutAmountRow,
+  .ff-checkoutAmountField {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .ff-proofMini--checkoutAmount {
+    min-height: 8.5rem;
+    align-content: start;
+  }
+
+  .ff-videoFrame {
+    position: relative;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-3);
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0)),
+      rgb(15 23 42 / 0.05);
+  }
+
+  .ff-videoMount {
+    min-height: min(56vw, 32rem);
+    aspect-ratio: 16 / 9;
+  }
+
+  .ff-videoMount:empty {
+    min-height: min(56vw, 32rem);
+  }
+
+  .ff-termsModal__body,
+  .ff-privacyModal__body,
+  .ff-sponsorModal__body,
+  .ff-videoModal__body {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ff-onboardStepper {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .ff-onboardStep {
+    min-height: 2.6rem;
+    padding: 0.62rem 0.75rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-pill);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+    color: var(--ff-text-soft);
+    font-weight: 700;
+  }
+
+  .ff-onboardStep[aria-selected="true"],
+  .ff-onboardStep[aria-current="step"] {
+    border-color: rgb(249 115 22 / 0.22);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.08), rgb(249 115 22 / 0)),
+      var(--ff-panel-solid);
+    color: var(--ff-text);
+    box-shadow: var(--ff-shadow-1);
+  }
+
+  .ff-onboardPanel {
+    padding: 0.25rem 0;
+  }
+
+  .ff-onboardSummary {
+    padding: 0.9rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-chip[aria-pressed="true"] {
+    border-color: rgb(14 165 233 / 0.26);
+    background:
+      linear-gradient(180deg, rgb(14 165 233 / 0.08), rgb(14 165 233 / 0)),
+      var(--ff-panel-solid);
+    color: var(--ff-text);
+    box-shadow: var(--ff-shadow-1);
+  }
+}
+
+/* FF_PRESTIGE_ENHANCEMENTS_START */
+/* Premium fundraiser enhancements and flagship refinements.
+   Organized for maintainability inside the single ff.css authority file. */
+
+/* --------------------------------------------------------------------------
+   TOPBAR
+   -------------------------------------------------------------------------- */
+
+/* Premium fundraiser enhancements and final flagship refinements.
+   These rules remain intentionally scoped to the fundraiser surface
+   while living inside the single ff.css authority file. */
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal {
+  border-radius: 1.7rem;
+  padding: 1rem 1.05rem 0.95rem;
+  border: 1px solid rgb(148 163 184 / 0.14);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.86), rgb(248 250 252 / 0.92));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.65), 0 10px 26px rgb(15 23 42 / 0.04);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.4rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorGhost {
+  opacity: 0.84;
+  border-style: solid;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)), var(--ff-panel);
+  border-radius: 0.95rem;
+  min-height: 2.8rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-footerMeta {
+  padding-top: 0.82rem;
+  gap: 0.45rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroAccent {
+  display: block !important;
+  margin-top: 0.12rem !important;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroName {
+  display: inline-block !important;
+  padding-bottom: 0.18rem !important;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle--desktop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 3.25rem;
+  padding-inline: 0.95rem;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1px solid rgb(148 163 184 / 0.16);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.94), rgb(255 255 255 / 0.82));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.72), 0 8px 18px rgb(15 23 42 / 0.05);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help {
+  opacity: 0.82;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 47.99rem) {
+  body[data-ff-page="fundraiser"] .ff-heroAccent {
+    margin-top: 0.14rem !important;
+  }
+
+}
+
+body[data-ff-page="fundraiser"] {
+  --ff-space-section: clamp(1.45rem, 1.12rem + 1.2vw, 2.45rem);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+  padding: 0.72rem 0.78rem;
+  border-radius: 1.28rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-section--hero {
+  padding-top: 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-hero__capsule,
+body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card {
+  padding: 0.96rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroHeader,
+body[data-ff-page="fundraiser"] .ff-heroFooter,
+body[data-ff-page="fundraiser"] .ff-heroPanelHead,
+body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner,
+body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+  gap: 0.78rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sectionhead {
+  margin-bottom: 0.62rem;
+  gap: 0.55rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__stats {
+  padding: 0.58rem;
+  gap: 0.48rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamStat {
+  padding: 0.42rem 0.48rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__meter {
+  gap: 0.28rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__foot .ff-btn {
+  min-height: 2.08rem;
+  padding-inline: 0.72rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorWallRail {
+  gap: 0.56rem;
+}
+
+@media (min-width: 64rem) {
+
+  body[data-ff-page="fundraiser"] .ff-footerGrid {
+    gap: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-checkoutShell {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+    padding: 0.68rem 0.72rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-hero__capsule,
+  body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card {
+    padding: 0.88rem;
+  }
+}
+
+body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine {
+  display: block;
+  overflow: visible;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroSnapshotGrid,
+body[data-ff-page="fundraiser"] .ff-storySupportGrid {
+  gap: 0.7rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__media,
+body[data-ff-page="fundraiser"] .ff-storyPoster,
+body[data-ff-page="fundraiser"] .ff-videoFrame {
+  background:
+    radial-gradient(circle at top right, rgb(14 165 233 / 0.08), transparent 38%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+    var(--ff-panel);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
+
+body[data-ff-page="fundraiser"] .ff-section[aria-labelledby="ffPlatformCrossSellTitle"] .ff-card {
+  padding: 0.86rem;
+}
+
+@media (max-width: 47.99rem) {
+
+}
+
+body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine,
+body[data-ff-page="fundraiser"] #heroAccentLine,
+body[data-ff-page="fundraiser"] .ff-heroAccent {
+  overflow: visible !important;
+}
+
+@media (max-width: 47.99rem) {
+
+}
+
+body[data-ff-page="fundraiser"] .ff-hero__capsule,
+body[data-ff-page="fundraiser"] .ff-hero__capsuleInner,
+body[data-ff-page="fundraiser"] .ff-heroHeader,
+body[data-ff-page="fundraiser"] .ff-heroTitle,
+body[data-ff-page="fundraiser"] #heroTitle,
+body[data-ff-page="fundraiser"] #heroAccentLine,
+body[data-ff-page="fundraiser"] .ff-heroAccent,
+body[data-ff-page="fundraiser"] .ff-heroLine {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine,
+body[data-ff-page="fundraiser"] #heroAccentLine {
+  display: block !important;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroHeader {
+  gap: 0.9rem !important;
+}
+
+@media (max-width: 47.99rem) {
+
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle--desktop .ff-themeToggle__label {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 960px) {
+  body[data-ff-page="fundraiser"] .ff-themeToggle--desktop {
+    display: none;
+  }
+}
+
+body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong,
+body[data-ff-page="fundraiser"] .ff-mutedStrong {
+  color: rgb(15 23 42 / 0.86);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-mutedStrong {
+  color: rgb(226 232 240 / 0.9);
+}
+
+body[data-ff-page="fundraiser"] .ff-heroTrustCue,
+body[data-ff-page="fundraiser"] .ff-faqTrustCue {
+  letter-spacing: 0.01em;
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+  border: 1px dashed rgb(148 163 184 / 0.28);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.52));
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+  border-color: rgb(148 163 184 / 0.22);
+  background: linear-gradient(180deg, rgb(15 23 42 / 0.72), rgb(15 23 42 / 0.56));
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard--quiet {
+  opacity: 0.96;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.06);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media {
+  filter: saturate(0.94) contrast(0.98);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard.is-featured {
+  box-shadow:
+    0 20px 42px rgb(249 115 22 / 0.16),
+    0 8px 20px rgb(15 23 42 / 0.06);
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini,
+body[data-ff-page="fundraiser"] .ff-help.ff-muted {
+  text-wrap: pretty;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroFooter {
+  gap: 0.25rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead {
+  max-width: 62ch;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar {
+  padding-top: 0.5rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+  border-radius: 2rem;
+  padding: 0.4rem;
+  border: 1px solid rgb(148 163 184 / 0.16);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.82));
+  box-shadow:
+    0 18px 44px rgb(15 23 42 / 0.08),
+    inset 0 1px 0 rgb(255 255 255 / 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner {
+  gap: 0.85rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+  gap: 0.85rem;
+  align-items: center;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__brandCluster,
+body[data-ff-page="fundraiser"] .ff-topbar__rightCluster,
+body[data-ff-page="fundraiser"] .ff-topbar__desktopActions {
+  gap: 0.7rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand--flagship {
+  min-height: 3.25rem;
+  padding: 0.38rem 0.5rem;
+  border-radius: 1rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand__logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgb(15 23 42 / 0.08);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand__text {
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand__sub {
+  font-size: 0.92rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle__glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1rem;
+  margin-right: 0.1rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__metric {
+  min-width: 0;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__label {
+  display: block;
+  margin-bottom: 0.18rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(100 116 139 / 0.92);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+  display: block;
+  font-size: clamp(1.35rem, 1vw + 1rem, 1.85rem);
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  color: rgb(15 23 42 / 0.98);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+  color: rgb(249 115 22 / 0.98);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__metaRow {
+  margin-bottom: 0.45rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(100 116 139 / 0.92);
+}
+
+@media (max-width: 960px) {
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+    border-radius: 1.5rem;
+    padding: 0.35rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner {
+    gap: 0.75rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand--flagship {
+    min-height: 3rem;
+    padding: 0.28rem 0.34rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__text {
+    font-size: 1.02rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__sub {
+    font-size: 0.84rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal {
+    border-radius: 1.3rem;
+    padding: 0.85rem 0.85rem 0.82rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__summary {
+    gap: 0.7rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+    font-size: 1.2rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help {
+    font-size: 0.86rem;
+  }
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__label,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel {
+  color: rgb(148 163 184 / 0.9);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__goal {
+  color: rgb(248 250 252 / 0.98);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarBrand__sub {
+  color: rgb(203 213 225 / 0.88);
+}
+
+/* FF_PRESTIGE_ENHANCEMENTS_END */
+
+/* FF_FINAL_PRESTIGE_PASS_V1_START */
+/* Final launch polish for desktop + mobile, light + dark. */
+
+body[data-ff-page="fundraiser"] .ff-hero__capsule,
+body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card,
+body[data-ff-page="fundraiser"] .ff-impactCard,
+body[data-ff-page="fundraiser"] .ff-storyCard,
+body[data-ff-page="fundraiser"] .ff-teamsShell,
+body[data-ff-page="fundraiser"] .ff-sponsorsBoard,
+body[data-ff-page="fundraiser"] .ff-faqEndcap,
+body[data-ff-page="fundraiser"] .ff-footerShell {
+  box-shadow:
+    0 14px 36px rgb(15 23 42 / 0.05),
+    0 2px 8px rgb(15 23 42 / 0.03);
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+  box-shadow:
+    0 16px 40px rgb(15 23 42 / 0.07),
+    inset 0 1px 0 rgb(255 255 255 / 0.74);
+}
+
+body[data-ff-page="fundraiser"] .ff-hero__capsule,
+body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card {
+  border-color: rgb(148 163 184 / 0.15);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard,
+body[data-ff-page="fundraiser"] .ff-sponsorCell,
+body[data-ff-page="fundraiser"] .ff-impactTier,
+body[data-ff-page="fundraiser"] .ff-checkoutCard,
+body[data-ff-page="fundraiser"] .ff-disclosure {
+  box-shadow:
+    0 10px 24px rgb(15 23 42 / 0.045),
+    0 1px 2px rgb(15 23 42 / 0.03);
+}
+
+body[data-ff-page="fundraiser"] .ff-sectionhead {
+  margin-bottom: 0.72rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini,
+body[data-ff-page="fundraiser"] .ff-progressMini,
+body[data-ff-page="fundraiser"] .ff-callout {
+  border-color: rgb(148 163 184 / 0.14);
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorEmptyState,
+body[data-ff-page="fundraiser"] .ff-empty,
+body[data-ff-page="fundraiser"] .ff-teamsEmpty {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28);
+}
+
+body[data-ff-page="fundraiser"] .ff-donate-btn,
+body[data-ff-page="fundraiser"] .ff-btn--primary,
+body[data-ff-page="fundraiser"] .ff-tab--cta {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 10px 24px rgb(249 115 22 / 0.24);
+}
+
+body[data-ff-page="fundraiser"] .ff-donate-btn:hover,
+body[data-ff-page="fundraiser"] .ff-btn--primary:hover,
+body[data-ff-page="fundraiser"] .ff-tab--cta:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 14px 30px rgb(249 115 22 / 0.28);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-hero__capsule,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-impactCard,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-storyCard,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamsShell,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorsBoard,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-faqEndcap,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-footerShell {
+  border-color: rgb(148 163 184 / 0.14);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0)),
+    linear-gradient(180deg, rgb(10 18 34 / 0.94), rgb(6 14 28 / 0.98));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.04),
+    0 20px 44px rgb(0 0 0 / 0.34);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamCard,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorCell,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-impactTier,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-checkoutCard,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-disclosure,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-proofMini,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-progressMini,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-callout {
+  border-color: rgb(148 163 184 / 0.14);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.025), rgb(255 255 255 / 0)),
+    linear-gradient(180deg, rgb(9 17 31 / 0.92), rgb(7 14 28 / 0.98));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.035),
+    0 14px 28px rgb(0 0 0 / 0.28);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+  border-color: rgb(148 163 184 / 0.16);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0)),
+    linear-gradient(180deg, rgb(10 18 34 / 0.94), rgb(7 14 28 / 0.98));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 18px 42px rgb(0 0 0 / 0.34);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal {
+  border-color: rgb(148 163 184 / 0.16);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0)),
+    linear-gradient(180deg, rgb(12 21 38 / 0.96), rgb(8 16 31 / 0.98));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 16px 36px rgb(0 0 0 / 0.28);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-empty,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamsEmpty {
+  border-color: rgb(148 163 184 / 0.18);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.025), rgb(255 255 255 / 0)),
+    linear-gradient(180deg, rgb(10 18 34 / 0.84), rgb(8 15 28 / 0.94));
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamCard__media,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-storyPoster,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-videoFrame {
+  border-color: rgb(148 163 184 / 0.14);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.045);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-tabs {
+  border-top: 1px solid rgb(148 163 184 / 0.12);
+}
+
+@media (max-width: 47.99rem) {
+  body[data-ff-page="fundraiser"] {
+    --ff-space-section: clamp(1.18rem, 1rem + 0.9vw, 1.85rem);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal,
+  body[data-ff-page="fundraiser"] .ff-hero__capsule,
+  body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card,
+  body[data-ff-page="fundraiser"] .ff-impactTier,
+  body[data-ff-page="fundraiser"] .ff-teamCard,
+  body[data-ff-page="fundraiser"] .ff-sponsorCell,
+  body[data-ff-page="fundraiser"] .ff-checkoutCard,
+  body[data-ff-page="fundraiser"] .ff-footerShell,
+  body[data-ff-page="fundraiser"] .ff-faqEndcap {
+    border-radius: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sectionhead {
+    margin-bottom: 0.62rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard,
+  body[data-ff-page="fundraiser"] .ff-sponsorCell,
+  body[data-ff-page="fundraiser"] .ff-impactTier {
+    padding: 0.88rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard__stats {
+    padding: 0.54rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard__foot {
+    gap: 0.55rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-donate-btn,
+  body[data-ff-page="fundraiser"] .ff-btn--primary,
+  body[data-ff-page="fundraiser"] .ff-tab--cta {
+    min-height: 2.7rem;
+  }
+}
+/* FF_FINAL_PRESTIGE_PASS_V1_END */
+
+
+/* ==========================================================================
+   UTILITIES + RESPONSIVE
+   ========================================================================== */
+@layer ff.utilities {
+  @media (min-width: 40rem) {
+    .ff-container {
+      width: min(100% - 2rem, var(--ff-max));
+    }
+
+    .ff-grid--2,
+    .ff-impactChoiceGrid,
+    .ff-sponsorWallRail,
+    .ff-onboardStepper {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ff-grid--3,
+    .ff-teamGrid,
+    .ff-impactTierGrid,
+    .ff-footerGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ff-heroSnapshotGrid,
+    .ff-storySupportGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ff-modal {
+      padding: 1rem;
+    }
+
+    .ff-sheet {
+      padding: 0;
+    }
+
+    .ff-sheet__panel {
+      max-height: min(94dvh, 64rem);
+    }
+
+    .ff-checkoutShell {
+      padding: 1.15rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .ff-topbar__desktop-only {
+      display: block;
+    }
+
+    .ff-topbar__mobile-only {
+      display: none;
+    }
+
+    .ff-hero__grid {
+      grid-template-columns: minmax(0, 1.16fr) minmax(20rem, 0.84fr);
+      gap: 1rem;
+    }
+
+    .ff-impactLayout,
+    .ff-storyGrid,
+    .ff-checkoutLayout--form {
+      grid-template-columns: minmax(0, 1.06fr) minmax(18rem, 0.94fr);
+      gap: 1rem;
+    }
+
+    .ff-footerGrid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    }
+
+    .ff-impactTierGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ff-teamGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ff-sponsorWallRail {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .ff-sheet__panel {
+      justify-self: center;
+      width: min(100%, 78rem);
+      border-radius: 1.5rem;
+      margin: 1rem;
+    }
+
+    .ff-checkoutShell {
+      border-radius: 1.25rem;
+    }
+
+    .ff-checkoutLayout--success {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ff-modal__panel--video .ff-videoMount,
+    .ff-modal__panel--video .ff-skeleton--video {
+      min-height: min(42vw, 38rem);
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .ff-topbarGoal__summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ff-topbarGoal__metric--progress {
+      grid-column: 1 / -1;
+    }
+
+    .ff-teamCard__stats {
+      grid-template-columns: 1fr;
+    }
+
+    .ff-backtotop {
+      right: 0.75rem;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ff-card:hover,
+    .ff-impactTier:hover,
+    .ff-teamCard:hover,
+    .ff-sponsorCell:hover,
+    .ff-checkoutCard:hover,
+    .ff-disclosure:hover {
+      box-shadow: var(--ff-shadow-2);
+    }
+  }
+}

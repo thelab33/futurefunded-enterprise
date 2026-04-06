@@ -1,0 +1,11 @@
+28:      {% include "platform/_partials/_intro_split.html" %}
+59:    <form class="ff-platformFormGrid ff-mt-3" method="get" action="/platform/dashboard">
+60:      <article class="ff-card ff-glass ff-pad ff-platformFormCard" aria-labelledby="platformOrgCardTitle">
+61:        <header class="ff-platformFormCard__head">
+71:        <div class="ff-platformFieldGrid ff-mt-3">
+94:      <article class="ff-card ff-glass ff-pad ff-platformFormCard" aria-labelledby="platformCampaignCardTitle">
+95:        <header class="ff-platformFormCard__head">
+105:        <div class="ff-platformFieldGrid ff-mt-3">
+224:      <div class="ff-platformCtaBar">
+226:          <button class="ff-btn ff-btn--primary ff-btn--pill ff-platformCtaBar__button" type="submit">
+227:            Create org + launch page

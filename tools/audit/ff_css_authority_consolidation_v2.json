@@ -1,0 +1,184 @@
+{
+  "target": "apps/web/app/static/css/ff-above-main-premium.css",
+  "backup": "apps/web/app/static/css/ff-above-main-premium.css.bak.20260404_223636",
+  "counts": {
+    "rules_scanned": 120,
+    "collision_groups_merged": 9
+  },
+  "merged_groups": [
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 596
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 20
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 596
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal__summary",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 607
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 24
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 607
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-sponsorGhost",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 469
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 119
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 250
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 469
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-footerMeta",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 267
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 140
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 267
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroAccent",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 366
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 203
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 312
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 366
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroName",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 371
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 207
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 317
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 371
+        }
+      ]
+    },
+    {
+      "context": "@media (max-width: 47.99rem)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroAccent",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 388
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 330
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 388
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-themeToggle--desktop",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 564
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 395
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 564
+        }
+      ]
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal__progressWrap .ff-help",
+      "kept": {
+        "file": "apps/web/app/static/css/ff-above-main-premium.css",
+        "line": 656
+      },
+      "merged_from": [
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 429
+        },
+        {
+          "file": "apps/web/app/static/css/ff-above-main-premium.css",
+          "line": 656
+        }
+      ]
+    }
+  ]
+}

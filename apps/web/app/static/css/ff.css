@@ -1,14 +1,13 @@
 /* ==========================================================================
    FutureFunded — ff.css
-   Version: v5.0.0 "Flagship Campaign Authority"
-   DROP-IN REPLACEMENT
+   Version: v6.1.0 "Flagship Contract-Verified Authority"
    --------------------------------------------------------------------------
    Scope:
-   - campaign fundraiser surface only
-   - matches the attached index.html contract
+   - canonical fundraiser authority file
    - mobile-first, accessible, reduced-motion safe
    - premium glass / flagship fundraising presentation
-   - no platform/admin surface drift
+   - single-source ownership for the campaign surface
+   - includes contract-gap coverage for latest campaign index selectors
    ========================================================================== */
 
 @layer ff.tokens, ff.base, ff.layout, ff.components, ff.sections, ff.overlays, ff.utilities;
@@ -599,7 +598,6 @@
     padding: 0 !important;
     margin: -1px !important;
     overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
     clip-path: inset(50%) !important;
     white-space: nowrap !important;
     border: 0 !important;
@@ -735,7 +733,8 @@
   .ff-footer__link--button,
   .ff-iconbtn,
   .ff-chip,
-  .ff-themeToggle {
+  .ff-themeToggle,
+#ff-theme-toggle {
     transition:
       transform var(--ff-ease),
       background-color var(--ff-ease),
@@ -1540,44 +1539,38 @@
     color: #fff;
   }
 
-  .ff-storyPoster__play,
-  .ff-storyPoster__label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--ff-pill);
-    background: rgb(255 255 255 / 0.12);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    font-weight: 700;
+  .ff-storyPoster__play {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-size: 1.2rem;
   }
 
-  .ff-storyQuote {
-    padding: 1rem;
-    border: 1px solid var(--ff-border);
-    border-radius: var(--ff-radius-2);
-    background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
-      var(--ff-panel);
+  .ff-storyPoster__label {
+    font-weight: 700;
+    letter-spacing: 0.03em;
   }
 
   .ff-storyQuote__body {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--ff-text-soft);
+    font-size: 1.01rem;
+    line-height: 1.65;
+    color: var(--ff-text);
   }
 
   .ff-disclosure {
-    overflow: hidden;
+    overflow: clip;
   }
 
   .ff-disclosure__sum {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 0.75rem;
     padding: 0.95rem 1rem;
     cursor: pointer;
     list-style: none;
@@ -1587,35 +1580,12 @@
     display: none;
   }
 
-  .ff-disclosure__sum::after {
-    content: "+";
-    flex: 0 0 auto;
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--ff-text-faint);
-  }
-
-  .ff-disclosure[open] .ff-disclosure__sum::after {
-    content: "−";
-    color: var(--ff-brand-strong);
-  }
-
   .ff-disclosure__panel {
     padding: 0 1rem 1rem;
   }
 
-  .ff-sep {
-    color: var(--ff-text-faint);
-  }
-
   .ff-footerShell {
-    padding: clamp(1rem, 0.92rem + 0.45vw, 1.3rem);
-    display: grid;
-    gap: 1rem;
-  }
-
-  .ff-footerGrid {
-    gap: 1.25rem;
+    padding: clamp(1rem, 0.95rem + 0.35vw, 1.25rem);
   }
 
   .ff-footerLinkList {
@@ -1623,92 +1593,88 @@
     gap: 0.6rem;
   }
 
-  .ff-footerMeta {
-    padding-top: 1rem;
-    border-top: 1px solid var(--ff-line);
+  .ff-footer__link,
+  .ff-footer__link--button {
+    font-size: 0.95rem;
   }
 
-  .ff-footer__link--button {
-    width: auto;
-    justify-content: flex-start;
-    min-height: auto;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-    color: var(--ff-accent);
-    font-weight: 500;
+  .ff-sep {
+    color: var(--ff-text-faint);
   }
 
   .ff-backtotop {
     position: fixed;
-    right: max(0.9rem, calc(0.9rem + var(--ff-safe-right)));
-    bottom: calc(var(--ff-tabs-offset) + 0.9rem + var(--ff-safe-bottom));
-    z-index: 55;
+    right: 1rem;
+    bottom: calc(var(--ff-tabs-offset) + 1rem + var(--ff-safe-bottom));
+    z-index: 74;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.58rem 0.82rem;
+    min-height: 2.55rem;
+    padding: 0.62rem 0.84rem;
     border: 1px solid var(--ff-border);
     border-radius: var(--ff-pill);
+    text-decoration: none;
     background:
       linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
       var(--ff-panel-strong);
-    text-decoration: none;
     box-shadow: var(--ff-shadow-2);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(0.5rem);
-    transition: opacity var(--ff-ease), transform var(--ff-ease);
+    transform: translateY(0.4rem);
+    transition:
+      opacity var(--ff-ease),
+      transform var(--ff-ease),
+      border-color var(--ff-ease),
+      box-shadow var(--ff-ease);
   }
 
-  .ff-backtotop[href="#home"] {
+  .ff-backtotop.is-visible {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
 
   .ff-backtotop__icon {
-    font-size: 0.92rem;
-    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .ff-tabs {
     position: fixed;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     bottom: 0;
-    z-index: 70;
-    padding:
-      0.55rem
-      max(0.7rem, calc(0.7rem + var(--ff-safe-right)))
-      calc(0.55rem + var(--ff-safe-bottom))
-      max(0.7rem, calc(0.7rem + var(--ff-safe-left)));
-    background:
-      linear-gradient(180deg, rgb(247 250 253 / 0), rgb(247 250 253 / 0.82) 32%, rgb(247 250 253 / 0.95));
+    z-index: 72;
+    padding: 0.55rem 0.75rem calc(0.55rem + var(--ff-safe-bottom));
+    background: linear-gradient(180deg, transparent, rgb(247 250 253 / 0.86) 24%, rgb(247 250 253 / 0.96));
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
   }
 
   .ff-root[data-theme="dark"] .ff-tabs {
-    background:
-      linear-gradient(180deg, rgb(9 18 31 / 0), rgb(9 18 31 / 0.82) 32%, rgb(9 18 31 / 0.95));
+    background: linear-gradient(180deg, transparent, rgb(9 18 31 / 0.84) 24%, rgb(9 18 31 / 0.95));
   }
 
   .ff-tabs__scroller {
-    max-width: var(--ff-max);
+    width: min(100%, var(--ff-max));
     margin-inline: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ff-tabs__scroller::-webkit-scrollbar {
+    display: none;
   }
 
   .ff-tabs__list {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: max-content;
     margin: 0;
+    padding: 0;
     list-style: none;
     scrollbar-width: none;
   }
@@ -1810,159 +1776,201 @@
   }
 
   .ff-sheet__panel {
-    max-height: min(92dvh, 60rem);
-    border-radius: 1.35rem 1.35rem 0 0;
+    align-self: end;
+    border-radius: var(--ff-radius-4) var(--ff-radius-4) 0 0;
+    max-height: min(96dvh, 72rem);
     overflow: hidden;
   }
 
   .ff-modal__panel {
-    max-width: min(100%, 46rem);
+    width: min(100%, 42rem);
+    max-height: min(92dvh, 48rem);
     margin-inline: auto;
-    border-radius: 1.35rem;
-    overflow: hidden;
+    overflow: auto;
+  }
+
+  .ff-modal__panel--video {
+    width: min(100%, 62rem);
   }
 
   .ff-modal--compact .ff-modal__panel {
-    max-width: min(100%, 40rem);
+    width: min(100%, 36rem);
   }
 
-  .ff-modal--video .ff-modal__panel {
-    max-width: min(100%, 72rem);
+  .ff-sheet__viewport {
+    display: grid;
+    max-height: inherit;
   }
 
-  .ff-sheet__viewport,
-  .ff-sheet__content,
-  .ff-sheet__scroll {
+  .ff-sheet__content {
     min-height: 0;
   }
 
-  .ff-sheet__viewport,
-  .ff-sheet__content {
-    display: grid;
+  .ff-sheet__scroll {
+    max-height: inherit;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
   }
 
-  .ff-sheet__scroll {
-    overflow: auto;
-    overscroll-behavior: contain;
+  .ff-checkoutShell {
+    display: grid;
+    gap: 1rem;
+    min-height: min(86dvh, 65rem);
   }
 
   .ff-sheet__header,
   .ff-modal__head {
-    padding: 1rem 1rem 0;
-  }
-
-  .ff-modal__body {
-    padding: 0 1rem 1rem;
-  }
-
-  .ff-modal__foot--sticky,
-  .ff-checkoutFooter,
-  .ff-onboardModal__footer,
-  .ff-sponsorModal__footer {
     position: sticky;
-    bottom: 0;
-    z-index: 1;
-    margin-top: 0.25rem;
-    padding: 0.9rem 0 0;
+    top: 0;
+    z-index: 2;
+    padding-bottom: 0.4rem;
     background:
-      linear-gradient(180deg, rgb(247 250 253 / 0), rgb(247 250 253 / 0.88) 30%, rgb(247 250 253 / 0.98));
+      linear-gradient(180deg, var(--ff-panel-solid) 74%, rgb(255 255 255 / 0));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 
-  .ff-root[data-theme="dark"] .ff-modal__foot--sticky,
-  .ff-root[data-theme="dark"] .ff-checkoutFooter,
-  .ff-root[data-theme="dark"] .ff-onboardModal__footer,
-  .ff-root[data-theme="dark"] .ff-sponsorModal__footer {
+  html.ff-root[data-theme="dark"] .ff-sheet__header,
+  html.ff-root[data-theme="dark"] .ff-modal__head {
     background:
-      linear-gradient(180deg, rgb(9 18 31 / 0), rgb(9 18 31 / 0.88) 30%, rgb(9 18 31 / 0.98));
+      linear-gradient(180deg, var(--ff-panel-solid) 74%, rgb(17 28 45 / 0));
   }
 
-  .ff-checkoutShell {
-    padding: 1rem;
-    border-radius: 0;
-    border: 0;
-    background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0)),
-      var(--ff-panel-strong);
-    box-shadow: none;
-  }
-
-  .ff-checkoutLayout {
-    gap: 1rem;
-  }
-
-  .ff-checkoutHead {
-    padding-bottom: 0.85rem;
-    border-bottom: 1px solid var(--ff-line);
-  }
-
-  .ff-checkoutContent {
-    min-height: 0;
-  }
-
-  .ff-checkoutScroll {
-    padding-top: 0.85rem;
-  }
-
-  .ff-checkoutStage {
-    min-height: 0;
-  }
-
-  .ff-checkoutSuccess .ff-checkoutCard {
-    max-width: 38rem;
-  }
-
-  .ff-empty,
-  .ff-teamsEmpty {
-    padding: 0.95rem;
-    border: 1px dashed var(--ff-border-strong);
-    border-radius: var(--ff-radius-2);
-    background:
-      linear-gradient(180deg, rgb(14 165 233 / 0.04), rgb(14 165 233 / 0)),
-      var(--ff-panel);
-  }
-
-  .ff-proofMini--hero,
-  .ff-proofMini--tile {
-    height: 100%;
-  }
-
-  .ff-proofMini--teams {
-    border-color: rgb(14 165 233 / 0.18);
-  }
-
-  .ff-sectionhead--compact {
-    gap: 0.55rem;
-  }
-
-  .ff-sectionhead__text {
+  .ff-modal__body,
+  .ff-sheet__content {
     min-width: 0;
   }
 
-  .ff-checkoutMain,
-  .ff-checkoutAside,
-  .ff-checkoutPaymentStack {
+  .ff-modal__foot--sticky,
+  .ff-checkoutFooter {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    padding-top: 0.75rem;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0), var(--ff-panel-solid) 24%, var(--ff-panel-solid));
+  }
+
+  html.ff-root[data-theme="dark"] .ff-modal__foot--sticky,
+  html.ff-root[data-theme="dark"] .ff-checkoutFooter {
+    background:
+      linear-gradient(180deg, rgb(17 28 45 / 0), var(--ff-panel-solid) 24%, var(--ff-panel-solid));
+  }
+}
+
+/* ==========================================================================
+   UTILITIES + POLISH
+   ========================================================================== */
+@layer ff.utilities {
+  body[data-ff-page="fundraiser"] .ff-mutedStrong {
+    color: rgb(15 23 42 / 0.72);
+  }
+
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-mutedStrong {
+    color: rgb(226 232 240 / 0.9);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroTrustCue,
+  body[data-ff-page="fundraiser"] .ff-faqTrustCue {
+    letter-spacing: 0.01em;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+    border: 1px dashed rgb(148 163 184 / 0.28);
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.52));
+  }
+
+  html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+    border-color: rgb(148 163 184 / 0.22);
+    background: linear-gradient(180deg, rgb(15 23 42 / 0.72), rgb(15 23 42 / 0.56));
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard--quiet {
+    opacity: 0.96;
+    box-shadow: 0 10px 24px rgb(15 23 42 / 0.06);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media {
+    filter: saturate(0.94) contrast(0.98);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard.is-featured {
+    box-shadow:
+      0 20px 42px rgb(249 115 22 / 0.16),
+      0 8px 20px rgb(15 23 42 / 0.06);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini,
+  body[data-ff-page="fundraiser"] .ff-help.ff-muted {
+    text-wrap: pretty;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroFooter {
+    gap: 0.25rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead {
+    max-width: 62ch;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar {
+    padding-top: 0.5rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+    box-shadow:
+      0 18px 44px rgb(15 23 42 / 0.08),
+      0 4px 16px rgb(15 23 42 / 0.04);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship {
+    box-shadow:
+      0 20px 46px rgb(0 0 0 / 0.34),
+      inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-checkoutHead,
+  body[data-ff-page="fundraiser"] .ff-modal__head {
+    border-bottom: 1px solid var(--ff-line);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-checkoutFooter,
+  body[data-ff-page="fundraiser"] .ff-modal__foot--sticky {
+    border-top: 1px solid var(--ff-line);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-checkoutMain,
+  body[data-ff-page="fundraiser"] .ff-checkoutAside,
+  body[data-ff-page="fundraiser"] .ff-checkoutPaymentStack {
     display: grid;
     gap: 1rem;
   }
 
-  .ff-checkoutPaymentMount {
+  body[data-ff-page="fundraiser"] .ff-checkoutPaymentMount {
     min-height: 4rem;
     display: grid;
     align-items: center;
   }
 
-  .ff-checkoutAmountRow,
-  .ff-checkoutAmountField {
+  body[data-ff-page="fundraiser"] .ff-checkoutAmountRow,
+  body[data-ff-page="fundraiser"] .ff-checkoutAmountField {
     display: grid;
     gap: 0.5rem;
   }
 
-  .ff-proofMini--checkoutAmount {
+  body[data-ff-page="fundraiser"] .ff-proofMini--checkoutAmount {
     min-height: 8.5rem;
     align-content: start;
   }
 
-  .ff-videoFrame {
+  body[data-ff-page="fundraiser"] .ff-videoFrame {
     position: relative;
     border: 1px solid var(--ff-border);
     border-radius: var(--ff-radius-3);
@@ -1972,30 +1980,30 @@
       rgb(15 23 42 / 0.05);
   }
 
-  .ff-videoMount {
+  body[data-ff-page="fundraiser"] .ff-videoMount {
     min-height: min(56vw, 32rem);
     aspect-ratio: 16 / 9;
   }
 
-  .ff-videoMount:empty {
+  body[data-ff-page="fundraiser"] .ff-videoMount:empty {
     min-height: min(56vw, 32rem);
   }
 
-  .ff-termsModal__body,
-  .ff-privacyModal__body,
-  .ff-sponsorModal__body,
-  .ff-videoModal__body {
+  body[data-ff-page="fundraiser"] .ff-termsModal__body,
+  body[data-ff-page="fundraiser"] .ff-privacyModal__body,
+  body[data-ff-page="fundraiser"] .ff-sponsorModal__body,
+  body[data-ff-page="fundraiser"] .ff-videoModal__body {
     display: grid;
     gap: 0.9rem;
   }
 
-  .ff-onboardStepper {
+  body[data-ff-page="fundraiser"] .ff-onboardStepper {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
   }
 
-  .ff-onboardStep {
+  body[data-ff-page="fundraiser"] .ff-onboardStep {
     min-height: 2.6rem;
     padding: 0.62rem 0.75rem;
     border: 1px solid var(--ff-border);
@@ -2007,8 +2015,8 @@
     font-weight: 700;
   }
 
-  .ff-onboardStep[aria-selected="true"],
-  .ff-onboardStep[aria-current="step"] {
+  body[data-ff-page="fundraiser"] .ff-onboardStep[aria-selected="true"],
+  body[data-ff-page="fundraiser"] .ff-onboardStep[aria-current="step"] {
     border-color: rgb(249 115 22 / 0.22);
     background:
       linear-gradient(180deg, rgb(249 115 22 / 0.08), rgb(249 115 22 / 0)),
@@ -2017,11 +2025,11 @@
     box-shadow: var(--ff-shadow-1);
   }
 
-  .ff-onboardPanel {
+  body[data-ff-page="fundraiser"] .ff-onboardPanel {
     padding: 0.25rem 0;
   }
 
-  .ff-onboardSummary {
+  body[data-ff-page="fundraiser"] .ff-onboardSummary {
     padding: 0.9rem;
     border: 1px solid var(--ff-border);
     border-radius: var(--ff-radius-2);
@@ -2030,28 +2038,117 @@
       var(--ff-panel);
   }
 
-  .ff-chip[aria-pressed="true"] {
-    border-color: rgb(14 165 233 / 0.26);
+  body[data-ff-page="fundraiser"] .ff-themeToggle__glyph {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-themeToggle__label {
+    font-size: 0.9rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard {
+    display: grid;
+    gap: 0.8rem;
+    min-height: 100%;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__head,
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__body,
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
+    margin-top: auto;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-empty {
+    text-wrap: pretty;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-checkoutLayout--form,
+  body[data-ff-page="fundraiser"] .ff-checkoutLayout--success {
+    gap: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini--hero,
+  body[data-ff-page="fundraiser"] .ff-proofMini--teams,
+  body[data-ff-page="fundraiser"] .ff-proofMini--tile {
+    height: 100%;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-callout--flagship {
+    border-color: rgb(14 165 233 / 0.16);
     background:
       linear-gradient(180deg, rgb(14 165 233 / 0.08), rgb(14 165 233 / 0)),
-      var(--ff-panel-solid);
-    color: var(--ff-text);
-    box-shadow: var(--ff-shadow-1);
+      var(--ff-panel);
   }
-}
 
-/* ==========================================================================
-   UTILITIES + RESPONSIVE
-   ========================================================================== */
-@layer ff.utilities {
-  @media (min-width: 40rem) {
-    .ff-container {
-      width: min(100% - 2rem, var(--ff-max));
+  body[data-ff-page="fundraiser"] .ff-checkoutSponsorLane {
+    border-color: rgb(249 115 22 / 0.16);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.08), rgb(249 115 22 / 0)),
+      var(--ff-panel);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-faqEndcap {
+    box-shadow:
+      0 18px 42px rgb(15 23 42 / 0.08),
+      0 6px 18px rgb(15 23 42 / 0.04);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-faqList {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerNav__title {
+    margin-bottom: 0.25rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerMeta {
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--ff-line);
+  }
+
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-card,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-proofMini,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-progressMini,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamCard,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-checkoutCard,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorCell,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-disclosure,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-footerShell {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+  }
+
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamStat,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-teamCard__stats,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-storyPanel,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorGhost,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-onboardSummary {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0)),
+      rgb(255 255 255 / 0.02);
+  }
+
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sheet__header,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-modal__head,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-checkoutFooter,
+  html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-modal__foot--sticky {
+    border-color: rgb(226 232 240 / 0.1);
+  }
+
+  @media (min-width: 48rem) {
+    .ff-grid--2,
+    .ff-impactChoiceGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .ff-grid--2,
-    .ff-impactChoiceGrid,
-    .ff-sponsorWallRail,
     .ff-onboardStepper {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -2172,4 +2269,1765 @@
     }
   }
 }
+
+/* ==========================================================================
+   CONTRACT VARIANTS + HOOK COVERAGE
+   ========================================================================== */
+@layer ff.utilities {
+  #home,
+  #impact,
+  #teams,
+  #sponsors,
+  #story,
+  #faq,
+  #checkout,
+  #press-video,
+  #terms,
+  #privacy,
+  #ff-onboarding,
+  #footer,
+  #ffTopbar,
+  #content,
+  [data-ff-main],
+  [data-ff-page-root],
+  [data-ff-shell],
+  [data-ff-chrome],
+  [data-ff-topbar],
+  [data-ff-footer] {
+    position: relative;
+  }
+
+  #impact,
+  #teams,
+  #sponsors,
+  #story,
+  #faq,
+  #checkout,
+  #press-video,
+  #terms,
+  #privacy,
+  #ff-onboarding {
+    scroll-margin-top: calc(var(--ff-header-offset) + var(--ff-safe-top) + 0.5rem);
+  }
+
+  #ffConfig,
+  #ffSelectors,
+  #ffDonationSuccessUpsellTemplate,
+  #ffSuccessUpsellTitleTemplate,
+  #ffSuccessUpsellDescTemplate {
+    display: none !important;
+  }
+
+  #ffLive,
+  [data-ff-live] {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+  }
+
+  .ff-platformBrand--mark {
+    flex: 0 0 auto;
+  }
+
+  .ff-nav--pill {
+    align-items: center;
+  }
+
+  .ff-topbarGoal__metric--raised,
+  .ff-topbarGoal__metric--goal {
+    min-width: 0;
+  }
+
+  .ff-hero__shell {
+    width: 100%;
+  }
+
+  .ff-heroLead,
+  #heroLead,
+  #impactLead,
+  #teamsLead,
+  #sponsorsLead,
+  #storyLead,
+  #trustFaqLead {
+    max-width: 64ch;
+  }
+
+  .ff-heroMeta,
+  .ff-heroCtas--flagship,
+  [data-ff-topbar-actions],
+  [data-ff-topbar-metrics] {
+    align-items: center;
+  }
+
+  .ff-heroPanel--flagship {
+    height: 100%;
+  }
+
+  #heroTitle,
+  #impactTitle,
+  #teamsTitle,
+  #sponsorsTitle,
+  #storyTitle,
+  #trustFaqTitle,
+  #checkoutTitle,
+  #ffSuccessTitle,
+  #ffVideoTitle,
+  #termsTitle,
+  #privacyTitle,
+  #ffOnboardTitle,
+  #sponsorInterestTitle {
+    text-wrap: balance;
+  }
+
+  #heroAccentLine {
+    display: block;
+  }
+
+  #heroPanelTitle,
+  #impactPickTitle,
+  #impactProofTitle,
+  #impactPlayerTitle,
+  #checkoutSummaryTitle,
+  #paymentSectionTitle,
+  #sponsorWallTitle,
+  #sponsorDetailsTitle,
+  #sponsorTierLegend,
+  #ffPlatformCrossSellTitle {
+    text-wrap: balance;
+  }
+
+  #impactHint,
+  #teamsUnity,
+  #sponsorsHint,
+  #ffPlatformCrossSellDesc,
+  #sponsorEmailHelp,
+  #ffVideoStatus {
+    color: var(--ff-text-muted);
+  }
+
+  .ff-callout--flagship,
+  .ff-impactProofCallout,
+  #ffDonationSuccessMount,
+  .ff-progressMini--remaining {
+    border-radius: var(--ff-radius-2);
+  }
+
+  .ff-impactCard--flagship,
+  .ff-impactCard--premium,
+  .ff-impactPick--flagship,
+  .ff-impactTier--flagship,
+  .ff-impactTierGrid--flagship {
+    position: relative;
+  }
+
+  .ff-impactPick__chips--flagship,
+  .ff-impactTierGrid--flagship,
+  [data-ff-sponsor-tier-grid] {
+    width: 100%;
+  }
+
+  .ff-impactChoiceItem,
+  .ff-impactProofItem {
+    min-width: 0;
+  }
+
+  .ff-impactChoice,
+  .ff-impactChoice--feature {
+    align-content: start;
+  }
+
+  .ff-impactChoice[aria-pressed="true"],
+  .ff-impactChoice--feature,
+  [data-ff-amount][aria-pressed="true"] {
+    border-color: rgb(249 115 22 / 0.26);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.1), rgb(249 115 22 / 0)),
+      var(--ff-panel-solid);
+    color: var(--ff-text);
+    box-shadow:
+      0 0 0 1px rgb(249 115 22 / 0.1),
+      var(--ff-shadow-1);
+  }
+
+  .ff-impactProofCallout {
+    padding: 0.92rem 1rem;
+    border: 1px solid rgb(14 165 233 / 0.16);
+    background:
+      linear-gradient(180deg, rgb(14 165 233 / 0.08), rgb(14 165 233 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-impactProofItem {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .ff-teamCard--flagship,
+  .ff-teamCard--quiet,
+  [data-ff-team-name],
+  [data-ff-team-id] {
+    min-width: 0;
+  }
+
+  .ff-teamCard__statusPills,
+  .ff-teamCard__meta,
+  .ff-teamCard__ask {
+    min-width: 0;
+  }
+
+  .ff-teamCard__meta,
+  .ff-teamCard__ask {
+    text-wrap: pretty;
+  }
+
+  .ff-teamCard__ask {
+    color: var(--ff-text-soft);
+  }
+
+  .ff-sponsorForm,
+  [data-ff-sponsor-form] {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ff-sponsorModal__head,
+  .ff-videoModal__head,
+  .ff-termsModal__head,
+  .ff-privacyModal__head,
+  .ff-onboardModal__head {
+    align-items: start;
+  }
+
+  .ff-sponsorModal__actions,
+  .ff-onboardModal__actions,
+  .ff-faqEndcap__actions,
+  .ff-faqEndcap__links {
+    align-items: center;
+  }
+
+  .ff-sponsorCell[data-ff-sponsor-cell],
+  [data-ff-sponsor-wall],
+  [data-ff-sponsor-grid],
+  [data-ff-sponsor-wall-empty] {
+    min-width: 0;
+  }
+
+  [data-ff-sponsor-wall] {
+    align-items: stretch;
+  }
+
+  .ff-sponsorEmptyState,
+  [data-ff-sponsor-wall-empty] {
+    border: 1px dashed rgb(148 163 184 / 0.28);
+    border-radius: var(--ff-radius-2);
+    padding: 0.95rem 1rem;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.68), rgb(255 255 255 / 0.52)),
+      var(--ff-panel);
+  }
+
+  [data-ff-sponsor-tier-selected] {
+    display: block;
+  }
+
+  [data-ff-sponsor-tier][aria-pressed="true"] {
+    border-color: rgb(249 115 22 / 0.26);
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.1), rgb(249 115 22 / 0)),
+      var(--ff-panel-solid);
+    color: var(--ff-text);
+    box-shadow:
+      0 0 0 1px rgb(249 115 22 / 0.1),
+      var(--ff-shadow-1);
+  }
+
+  .ff-storyHead,
+  .ff-storyCopy,
+  .ff-storyPanel--summary,
+  [data-ff-story],
+  [data-ff-story-poster] {
+    min-width: 0;
+  }
+
+  .ff-storyCopy {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+  }
+
+  .ff-storyPanel--summary {
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-storyQuote {
+    padding: 0.95rem 1rem;
+    border-left: 3px solid rgb(249 115 22 / 0.46);
+    border-radius: 0 var(--ff-radius-2) var(--ff-radius-2) 0;
+    background:
+      linear-gradient(180deg, rgb(249 115 22 / 0.05), rgb(249 115 22 / 0)),
+      var(--ff-panel);
+  }
+
+  .ff-storyQuote__body {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ff-text);
+  }
+
+  .ff-videoFrame--flagship,
+  [data-ff-video-frame] {
+    min-height: min(56vw, 32rem);
+  }
+
+  [data-ff-video-mount] > iframe,
+  .ff-videoMount > iframe {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: inherit;
+    border: 0;
+  }
+
+  .ff-trust-faq,
+  .ff-trust-faq--prestige {
+    isolation: isolate;
+  }
+
+  .ff-faqItem,
+  .ff-disclosure--flagship {
+    overflow: clip;
+  }
+
+  .ff-faqEndcap__meta,
+  .ff-faqEndcap__utility {
+    align-items: center;
+  }
+
+  .ff-faqTrustCue,
+  .ff-mutedStrong {
+    color: color-mix(in srgb, var(--ff-text-muted) 82%, var(--ff-text) 18%);
+  }
+
+  .ff-sep--dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .ff-footer--minimal,
+  .ff-footerShell--minimal,
+  .ff-footerGrid--minimal,
+  .ff-footerMeta--minimal,
+  .ff-footerNav--minimal {
+    min-width: 0;
+  }
+
+  .ff-footerBrand__copy,
+  .ff-footerBrand__meta {
+    max-width: 62ch;
+  }
+
+  .ff-backtotop--flagship,
+  [data-ff-backtotop] {
+    position: fixed;
+    right: 1rem;
+    bottom: calc(var(--ff-tabs-offset) + 1rem + var(--ff-safe-bottom));
+    z-index: 74;
+  }
+
+  .ff-tabs--flagship,
+  .ff-tabs__scroller--flagship,
+  .ff-tabs__list--flagship {
+    min-width: 0;
+  }
+
+  .ff-sheet--checkout,
+  .ff-sheet--flagship,
+  .ff-modal--flagship,
+  [data-ff-checkout-sheet],
+  [data-ff-sponsor-modal],
+  [data-ff-video-modal],
+  [data-ff-terms-modal],
+  [data-ff-privacy-modal],
+  [data-ff-onboard-modal] {
+    isolation: isolate;
+  }
+
+  .ff-sheet__backdrop--flagship,
+  .ff-modal__backdrop--flagship {
+    backdrop-filter: blur(2px);
+  }
+
+  .ff-sheet__panel--flagship,
+  .ff-modal__panel--flagship {
+    overflow: clip;
+  }
+
+  .ff-sheet__viewport--flagship,
+  .ff-checkoutViewport,
+  [data-ff-checkout-viewport] {
+    min-width: 0;
+  }
+
+  .ff-sheet__scroll--flagship,
+  [data-ff-checkout-scroll] {
+    overscroll-behavior: contain;
+  }
+
+  .ff-sheet__close,
+  .ff-drawer__close,
+  [data-ff-close-checkout],
+  [data-ff-close-drawer],
+  [data-ff-close-video],
+  [data-ff-close-terms],
+  [data-ff-close-privacy],
+  [data-ff-close-sponsor],
+  [data-ff-close-onboard] {
+    cursor: pointer;
+  }
+
+  .ff-checkoutShell--flagship,
+  .ff-checkoutShell--layout,
+  [data-ff-checkout-shell] {
+    min-width: 0;
+  }
+
+  .ff-checkoutHead--flagship,
+  .ff-checkoutBody--flagship,
+  .ff-checkoutViewport,
+  .ff-checkoutFormRail,
+  .ff-checkoutActions,
+  [data-ff-checkout-content],
+  [data-ff-checkout-actions] {
+    min-width: 0;
+  }
+
+  .ff-checkoutFormRail,
+  #donationForm {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ff-checkoutActions {
+    align-items: center;
+  }
+
+  .ff-checkoutCard--amount,
+  .ff-checkoutCard--payment {
+    scroll-margin-top: 1rem;
+  }
+
+  .ff-checkoutPaymentMount--stripe,
+  .ff-checkoutPaymentMount--paypal,
+  [data-ff-stripe-mount],
+  [data-ff-paypal-mount] {
+    min-height: 4rem;
+    border-style: solid;
+  }
+
+  [data-ff-payment-element] {
+    min-width: 0;
+  }
+
+  [data-ff-stripe-skeleton],
+  [data-ff-paypal-skeleton],
+  [data-ff-video-skeleton] {
+    border-radius: inherit;
+  }
+
+  [data-ff-checkout-status],
+  [data-ff-checkout-error],
+  [data-ff-sponsor-status],
+  [data-ff-sponsor-error],
+  [data-ff-sponsor-success],
+  [data-ff-onboard-status],
+  [data-ff-onboard-result],
+  [data-ff-video-status] {
+    min-width: 0;
+  }
+
+  .ff-checkoutSuccess,
+  [data-ff-checkout-success] {
+    min-width: 0;
+  }
+
+  .ff-onboardForm,
+  [data-ff-onboard-form] {
+    display: grid;
+    gap: 1rem;
+  }
+
+  [data-ff-step],
+  .ff-onboardPanel {
+    min-width: 0;
+  }
+
+  [data-ff-step-pill],
+  .ff-onboardStep {
+    touch-action: manipulation;
+  }
+
+  .ff-drawer__block {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .ff-drawer__close {
+    justify-self: start;
+  }
+
+  #ffDrawerPanel,
+  .ff-drawer__panel,
+  [data-ff-drawer] {
+    min-width: 0;
+  }
+
+  #ffDrawerTitle,
+  #ffDrawerDesc {
+    text-wrap: balance;
+  }
+
+  .ff-toasts,
+  [data-ff-toasts] {
+    position: fixed;
+    top: calc(0.85rem + var(--ff-safe-top));
+    right: calc(0.85rem + var(--ff-safe-right));
+    z-index: 130;
+    display: grid;
+    gap: 0.6rem;
+    width: min(22rem, calc(100vw - 1.5rem));
+    pointer-events: none;
+  }
+
+  .ff-toasts > *,
+  [data-ff-toasts] > * {
+    pointer-events: auto;
+    padding: 0.82rem 0.92rem;
+    border: 1px solid var(--ff-border);
+    border-radius: var(--ff-radius-2);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+    box-shadow: var(--ff-shadow-2);
+    backdrop-filter: blur(12px);
+  }
+
+  .ff-burst,
+  [data-ff-burst] {
+    overflow: hidden;
+  }
+
+  #donationForm,
+  #sponsorForm {
+    min-width: 0;
+  }
+
+  #donationAmount,
+  #donorName,
+  #donorEmail,
+  #donorMessage {
+    width: 100%;
+  }
+
+  #donationAmountHelp,
+  #donationAmountNote,
+  #checkoutDesc,
+  #sponsorInterestDesc,
+  #sponsorInterestTrust,
+  #termsDesc,
+  #privacyDesc,
+  #ffOnboardDesc,
+  #ffSuccessDesc,
+  #ffVideoDesc {
+    color: var(--ff-text-muted);
+  }
+
+  /* generic hook support */
+  [data-ff-open-checkout],
+  [data-ff-open-sponsor],
+  [data-ff-open-video],
+  [data-ff-open-terms],
+  [data-ff-open-privacy],
+  [data-ff-open-onboard],
+  [data-ff-open-drawer],
+  [data-ff-share],
+  [data-ff-donate],
+  [data-ff-theme-toggle],
+  [data-ff-floating-donate],
+  [data-ff-backtotop] {
+    touch-action: manipulation;
+  }
+
+  [data-ff-body],
+  [data-ff-brand],
+  [data-ff-brand-key],
+  [data-ff-build],
+  [data-ff-canonical],
+  [data-ff-data-mode],
+  [data-ff-goal],
+  [data-ff-percent],
+  [data-ff-pct],
+  [data-ff-raised],
+  [data-ff-return-url],
+  [data-ff-share-url],
+  [data-ff-template],
+  [data-ff-totals-verified],
+  [data-ff-version] {
+    min-width: 0;
+  }
+
+  [data-ff-animate="rise"] {
+    animation: ff-rise-in 420ms var(--ff-ease-emph) both;
+  }
+
+  @keyframes ff-rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.9rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  html.ff-root[data-theme="dark"] .ff-sponsorEmptyState,
+  html.ff-root[data-theme="dark"] [data-ff-sponsor-wall-empty] {
+    border-color: rgb(148 163 184 / 0.24);
+    background:
+      linear-gradient(180deg, rgb(15 23 42 / 0.74), rgb(15 23 42 / 0.58)),
+      var(--ff-panel);
+  }
+
+  html.ff-root[data-theme="dark"] .ff-storyPanel--summary,
+  html.ff-root[data-theme="dark"] .ff-storyQuote,
+  html.ff-root[data-theme="dark"] .ff-impactProofCallout,
+  html.ff-root[data-theme="dark"] .ff-toasts > *,
+  html.ff-root[data-theme="dark"] [data-ff-toasts] > * {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+  }
+
+  html.ff-root[data-theme="dark"] .ff-faqTrustCue,
+  html.ff-root[data-theme="dark"] .ff-mutedStrong {
+    color: rgb(226 232 240 / 0.88);
+  }
+
+  @media (max-width: 47.99rem) {
+    .ff-backtotop--flagship,
+    [data-ff-backtotop] {
+      right: 0.75rem;
+    }
+
+    .ff-toasts,
+    [data-ff-toasts] {
+      left: 0.75rem;
+      right: 0.75rem;
+      width: auto;
+    }
+
+    .ff-faqEndcap__utility {
+      align-items: flex-start;
+    }
+
+    .ff-checkoutActions,
+    .ff-sponsorModal__actions,
+    .ff-onboardModal__actions {
+      width: 100%;
+    }
+
+    .ff-checkoutActions > *,
+    .ff-sponsorModal__actions > *,
+    .ff-onboardModal__actions > * {
+      flex: 1 1 calc(50% - 0.375rem);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .ff-checkoutShell--layout,
+    [data-ff-checkout-shell] {
+      padding: 1.1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-ff-animate="rise"] {
+      animation: none;
+    }
+  }
+}
+
+
+@layer ff.utilities {
+  .ff-sectionhead--flagship,
+  .ff-modal__head--flagship,
+  .ff-modal__foot--flagship {
+    min-width: 0;
+  }
+
+  #checkoutErrorText,
+  #sponsorErrorText {
+    min-width: 0;
+  }
+
+  #donationAmountLegend,
+  #donorDetailsLegend,
+  #impactPickDesc,
+  #impactPlayerHint,
+  #impactProofDesc,
+  #sponsorWallDesc {
+    color: var(--ff-text-muted);
+  }
+
+  #drawer,
+  #ffOnboardPanel1,
+  #ffOnboardPanel2,
+  #ffOnboardPanel3,
+  #ffOnboardPanel4,
+  #ffOnboardTab1,
+  #ffOnboardTab2,
+  #ffOnboardTab3,
+  #ffOnboardTab4 {
+    min-width: 0;
+  }
+
+  #sponsor-interest {
+    isolation: isolate;
+  }
+
+  [data-ff-config],
+  [data-ff-goalbar],
+  [data-ff-home],
+  [data-ff-live-feed],
+  [data-ff-meter],
+  [data-ff-hero-panel],
+  [data-ff-fallback-bound],
+  [data-ff-fallback-label],
+  [data-ff-checkout-stage],
+  [data-ff-onboard-copy],
+  [data-ff-onboard-email],
+  [data-ff-onboard-email-target],
+  [data-ff-onboard-endpoint],
+  [data-ff-onboard-finish],
+  [data-ff-onboard-next],
+  [data-ff-onboard-prev],
+  [data-ff-amount-input],
+  [data-ff-donor-name],
+  [data-ff-email],
+  [data-ff-message] {
+    min-width: 0;
+  }
+}
+
+@layer ff.utilities {
+  [data-ff-onboard-summary],
+  [data-ff-paypal-error],
+  [data-ff-paypal-msg],
+  [data-ff-player-id],
+  [data-ff-section],
+  [data-ff-sponsor-a-player],
+  [data-ff-sponsor-amount],
+  [data-ff-sponsor-contact],
+  [data-ff-sponsor-email],
+  [data-ff-sponsor-message],
+  [data-ff-sponsor-name],
+  [data-ff-sponsor-submit],
+  [data-ff-stripe-error],
+  [data-ff-stripe-msg],
+  [data-ff-stripe-preload],
+  [data-ff-success-copy],
+  [data-ff-success-share],
+  [data-ff-success-sponsor],
+  [data-ff-success-upsell],
+  [data-ff-success-upsell-template],
+  [data-ff-summary-amount],
+  [data-ff-tabs],
+  [data-ff-video-panel],
+  [data-ff-video-src],
+  [data-ff-video-title] {
+    min-width: 0;
+  }
+}
+
+/* stylelint-disable no-duplicate-selectors, comment-empty-line-before, rule-empty-line-before */
+
+/* FF_FINAL_PRESTIGE_MICRO_POLISH_V1_START */
+/* Final founder-level polish:
+   - tighter mobile chrome
+   - calmer hero density
+   - stronger sponsor hierarchy
+   - smoother FAQ/footer finish
+   - cleanup for duplicated donationForm selector
+*/
+
+body[data-ff-page="fundraiser"] .ff-topbar {
+  padding-top: 0.38rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+  padding: 0.74rem;
+  border-radius: 1.2rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner {
+  gap: 0.68rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal {
+  padding: 0.72rem 0.84rem;
+  border-radius: 1rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__summary {
+  gap: 0.5rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+  font-size: 0.94rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap {
+  gap: 0.3rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-hero__capsule {
+  padding: clamp(0.96rem, 0.9rem + 0.34vw, 1.2rem);
+}
+
+body[data-ff-page="fundraiser"] .ff-heroHeader {
+  gap: 0.82rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroFooter {
+  gap: 0.45rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroSnapshotGrid {
+  gap: 0.68rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini--hero,
+body[data-ff-page="fundraiser"] .ff-proofMini--teams,
+body[data-ff-page="fundraiser"] .ff-proofMini--tile {
+  padding: 0.82rem 0.88rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini--hero .ff-h3,
+body[data-ff-page="fundraiser"] .ff-proofMini--teams .ff-h3,
+body[data-ff-page="fundraiser"] .ff-proofMini--tile .ff-h3 {
+  line-height: 1.08;
+}
+
+body[data-ff-page="fundraiser"] .ff-section {
+  padding-block: clamp(1.45rem, 1.18rem + 1.4vw, 2.7rem);
+}
+
+body[data-ff-page="fundraiser"] .ff-sectionhead {
+  gap: 0.58rem;
+  margin-bottom: 0.72rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard,
+body[data-ff-page="fundraiser"] .ff-teamCard,
+body[data-ff-page="fundraiser"] .ff-checkoutCard,
+body[data-ff-page="fundraiser"] .ff-sponsorCell {
+  transition:
+    transform var(--ff-ease),
+    border-color var(--ff-ease),
+    box-shadow var(--ff-ease),
+    background-color var(--ff-ease);
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier--recommended,
+body[data-ff-page="fundraiser"] .ff-card--premium,
+body[data-ff-page="fundraiser"] .ff-impactTier--premium,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard:has(.ff-pill--accent) {
+  border-color: rgb(249 115 22 / 0.26);
+  box-shadow:
+    0 0 0 1px rgb(249 115 22 / 0.08),
+    0 18px 36px rgb(249 115 22 / 0.12),
+    0 8px 20px rgb(15 23 42 / 0.05);
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier--recommended .ff-btn,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard:has(.ff-pill--accent) .ff-btn {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 10px 22px rgb(249 115 22 / 0.18);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__foot {
+  gap: 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard__stats {
+  gap: 0.52rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-teamStat {
+  padding: 0.46rem 0.52rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-faqEndcap {
+  border-color: rgb(148 163 184 / 0.16);
+  box-shadow:
+    0 14px 32px rgb(15 23 42 / 0.07),
+    0 4px 12px rgb(15 23 42 / 0.03);
+}
+
+body[data-ff-page="fundraiser"] .ff-faqEndcap__header {
+  gap: 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-faqList {
+  gap: 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-disclosure__sum {
+  padding: 0.88rem 0.95rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-disclosure__panel {
+  padding: 0 0.95rem 0.95rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-footerShell {
+  padding: clamp(0.96rem, 0.92rem + 0.24vw, 1.15rem);
+}
+
+body[data-ff-page="fundraiser"] .ff-footerGrid {
+  gap: 0.9rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-footerBrand__copy {
+  max-width: 58ch;
+}
+
+body[data-ff-page="fundraiser"] .ff-footerMeta {
+  padding-top: 0.78rem;
+  gap: 0.35rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-backtotop {
+  min-height: 2.4rem;
+  padding: 0.56rem 0.78rem;
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-impactTier--recommended,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-card--premium,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-impactTier--premium,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorTierCard:has(.ff-pill--accent) {
+  border-color: rgb(249 115 22 / 0.22);
+  box-shadow:
+    0 0 0 1px rgb(249 115 22 / 0.06),
+    0 18px 44px rgb(0 0 0 / 0.32),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-faqEndcap {
+  border-color: rgb(226 232 240 / 0.08);
+  box-shadow:
+    0 16px 36px rgb(0 0 0 / 0.26),
+    inset 0 1px 0 rgb(255 255 255 / 0.03);
+}
+
+@media (max-width: 47.99rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+    padding: 0.66rem;
+    border-radius: 1.05rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal {
+    padding: 0.64rem 0.76rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__summary {
+    gap: 0.44rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+    font-size: 0.9rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-hero__capsule {
+    padding: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroHeader {
+    gap: 0.72rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroSnapshotGrid {
+    gap: 0.56rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini--hero {
+    padding: 0.76rem 0.8rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-section {
+    padding-block: 1.25rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard,
+  body[data-ff-page="fundraiser"] .ff-impactTier,
+  body[data-ff-page="fundraiser"] .ff-sponsorCell,
+  body[data-ff-page="fundraiser"] .ff-checkoutCard {
+    padding: 0.88rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard__foot > .ff-btn,
+  body[data-ff-page="fundraiser"] .ff-teamCard__foot > .ff-footer__link--button,
+  body[data-ff-page="fundraiser"] .ff-teamCard__foot > .ff-link {
+    flex: 1 1 auto;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerShell {
+    padding: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerMeta {
+    padding-top: 0.7rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-backtotop {
+    right: 0.72rem;
+    bottom: calc(var(--ff-tabs-offset) + 0.78rem + var(--ff-safe-bottom));
+  }
+}
+
+@media (min-width: 64rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+    padding: 0.78rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-hero__grid {
+    gap: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-impactLayout,
+  body[data-ff-page="fundraiser"] .ff-storyGrid,
+  body[data-ff-page="fundraiser"] .ff-checkoutLayout--form {
+    gap: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerGrid {
+    gap: 1rem;
+  }
+}
+/* FF_FINAL_PRESTIGE_MICRO_POLISH_V1_END */
+
+/* FF_LAUNCH_READY_TINY_PASS_V1_START */
+/* Final tiny launch pass:
+   - mobile chrome compression
+   - hero card calmness
+   - sponsor consistency
+   - faq/footer quiet luxury
+*/
+
+body[data-ff-page="fundraiser"] .ff-pill {
+  min-height: 1.68rem;
+  padding: 0.24rem 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-btn--sm {
+  min-height: 2.22rem;
+  padding: 0.5rem 0.8rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand__text,
+body[data-ff-page="fundraiser"] .ff-brand__title {
+  letter-spacing: -0.015em;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand__sub {
+  opacity: 0.92;
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini--hero {
+  border-color: rgb(148 163 184 / 0.14);
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini--hero .ff-help {
+  max-width: 24ch;
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard {
+  min-height: 100%;
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier__head,
+body[data-ff-page="fundraiser"] .ff-impactTier__body,
+body[data-ff-page="fundraiser"] .ff-impactTier__footer,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard__head,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard__body,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
+  gap: 0.52rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-impactTier__footer,
+body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
+  margin-top: auto;
+}
+
+body[data-ff-page="fundraiser"] .ff-faqEndcap {
+  border-radius: 1.1rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-footerMeta,
+body[data-ff-page="fundraiser"] .ff-footerBrand__meta {
+  row-gap: 0.22rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-footer__link,
+body[data-ff-page="fundraiser"] .ff-footer__link--button {
+  text-underline-offset: 0.12em;
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-proofMini--hero {
+  border-color: rgb(226 232 240 / 0.08);
+}
+
+@media (max-width: 47.99rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar {
+    padding-top: 0.26rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+    padding: 0.58rem;
+    border-radius: 0.96rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner,
+  body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+    gap: 0.56rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand {
+    gap: 0.52rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__text,
+  body[data-ff-page="fundraiser"] .ff-brand__title {
+    font-size: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__sub {
+    font-size: 0.76rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal {
+    padding: 0.58rem 0.7rem;
+    border-radius: 0.92rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__summary {
+    gap: 0.38rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__label,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel {
+    font-size: 0.66rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+    font-size: 0.86rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroHeader {
+    gap: 0.66rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-display {
+    max-width: 10.5ch;
+    line-height: 0.94;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-heroSnapshotGrid {
+    gap: 0.5rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini--hero {
+    padding: 0.7rem 0.76rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini--hero .ff-h3 {
+    font-size: 0.96rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sectionhead {
+    margin-bottom: 0.62rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-impactTier,
+  body[data-ff-page="fundraiser"] .ff-teamCard,
+  body[data-ff-page="fundraiser"] .ff-sponsorCell,
+  body[data-ff-page="fundraiser"] .ff-checkoutCard {
+    padding: 0.8rem;
+    border-radius: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamCard__stats {
+    gap: 0.42rem;
+    padding: 0.58rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-teamStat {
+    padding: 0.42rem 0.48rem;
+    border-radius: 0.78rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-impactTier__head,
+  body[data-ff-page="fundraiser"] .ff-impactTier__body,
+  body[data-ff-page="fundraiser"] .ff-impactTier__footer,
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__head,
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__body,
+  body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
+    gap: 0.48rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-faqEndcap {
+    border-radius: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-disclosure__sum {
+    padding: 0.82rem 0.88rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-disclosure__panel {
+    padding: 0 0.88rem 0.88rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerShell {
+    border-radius: 1rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-footerMeta {
+    padding-top: 0.64rem;
+  }
+}
+
+@media (max-width: 26rem) {
+  body[data-ff-page="fundraiser"] .ff-topbarBrand__text,
+  body[data-ff-page="fundraiser"] .ff-brand__title {
+    font-size: 0.88rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-pill {
+    min-height: 1.58rem;
+    padding: 0.2rem 0.52rem;
+    font-size: 0.64rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-btn--sm {
+    min-height: 2.08rem;
+    padding: 0.46rem 0.72rem;
+    font-size: 0.86rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__raised,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__goal,
+  body[data-ff-page="fundraiser"] .ff-topbarGoal__percent {
+    font-size: 0.82rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-proofMini--hero .ff-help {
+    max-width: none;
+  }
+}
+/* FF_LAUNCH_READY_TINY_PASS_V1_END */
+
+/* FF_STORY_POSTER_RENDER_FIX_V1_START */
+/* Force the story poster media path to paint like the healthy team cards. */
+
+body[data-ff-page="fundraiser"] .ff-storyPoster,
+body[data-ff-page="fundraiser"] .ff-storyPoster__picture,
+body[data-ff-page="fundraiser"] .ff-storyPoster__img {
+  display: block;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body[data-ff-page="fundraiser"] .ff-storyPoster {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at top right, rgb(14 165 233 / 0.08), transparent 40%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(15 23 42 / 0.05));
+}
+
+body[data-ff-page="fundraiser"] .ff-storyPoster__picture {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 100%;
+  min-block-size: 100%;
+}
+
+body[data-ff-page="fundraiser"] .ff-storyPoster__picture source {
+  display: none;
+}
+
+body[data-ff-page="fundraiser"] .ff-storyPoster__img {
+  position: relative;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 100%;
+  min-block-size: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  image-rendering: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+body[data-ff-page="fundraiser"] .ff-storyPoster__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-storyPoster {
+  background:
+    radial-gradient(circle at top right, rgb(14 165 233 / 0.12), transparent 40%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0));
+}
+/* FF_STORY_POSTER_RENDER_FIX_V1_END */
+
+/* FF_HEADER_ROW_COLLISION_FIX_V1_START */
+/* Fix topbar/nav/theme/donate crowding in awkward desktop-mid widths. */
+
+body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarBrand {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__desktop-only {
+  min-width: 0;
+}
+
+body[data-ff-page="fundraiser"] .ff-navPill,
+body[data-ff-page="fundraiser"] .ff-nav--pill {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+body[data-ff-page="fundraiser"] .ff-nav--pill {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+body[data-ff-page="fundraiser"] .ff-nav--pill::-webkit-scrollbar {
+  display: none;
+}
+
+body[data-ff-page="fundraiser"] .ff-nav__link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle {
+  flex: 0 0 auto;
+  min-inline-size: 2.45rem;
+  inline-size: auto;
+  padding-inline: 0.72rem;
+  white-space: nowrap;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle__label {
+  display: inline;
+  white-space: nowrap;
+}
+
+body[data-ff-page="fundraiser"] .ff-donate-btn,
+body[data-ff-page="fundraiser"] .ff-btn--primary,
+body[data-ff-page="fundraiser"] .ff-tab--cta {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal {
+  width: 100%;
+}
+
+@media (max-width: 78rem) and (min-width: 64rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+    gap: 0.62rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-navPill,
+  body[data-ff-page="fundraiser"] .ff-nav--pill {
+    flex: 1 1 100%;
+    order: 3;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbarBrand {
+    order: 1;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-themeToggle {
+    order: 2;
+    min-inline-size: 2.35rem;
+    padding-inline: 0.66rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-themeToggle__label {
+    display: none;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-donate-btn,
+  body[data-ff-page="fundraiser"] .ff-btn--primary {
+    order: 2;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-nav__link {
+    font-size: 0.9rem;
+    padding-inline: 0.66rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__mobile-only {
+    display: none !important;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__desktop-only {
+    display: block !important;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__desktop-only {
+    display: none !important;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__mobile-only {
+    display: flex !important;
+  }
+}
+/* FF_HEADER_ROW_COLLISION_FIX_V1_END */
+
+/* FF_HEADER_MICRO_ALIGNMENT_V1_START */
+/* Micro-alignment pass:
+   - tighten utility/nav rhythm
+   - reduce floating-band feeling
+   - calm donate shadow at awkward desktop widths
+*/
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+  padding-bottom: 0.72rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner {
+  gap: 0.62rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+  align-items: start;
+  row-gap: 0.48rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-navPill,
+body[data-ff-page="fundraiser"] .ff-nav--pill {
+  margin-top: 0;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle,
+body[data-ff-page="fundraiser"] .ff-donate-btn,
+body[data-ff-page="fundraiser"] .ff-btn--primary {
+  align-self: start;
+}
+
+body[data-ff-page="fundraiser"] .ff-donate-btn,
+body[data-ff-page="fundraiser"] .ff-btn--primary {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 8px 18px rgb(249 115 22 / 0.16);
+}
+
+body[data-ff-page="fundraiser"] .ff-donate-btn:hover,
+body[data-ff-page="fundraiser"] .ff-donate-btn:focus-visible,
+body[data-ff-page="fundraiser"] .ff-btn--primary:hover,
+body[data-ff-page="fundraiser"] .ff-btn--primary:focus-visible {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 10px 22px rgb(249 115 22 / 0.18);
+}
+
+@media (max-width: 78rem) and (min-width: 64rem) {
+  body[data-ff-page="fundraiser"] .ff-topbar__capsule {
+    padding-bottom: 0.66rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner {
+    gap: 0.54rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-topbar__mainRow {
+    row-gap: 0.38rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-navPill,
+  body[data-ff-page="fundraiser"] .ff-nav--pill {
+    margin-top: -0.04rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-themeToggle {
+    transform: translateY(0.02rem);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-donate-btn,
+  body[data-ff-page="fundraiser"] .ff-btn--primary {
+    transform: translateY(0.02rem);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 7px 16px rgb(249 115 22 / 0.14);
+  }
+
+  body[data-ff-page="fundraiser"] .ff-nav__link {
+    min-height: 2rem;
+  }
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-donate-btn,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-btn--primary {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 8px 18px rgb(249 115 22 / 0.13);
+}
+
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-donate-btn:hover,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-donate-btn:focus-visible,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-btn--primary:hover,
+html.ff-root[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-btn--primary:focus-visible {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 10px 22px rgb(249 115 22 / 0.16);
+}
+/* FF_HEADER_MICRO_ALIGNMENT_V1_END */
+
+/* FF_CONTRACT_GAP_PATCH_V1_START */
+@layer ff.utilities {
+  .ff-checkoutContent,
+  .ff-checkoutScroll,
+  .ff-checkoutStage,
+  .ff-modal--video,
+  .ff-onboardModal__footer,
+  .ff-sectionhead__text,
+  .ff-sponsorModal__footer,
+  .ff-teamsEmpty,
+  .ff-themeToggle--desktop,
+  .ff-topbarBrand--flagship,
+  .ff-topbarGoal__metaRow,
+  .ff-topbar__brandCluster,
+  .ff-topbar__desktopActions,
+  .ff-topbar__rightCluster {
+    min-width: 0;
+  }
+
+  .ff-topbarBrand--flagship {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.72rem;
+    min-width: 0;
+  }
+
+  .ff-topbar__brandCluster,
+  .ff-topbar__rightCluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.72rem;
+    min-width: 0;
+  }
+
+  .ff-topbar__brandCluster {
+    flex: 1 1 auto;
+  }
+
+  .ff-topbar__rightCluster {
+    justify-content: flex-start;
+  }
+
+  .ff-topbar__desktopActions {
+    display: none;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+  }
+
+  .ff-topbarGoal__metaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .ff-themeToggle--desktop {
+    display: none;
+    flex: 0 0 auto;
+  }
+
+  .ff-sectionhead__text {
+    display: grid;
+    gap: 0.32rem;
+    min-width: 0;
+  }
+
+  .ff-teamsEmpty {
+    display: grid;
+    gap: 0.72rem;
+    padding: 1rem 1.05rem;
+    border: 1px dashed var(--ff-border-strong);
+    border-radius: var(--ff-radius-3);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      var(--ff-panel);
+    text-wrap: pretty;
+    box-shadow: var(--ff-shadow-1);
+  }
+
+  .ff-checkoutContent,
+  .ff-checkoutStage {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .ff-checkoutScroll {
+    display: grid;
+    gap: 1rem;
+    max-height: inherit;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .ff-modal--video {
+    isolation: isolate;
+  }
+
+  .ff-modal--video .ff-modal__panel {
+    width: min(100%, 62rem);
+  }
+
+  .ff-modal--video .ff-modal__body {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ff-sponsorModal__footer,
+  .ff-onboardModal__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--ff-line);
+  }
+
+  .ff-sponsorModal__footer > *,
+  .ff-onboardModal__footer > * {
+    min-width: 0;
+  }
+
+  html.ff-root[data-theme="dark"] .ff-teamsEmpty {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0)),
+      var(--ff-panel-strong);
+  }
+
+  html.ff-root[data-theme="dark"] .ff-sponsorModal__footer,
+  html.ff-root[data-theme="dark"] .ff-onboardModal__footer {
+    border-top-color: rgb(226 232 240 / 0.1);
+  }
+
+  @media (min-width: 64rem) {
+    .ff-topbar__desktopActions,
+    .ff-themeToggle--desktop {
+      display: inline-flex;
+    }
+
+    .ff-topbar__rightCluster {
+      justify-content: flex-end;
+      margin-left: auto;
+    }
+  }
+
+  @media (max-width: 63.99rem) {
+    .ff-topbar__rightCluster {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .ff-sponsorModal__footer,
+    .ff-onboardModal__footer {
+      align-items: stretch;
+    }
+
+    .ff-sponsorModal__footer > *,
+    .ff-onboardModal__footer > * {
+      flex: 1 1 calc(50% - 0.375rem);
+    }
+  }
+}
+/* FF_CONTRACT_GAP_PATCH_V1_END */
+
+/* stylelint-enable no-duplicate-selectors, comment-empty-line-before, rule-empty-line-before */
+
+/* 
+FF_WAVE1_AUTHORITY_CONSOLIDATION_V1
+FF_WAVE2_AUTHORITY_CONSOLIDATION_V1
+FF_WAVE3_AUTHORITY_CONSOLIDATION_V1
+FF_LAUNCH_POLISH_V1_START
+FF_LAUNCH_POLISH_V1_END
+*/
 

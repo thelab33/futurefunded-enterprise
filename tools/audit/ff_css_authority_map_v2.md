@@ -1,0 +1,351 @@
+# FF CSS Authority Map V2
+
+**Entry template:** `apps/web/app/templates/campaign/index.html`
+
+## Summary
+
+- **templates_scanned**: 1
+- **css_files_scanned**: 3
+- **used_classes**: 408
+- **used_ids**: 98
+- **used_hooks**: 137
+- **authority_tokens**: 49
+- **scoped_override_tokens**: 62
+- **platform_only_tokens**: 10
+- **suspicious_cross_file_duplicates**: 0
+- **dead_or_unmapped_tokens**: 17
+- **move_to_ff_css**: 48
+- **keep_in_above_css**: 62
+- **keep_in_platform_css**: 0
+
+## Related templates
+
+- `apps/web/app/templates/campaign/index.html`
+
+## Linked CSS files
+
+- `apps/web/app/static/css/ff.css`
+- `apps/web/app/static/css/ff-above-main-premium.css`
+- `apps/web/app/static/css/platform-pages.css`
+
+## Move to ff.css (sample)
+
+- `.ff-btn`
+  - `apps/web/app/static/css/ff-above-main-premium.css:32` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__foot .ff-btn`
+- `.ff-card`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card`
+  - `apps/web/app/static/css/ff-above-main-premium.css:128` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section[aria-labelledby="ffPlatformCrossSellTitle"] .ff-card`
+- `.ff-faqTrustCue`
+  - `apps/web/app/static/css/ff-above-main-premium.css:214` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-faqTrustCue`
+- `.ff-heroFooter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroFooter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:253` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroFooter`
+- `.ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:173` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+- `.ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:76` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:135` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:170` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+- `.ff-heroPanel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card`
+- `.ff-heroPanelHead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanelHead`
+- `.ff-heroTrustCue`
+  - `apps/web/app/static/css/ff-above-main-premium.css:214` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTrustCue`
+- `.ff-hero__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsule`
+- `.ff-hero__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsuleInner`
+- `.ff-lead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:257` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead`
+- `.ff-muted`
+  - `apps/web/app/static/css/ff-above-main-premium.css:249` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-muted`
+- `.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:203` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:203` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:208` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:208` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-mutedStrong`
+- `.ff-section`
+  - `apps/web/app/static/css/ff-above-main-premium.css:128` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section[aria-labelledby="ffPlatformCrossSellTitle"] .ff-card`
+- `.ff-section--hero`
+  - `apps/web/app/static/css/ff-above-main-premium.css:4` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section--hero`
+- `.ff-sectionhead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:17` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead`
+- `.ff-sectionhead--compact`
+  - `apps/web/app/static/css/ff-above-main-premium.css:257` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead`
+- `.ff-sponsorEmptyState`
+  - `apps/web/app/static/css/ff-above-main-premium.css:218` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sponsorEmptyState`
+  - `apps/web/app/static/css/ff-above-main-premium.css:231` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState`
+- `.ff-sponsorWallRail`
+  - `apps/web/app/static/css/ff-above-main-premium.css:34` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sponsorWallRail`
+- `.ff-storyPoster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-storyPoster`
+- `.ff-teamCard`
+  - `apps/web/app/static/css/ff-above-main-premium.css:241` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard.is-featured`
+- `.ff-teamCard--quiet`
+  - `apps/web/app/static/css/ff-above-main-premium.css:235` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet`
+  - `apps/web/app/static/css/ff-above-main-premium.css:238` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media`
+- `.ff-teamCard__foot`
+  - `apps/web/app/static/css/ff-above-main-premium.css:32` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__foot .ff-btn`
+- `.ff-teamCard__media`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__media`
+  - `apps/web/app/static/css/ff-above-main-premium.css:238` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media`
+- `.ff-teamCard__meter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:28` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__meter`
+- `.ff-teamCard__stats`
+  - `apps/web/app/static/css/ff-above-main-premium.css:21` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__stats`
+- `.ff-teamStat`
+  - `apps/web/app/static/css/ff-above-main-premium.css:25` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamStat`
+- `.ff-themeToggle__glyph`
+  - `apps/web/app/static/css/ff-above-main-premium.css:309` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-themeToggle__glyph`
+- `.ff-themeToggle__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:187` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-themeToggle--desktop .ff-themeToggle__label`
+- `.ff-topbar`
+  - `apps/web/app/static/css/ff-above-main-premium.css:260` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar`
+- `.ff-topbarBrand--flagship`
+  - `apps/web/app/static/css/ff-above-main-premium.css:295` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand--flagship`
+- `.ff-topbarBrand__logo`
+  - `apps/web/app/static/css/ff-above-main-premium.css:296` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__logo`
+- `.ff-topbarBrand__sub`
+  - `apps/web/app/static/css/ff-above-main-premium.css:306` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__sub`
+  - `apps/web/app/static/css/ff-above-main-premium.css:410` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarBrand__sub`
+- `.ff-topbarBrand__text`
+  - `apps/web/app/static/css/ff-above-main-premium.css:302` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__text`
+- `.ff-topbarGoal__goal`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__goal`
+  - `apps/web/app/static/css/ff-above-main-premium.css:397` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__goal`
+- `.ff-topbarGoal__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:316` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:389` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__label`
+- `.ff-topbarGoal__metaRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:338` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__metaRow`
+- `.ff-topbarGoal__metric`
+  - `apps/web/app/static/css/ff-above-main-premium.css:313` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__metric`
+- `.ff-topbarGoal__percent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__percent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:336` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__percent`
+- `.ff-topbarGoal__progressLabel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:346` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:389` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel`
+- `.ff-topbarGoal__raised`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__raised`
+  - `apps/web/app/static/css/ff-above-main-premium.css:397` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__raised`
+- `.ff-topbar__brandCluster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:285` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__brandCluster`
+- `.ff-topbar__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:2` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsule`
+- `.ff-topbar__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:279` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner`
+- `.ff-topbar__mainRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__mainRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:281` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__mainRow`
+- `.ff-topbar__rightCluster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:285` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__rightCluster`
+- `.ff-videoFrame`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-videoFrame`
+
+## Keep in ff-above-main-premium.css (sample)
+
+- `#heroAccentLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:135` — `scoped_override` — `body[data-ff-page="fundraiser"] #heroAccentLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] #heroAccentLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:170` — `scoped_override` — `body[data-ff-page="fundraiser"] #heroAccentLine`
+- `#heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `#heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `#heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `#heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `#heroTitle`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] #heroTitle`
+- `.ff-btn`
+  - `apps/web/app/static/css/ff-above-main-premium.css:32` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__foot .ff-btn`
+- `.ff-card`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card`
+  - `apps/web/app/static/css/ff-above-main-premium.css:128` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section[aria-labelledby="ffPlatformCrossSellTitle"] .ff-card`
+- `.ff-faqTrustCue`
+  - `apps/web/app/static/css/ff-above-main-premium.css:214` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-faqTrustCue`
+- `.ff-help`
+  - `apps/web/app/static/css/ff.css:1655` — `authority` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help`
+  - `apps/web/app/static/css/ff-above-main-premium.css:203` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:208` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:249` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-muted`
+  - `apps/web/app/static/css/ff-above-main-premium.css:410` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help`
+- `.ff-heroAccent`
+  - `apps/web/app/static/css/ff.css:1621` — `authority` — `body[data-ff-page="fundraiser"] .ff-heroAccent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:135` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroAccent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroAccent`
+- `.ff-heroFooter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroFooter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:253` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroFooter`
+- `.ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+  - `apps/web/app/static/css/ff-above-main-premium.css:173` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroHeader`
+- `.ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:76` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:135` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:170` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+- `.ff-heroPanel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanel .ff-card`
+- `.ff-heroPanelHead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroPanelHead`
+- `.ff-heroSnapshotGrid`
+  - `apps/web/app/static/css/ff.css:1669` — `authority` — `.ff-heroSnapshotGrid`
+  - `apps/web/app/static/css/ff-above-main-premium.css:84` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroSnapshotGrid`
+- `.ff-heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `.ff-heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `.ff-heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `.ff-heroTitle`
+  - `apps/web/app/static/css/ff.css:1673` — `authority` — `.ff-heroTitle`
+  - `apps/web/app/static/css/ff-above-main-premium.css:76` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+  - `apps/web/app/static/css/ff-above-main-premium.css:135` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTitle .ff-heroLine`
+- `.ff-heroTrustCue`
+  - `apps/web/app/static/css/ff-above-main-premium.css:214` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-heroTrustCue`
+- `.ff-hero__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:6` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsule`
+- `.ff-hero__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:149` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-hero__capsuleInner`
+- `.ff-lead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:257` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead`
+- `.ff-muted`
+  - `apps/web/app/static/css/ff-above-main-premium.css:249` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-muted`
+- `.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:203` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:203` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:208` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong`
+  - `apps/web/app/static/css/ff-above-main-premium.css:208` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-mutedStrong`
+- `.ff-proofMini`
+  - `apps/web/app/static/css/ff.css:1667` — `authority` — `.ff-proofMini`
+  - `apps/web/app/static/css/ff-above-main-premium.css:249` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-proofMini`
+- `.ff-section`
+  - `apps/web/app/static/css/ff-above-main-premium.css:128` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section[aria-labelledby="ffPlatformCrossSellTitle"] .ff-card`
+- `.ff-section--hero`
+  - `apps/web/app/static/css/ff-above-main-premium.css:4` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-section--hero`
+- `.ff-sectionhead`
+  - `apps/web/app/static/css/ff-above-main-premium.css:17` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead`
+- `.ff-sectionhead--compact`
+  - `apps/web/app/static/css/ff-above-main-premium.css:257` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead`
+- `.ff-sponsorEmptyState`
+  - `apps/web/app/static/css/ff-above-main-premium.css:218` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sponsorEmptyState`
+  - `apps/web/app/static/css/ff-above-main-premium.css:231` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState`
+- `.ff-sponsorWallRail`
+  - `apps/web/app/static/css/ff-above-main-premium.css:34` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-sponsorWallRail`
+- `.ff-storyPoster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-storyPoster`
+- `.ff-storySupportGrid`
+  - `apps/web/app/static/css/ff.css:1669` — `authority` — `.ff-storySupportGrid`
+  - `apps/web/app/static/css/ff-above-main-premium.css:84` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-storySupportGrid`
+- `.ff-teamCard`
+  - `apps/web/app/static/css/ff-above-main-premium.css:241` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard.is-featured`
+- `.ff-teamCard--quiet`
+  - `apps/web/app/static/css/ff-above-main-premium.css:235` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet`
+  - `apps/web/app/static/css/ff-above-main-premium.css:238` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media`
+- `.ff-teamCard__foot`
+  - `apps/web/app/static/css/ff-above-main-premium.css:32` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__foot .ff-btn`
+- `.ff-teamCard__media`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__media`
+  - `apps/web/app/static/css/ff-above-main-premium.css:238` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media`
+- `.ff-teamCard__meter`
+  - `apps/web/app/static/css/ff-above-main-premium.css:28` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__meter`
+- `.ff-teamCard__stats`
+  - `apps/web/app/static/css/ff-above-main-premium.css:21` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard__stats`
+- `.ff-teamStat`
+  - `apps/web/app/static/css/ff-above-main-premium.css:25` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamStat`
+- `.ff-themeToggle--desktop`
+  - `apps/web/app/static/css/ff.css:1632` — `authority` — `body[data-ff-page="fundraiser"] .ff-themeToggle--desktop`
+  - `apps/web/app/static/css/ff-above-main-premium.css:187` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-themeToggle--desktop .ff-themeToggle__label`
+- `.ff-themeToggle__glyph`
+  - `apps/web/app/static/css/ff-above-main-premium.css:309` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-themeToggle__glyph`
+- `.ff-themeToggle__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:187` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-themeToggle--desktop .ff-themeToggle__label`
+- `.ff-topbar`
+  - `apps/web/app/static/css/ff-above-main-premium.css:260` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar`
+- `.ff-topbarBrand--flagship`
+  - `apps/web/app/static/css/ff-above-main-premium.css:295` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand--flagship`
+- `.ff-topbarBrand__logo`
+  - `apps/web/app/static/css/ff-above-main-premium.css:296` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__logo`
+- `.ff-topbarBrand__sub`
+  - `apps/web/app/static/css/ff-above-main-premium.css:306` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__sub`
+  - `apps/web/app/static/css/ff-above-main-premium.css:410` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarBrand__sub`
+- `.ff-topbarBrand__text`
+  - `apps/web/app/static/css/ff-above-main-premium.css:302` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarBrand__text`
+- `.ff-topbarGoal__goal`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__goal`
+  - `apps/web/app/static/css/ff-above-main-premium.css:397` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__goal`
+- `.ff-topbarGoal__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:316` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__label`
+  - `apps/web/app/static/css/ff-above-main-premium.css:389` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__label`
+- `.ff-topbarGoal__metaRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:338` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__metaRow`
+- `.ff-topbarGoal__metric`
+  - `apps/web/app/static/css/ff-above-main-premium.css:313` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__metric`
+- `.ff-topbarGoal__percent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__percent`
+  - `apps/web/app/static/css/ff-above-main-premium.css:336` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__percent`
+- `.ff-topbarGoal__progressLabel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:346` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel`
+  - `apps/web/app/static/css/ff-above-main-premium.css:389` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressLabel`
+- `.ff-topbarGoal__progressWrap`
+  - `apps/web/app/static/css/ff.css:1655` — `authority` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help`
+  - `apps/web/app/static/css/ff-above-main-premium.css:410` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help`
+- `.ff-topbarGoal__raised`
+  - `apps/web/app/static/css/ff-above-main-premium.css:322` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__raised`
+  - `apps/web/app/static/css/ff-above-main-premium.css:397` — `scoped_override` — `html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-topbarGoal__raised`
+- `.ff-topbar__brandCluster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:285` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__brandCluster`
+- `.ff-topbar__capsule`
+  - `apps/web/app/static/css/ff-above-main-premium.css:2` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsule`
+- `.ff-topbar__capsule--flagship`
+  - `apps/web/app/static/css/ff.css:1706` — `authority` — `html[data-theme="dark"] .ff-topbar__capsule--flagship`
+  - `apps/web/app/static/css/ff-above-main-premium.css:264` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsule--flagship`
+- `.ff-topbar__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner`
+  - `apps/web/app/static/css/ff-above-main-premium.css:279` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__capsuleInner`
+- `.ff-topbar__desktopActions`
+  - `apps/web/app/static/css/ff.css:1694` — `authority` — `.ff-topbar__desktopActions > .ff-donate-btn`
+  - `apps/web/app/static/css/ff-above-main-premium.css:285` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__desktopActions`
+- `.ff-topbar__mainRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:8` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__mainRow`
+  - `apps/web/app/static/css/ff-above-main-premium.css:281` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__mainRow`
+- `.ff-topbar__rightCluster`
+  - `apps/web/app/static/css/ff-above-main-premium.css:285` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-topbar__rightCluster`
+- `.ff-videoFrame`
+  - `apps/web/app/static/css/ff-above-main-premium.css:89` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-videoFrame`
+- `.is-featured`
+  - `apps/web/app/static/css/ff-above-main-premium.css:241` — `scoped_override` — `body[data-ff-page="fundraiser"] .ff-teamCard.is-featured`
+- `[data-ff-page]`
+  - `apps/web/app/static/css/ff.css:1572` — `authority` — `body[data-ff-page="fundraiser"] .ff-topbarGoal`
+  - `apps/web/app/static/css/ff.css:1594` — `authority` — `body[data-ff-page="fundraiser"] .ff-topbarGoal__summary`
+  - `apps/web/app/static/css/ff.css:1606` — `authority` — `body[data-ff-page="fundraiser"] .ff-sponsorGhost`
+  - `apps/web/app/static/css/ff.css:1617` — `authority` — `body[data-ff-page="fundraiser"] .ff-footerMeta`
+  - `apps/web/app/static/css/ff.css:1621` — `authority` — `body[data-ff-page="fundraiser"] .ff-heroAccent`
+  - `apps/web/app/static/css/ff.css:1625` — `authority` — `body[data-ff-page="fundraiser"] .ff-heroName`
+
+## Suspicious cross-file duplicates (sample)
+
+
+## Dead or unmapped tokens (sample)
+
+- `.base`
+- `.components`
+- `.ff-measure-10`
+- `.ff-measure-11`
+- `.ff-measure-12`
+- `.ff-measure-36`
+- `.ff-measure-38`
+- `.ff-measure-42`
+- `.ff-platformBrand__subline`
+- `.ff-platformChrome__inner`
+- `.ff-platformGridTop`
+- `.layout`
+- `.overlays`
+- `.sections`
+- `.tokens`
+- `.utilities`
+- `[data-ff-platform]`

@@ -1,0 +1,319 @@
+from __future__ import annotations
+
+from pathlib import Path
+from datetime import datetime
+import re
+
+ROOT = Path.home() / "futurefunded-enterprise"
+TEMPLATE = ROOT / "apps/web/app/templates/campaign/index.html"
+
+CSS_CANDIDATES = [
+    ROOT / "apps/web/app/static/css/ff-above-main-premium.css",
+    ROOT / "apps/web/app/static/css/ff.css",
+]
+
+CSS = next((p for p in CSS_CANDIDATES if p.exists()), None)
+if CSS is None:
+    raise SystemExit("❌ Could not find ff-above-main-premium.css or ff.css")
+
+def backup(path: Path) -> Path:
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    bak = path.with_suffix(path.suffix + f".bak.{stamp}")
+    bak.write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+    return bak
+
+def replace_literal_once(text: str, old: str, new: str, label: str) -> tuple[str, bool]:
+    if new in text:
+        return text, False
+    if old not in text:
+        print(f"⚠ literal not found: {label}")
+        return text, False
+    return text.replace(old, new, 1), True
+
+def replace_regex_once(text: str, pattern: str, repl: str, label: str, flags: int = re.S) -> tuple[str, bool]:
+    if repl in text:
+        return text, False
+    rx = re.compile(pattern, flags)
+    updated, count = rx.subn(repl, text, count=1)
+    if count == 0:
+        print(f"⚠ regex not found: {label}")
+        return text, False
+    return updated, True
+
+template_orig = TEMPLATE.read_text(encoding="utf-8")
+template = template_orig
+template_changes: list[str] = []
+
+# -----------------------------------------------------------------------------
+# 1) Add desktop theme toggle in top chrome
+# -----------------------------------------------------------------------------
+desktop_theme_button = (
+    '<button type="button" class="ff-btn ff-btn--sm ff-btn--ghost ff-btn--pill ff-themeToggle '
+    'ff-themeToggle--desktop" data-ff-theme-toggle="" aria-label="Toggle color theme" '
+    'aria-pressed="false"><span aria-hidden="true">◐</span>'
+    '<span class="ff-themeToggle__label">Theme</span></button>'
+)
+
+theme_pattern = (
+    r'(<nav class="ff-navPill ff-glass ff-surface ff-nav ff-nav--pill" aria-label="Primary navigation">.*?</nav>)'
+    r'(\s*<a class="ff-btn ff-btn--sm ff-btn--primary ff-btn--pill ff-donate-btn" href="#checkout" '
+    r'aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="">Donate</a>)'
+)
+theme_repl = r'\1' + desktop_theme_button + r'\2'
+template, changed = replace_regex_once(template, theme_pattern, theme_repl, "desktop theme toggle injection")
+if changed:
+    template_changes.append("desktop theme toggle in top chrome")
+
+# -----------------------------------------------------------------------------
+# 2) Reduce top chrome density just a touch
+# -----------------------------------------------------------------------------
+template, changed = replace_literal_once(
+    template,
+    "Secure support • sponsor-ready surface",
+    "Secure checkout • sponsor-ready",
+    "top chrome helper copy",
+)
+if changed:
+    template_changes.append("top chrome density helper text")
+
+# -----------------------------------------------------------------------------
+# 3) Improve hero CTA hierarchy + trust cue
+# -----------------------------------------------------------------------------
+hero_footer_old = """
+                  <footer class="ff-heroFooter">
+                    <nav class="ff-heroCtas ff-heroCtas--flagship" aria-label="Primary actions">
+                      <a class="ff-btn ff-btn--primary ff-btn--lg ff-btn--pill ff-donate-btn" href="#checkout" aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="">Donate now</a>
+                      <div class="ff-row ff-wrap ff-gap-2" role="group" aria-label="Secondary actions">
+                        <a class="ff-btn ff-btn--secondary ff-btn--lg ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" aria-haspopup="dialog" data-ff-open-sponsor="">Become a sponsor</a>
+                        <button type="button" class="ff-btn ff-btn--ghost ff-btn--lg ff-btn--pill" data-ff-share="" aria-label="Share this fundraiser">Share</button>
+                      </div>
+                    </nav>
+                  </footer>
+""".strip("\n")
+
+hero_footer_new = """
+                  <footer class="ff-heroFooter">
+                    <nav class="ff-heroCtas ff-heroCtas--flagship" aria-label="Primary actions">
+                      <a class="ff-btn ff-btn--primary ff-btn--lg ff-btn--pill ff-donate-btn" href="#checkout" aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="">Donate now</a>
+                      <div class="ff-row ff-wrap ff-gap-2" role="group" aria-label="Secondary actions">
+                        <a class="ff-btn ff-btn--secondary ff-btn--lg ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" aria-haspopup="dialog" data-ff-open-sponsor="">Sponsor the program</a>
+                        <button type="button" class="ff-btn ff-btn--ghost ff-btn--lg ff-btn--pill" data-ff-share="" aria-label="Share this fundraiser">Share</button>
+                      </div>
+                    </nav>
+                    <p class="ff-help ff-mutedStrong ff-mt-2 ff-mb-0 ff-heroTrustCue">Secure checkout • Email receipt • Sponsor follow-up by email.</p>
+                  </footer>
+""".strip("\n")
+
+template, changed = replace_literal_once(template, hero_footer_old, hero_footer_new, "hero footer CTA hierarchy")
+if changed:
+    template_changes.append("hero CTA hierarchy + trust cue")
+
+# -----------------------------------------------------------------------------
+# 4) Make sponsor wall empty state feel intentional
+# -----------------------------------------------------------------------------
+sponsor_empty_old = (
+    '<p class="ff-help ff-muted ff-mt-3 ff-mb-0 ff-empty" data-ff-sponsor-wall-empty="" '
+    'aria-live="polite">Sponsor recognition opens here after approval. Be the first business or community partner shown.</p>'
+)
+
+sponsor_empty_new = """
+<div class="ff-sponsorEmptyState ff-mt-3 ff-empty" data-ff-sponsor-wall-empty="" aria-live="polite">
+  <p class="ff-help ff-mutedStrong ff-m-0">Sponsor recognition opens here after approval.</p>
+  <p class="ff-help ff-muted ff-mt-1 ff-mb-0">Featured placement preview • logo or business name • VIP spotlight rotation.</p>
+  <div class="ff-row ff-wrap ff-gap-2 ff-mt-2" aria-hidden="true">
+    <span class="ff-pill ff-pill--ghost">Logo placement</span>
+    <span class="ff-pill ff-pill--soft">Featured mention</span>
+    <span class="ff-pill ff-pill--accent">VIP spotlight</span>
+  </div>
+</div>
+""".strip("\n")
+
+template, changed = replace_literal_once(template, sponsor_empty_old, sponsor_empty_new, "sponsor wall empty state")
+if changed:
+    template_changes.append("intentional sponsor empty state")
+
+# -----------------------------------------------------------------------------
+# 5) Make one team card featured and quiet the rest
+# -----------------------------------------------------------------------------
+team_card_old = 'ff-teamCard ff-teamCard--flagship{% if t.featured|default(false, true) %} is-featured{% endif %}'
+team_card_new = 'ff-teamCard ff-teamCard--flagship{% if t.featured|default(false, true) %} is-featured{% else %} ff-teamCard--quiet{% endif %}'
+template, changed = replace_literal_once(template, team_card_old, team_card_new, "team card quiet class")
+if changed:
+    template_changes.append("quiet non-featured team cards")
+
+# -----------------------------------------------------------------------------
+# 6) Add trust cue near FAQ / checkout confidence
+# -----------------------------------------------------------------------------
+faq_actions_old = (
+    '<div class="ff-row ff-wrap ff-gap-2 ff-mt-3 ff-faqEndcap__actions" role="group" aria-label="Support actions">'
+    '<a class="ff-btn ff-btn--sm ff-btn--primary ff-btn--pill ff-donate-btn" href="#checkout" aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="">Donate</a>'
+    '<a class="ff-btn ff-btn--sm ff-btn--secondary ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="">Sponsor</a>'
+    '</div>'
+)
+faq_actions_new = (
+    '<p class="ff-help ff-mutedStrong ff-mt-3 ff-mb-0 ff-faqTrustCue">Secure checkout • Email receipt • Sponsor follow-up by email.</p>'
+    '<div class="ff-row ff-wrap ff-gap-2 ff-mt-3 ff-faqEndcap__actions" role="group" aria-label="Support actions">'
+    '<a class="ff-btn ff-btn--sm ff-btn--primary ff-btn--pill ff-donate-btn" href="#checkout" aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="">Donate</a>'
+    '<a class="ff-btn ff-btn--sm ff-btn--secondary ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="">Sponsor</a>'
+    '</div>'
+)
+template, changed = replace_literal_once(template, faq_actions_old, faq_actions_new, "FAQ trust cue")
+if changed:
+    template_changes.append("FAQ / checkout trust cue")
+
+# -----------------------------------------------------------------------------
+# 7) Remove placeholder energy / tighten sponsor language
+# -----------------------------------------------------------------------------
+template, changed = replace_literal_once(
+    template,
+    "Recognition appears after approval",
+    "Featured recognition preview",
+    "sponsor wall heading",
+)
+if changed:
+    template_changes.append("sponsor heading less placeholder-ish")
+
+template, changed = replace_literal_once(
+    template,
+    "Add yours",
+    "Preview",
+    "sponsor wall badge",
+)
+if changed:
+    template_changes.append("sponsor wall badge tone")
+
+# -----------------------------------------------------------------------------
+# 8) Slight readability upgrade in copy
+# -----------------------------------------------------------------------------
+template, changed = replace_literal_once(
+    template,
+    "Support the program with clean recognition designed for local businesses and community partners.",
+    "Support the program with structured recognition designed for local businesses and community partners.",
+    "sponsor lead readability",
+)
+if changed:
+    template_changes.append("sponsor lead readability")
+
+if template != template_orig:
+    bak = backup(TEMPLATE)
+    TEMPLATE.write_text(template, encoding="utf-8")
+    print(f"✅ patched template: {TEMPLATE}")
+    print(f"🛟 backup: {bak}")
+    for item in template_changes:
+        print(f"   • {item}")
+else:
+    print(f"✔ template unchanged: {TEMPLATE}")
+
+# -----------------------------------------------------------------------------
+# CSS override block
+# -----------------------------------------------------------------------------
+css_orig = CSS.read_text(encoding="utf-8")
+
+css_block = """
+/* FF_CAMPAIGN_FINAL_VISUAL_MICROPOLISH_V1_START */
+body[data-ff-page="fundraiser"] .ff-themeToggle--desktop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  padding-inline: 0.82rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-themeToggle--desktop .ff-themeToggle__label {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 960px) {
+  body[data-ff-page="fundraiser"] .ff-themeToggle--desktop {
+    display: none;
+  }
+}
+
+body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong,
+body[data-ff-page="fundraiser"] .ff-mutedStrong {
+  color: rgb(15 23 42 / 0.86);
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-help.ff-mutedStrong,
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-mutedStrong {
+  color: rgb(226 232 240 / 0.9);
+}
+
+body[data-ff-page="fundraiser"] .ff-heroTrustCue,
+body[data-ff-page="fundraiser"] .ff-faqTrustCue {
+  letter-spacing: 0.01em;
+}
+
+body[data-ff-page="fundraiser"] .ff-topbarGoal__progressWrap .ff-help {
+  opacity: 0.82;
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+  border: 1px dashed rgb(148 163 184 / 0.28);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.52));
+}
+
+html[data-theme="dark"] body[data-ff-page="fundraiser"] .ff-sponsorEmptyState {
+  border-color: rgb(148 163 184 / 0.22);
+  background: linear-gradient(180deg, rgb(15 23 42 / 0.72), rgb(15 23 42 / 0.56));
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard--quiet {
+  opacity: 0.96;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.06);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard--quiet .ff-teamCard__media {
+  filter: saturate(0.94) contrast(0.98);
+}
+
+body[data-ff-page="fundraiser"] .ff-teamCard.is-featured {
+  box-shadow:
+    0 20px 42px rgb(249 115 22 / 0.16),
+    0 8px 20px rgb(15 23 42 / 0.06);
+}
+
+body[data-ff-page="fundraiser"] .ff-proofMini,
+body[data-ff-page="fundraiser"] .ff-help.ff-muted {
+  text-wrap: pretty;
+}
+
+body[data-ff-page="fundraiser"] .ff-heroFooter {
+  gap: 0.25rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorGhost {
+  min-height: 2.8rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-sectionhead--compact .ff-lead {
+  max-width: 62ch;
+}
+/* FF_CAMPAIGN_FINAL_VISUAL_MICROPOLISH_V1_END */
+""".strip() + "\n"
+
+start = "/* FF_CAMPAIGN_FINAL_VISUAL_MICROPOLISH_V1_START */"
+end = "/* FF_CAMPAIGN_FINAL_VISUAL_MICROPOLISH_V1_END */"
+
+css_updated = css_orig
+if start in css_orig and end in css_orig:
+    css_updated = re.sub(
+        re.escape(start) + r".*?" + re.escape(end),
+        css_block.strip(),
+        css_orig,
+        flags=re.S,
+    )
+else:
+    css_updated = css_orig.rstrip() + "\n\n" + css_block
+
+if css_updated != css_orig:
+    bak = backup(CSS)
+    CSS.write_text(css_updated, encoding="utf-8")
+    print(f"✅ patched css: {CSS}")
+    print(f"🛟 backup: {bak}")
+    print("   • final visual micro-polish override block")
+else:
+    print(f"✔ css unchanged: {CSS}")

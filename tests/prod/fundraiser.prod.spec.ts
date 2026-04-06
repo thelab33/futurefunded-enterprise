@@ -44,7 +44,7 @@ test.describe('Production fundraiser smoke', () => {
   test('top donate CTA opens checkout without submitting payment', async ({ page }) => {
     await openFundraiser(page);
 
-    const donateCta = page.locator('[data-ff-open-checkout]').first();
+    const donateCta = page.locator('[data-ff-open-checkout]:visible').first();
     await expect(donateCta).toBeVisible();
     await donateCta.click();
 
@@ -59,7 +59,7 @@ test.describe('Production fundraiser smoke', () => {
   test('sponsor CTA opens sponsor modal', async ({ page }) => {
     await openFundraiser(page);
 
-    const sponsorCta = page.locator('[data-ff-open-sponsor]').first();
+    const sponsorCta = page.locator('[data-ff-open-sponsor]:visible').first();
     await expect(sponsorCta).toBeVisible();
     await sponsorCta.click();
 

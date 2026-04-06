@@ -1,0 +1,6 @@
+ff-sponsorTierCard
+ff-sponsorTierCard__body
+ff-sponsorTierCard__foot
+ff-sponsorTierCard__head
+ff-storyPoster__picture
+is-visible

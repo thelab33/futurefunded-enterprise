@@ -11,7 +11,6 @@
     "lint:css:fix": "stylelint 'apps/web/app/static/css/**/*.css' --allow-empty-input --fix",
     "lint:js": "eslint 'apps/web/app/static/js/**/*.js'",
     "lint:html": "htmlhint 'apps/web/app/templates/**/*.html'",
-
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
 
@@ -22,10 +21,22 @@
 
     "qa:launch": "run-s lint audit:ff",
     "qa:fundraiser": "run-s audit:ff:selectors audit:ff:css test:prod:fundraiser",
+    "qa:fundraiser:full": "run-s audit:ff:selectors audit:ff:css test:smoke:fundraiser test:prod:fundraiser",
     "qa:prod": "run-s lint audit:ff test:prod:fundraiser test:prod:platform",
+    "qa:all": "run-s lint audit:ff test:smoke:fundraiser test:prod:fundraiser test:prod:platform",
+
+    "test:pw:install": "playwright install chromium",
+    "test:pw:install:all": "playwright install",
+
+    "test:smoke": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts",
+    "test:smoke:fundraiser": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts",
+    "test:smoke:headed": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts --headed",
+    "test:smoke:debug": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts --debug",
+    "test:smoke:report": "playwright show-report",
 
     "test:prod:install": "playwright install chromium",
     "test:prod": "playwright test --config=playwright.config.ts",
+    "test:prod:contracts": "playwright test --config=playwright.config.ts tests/prod/fundraiser.contract.prod.spec.ts",
     "test:prod:fundraiser": "playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts",
     "test:prod:platform": "playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts",
     "test:prod:desktop": "playwright test --config=playwright.config.ts --project=chromium",
@@ -40,10 +51,12 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.59.1",
+    "@types/node": "^25.5.2",
     "cross-env": "^7.0.3",
     "eslint": "^10.1.0",
     "htmlhint": "^1.9.2",
     "npm-run-all": "^4.1.5",
+    "playwright": "^1.59.1",
     "prettier": "^3.8.1",
     "stylelint": "^17.6.0",
     "stylelint-config-standard": "^40.0.0"

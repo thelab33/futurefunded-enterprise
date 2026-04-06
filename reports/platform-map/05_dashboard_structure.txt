@@ -1,0 +1,34 @@
+28:      {% include "platform/_partials/_intro_split.html" %}
+52:      <article class="ff-card ff-glass ff-pad ff-platformPanel" aria-labelledby="platformOverviewTitle">
+53:        <header class="ff-platformPanel__head">
+56:            <span class="ff-platformInlinePill">Live workspace</span>
+90:      <article class="ff-card ff-glass ff-pad ff-platformPanel" aria-labelledby="platformActionsTitle">
+91:        <header class="ff-platformPanel__head">
+94:            <span class="ff-platformInlinePill">Launch-ready</span>
+103:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
+104:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
+113:            <span class="ff-platformInlinePill">Live</span>
+114:            <span class="ff-platformInlinePill">Brand-ready</span>
+115:            <a class="ff-platformInlinePill" href="/c/spring-fundraiser">Open live page</a>
+119:        <div class="ff-platformMiniList ff-mt-3">
+134:      <article class="ff-card ff-glass ff-pad ff-platformPanel" aria-labelledby="platformSponsorTitle">
+135:        <header class="ff-platformPanel__head">
+138:            <span class="ff-platformInlinePill">Revenue lane</span>
+145:        <div class="ff-platformMiniList ff-mt-3">
+150:              <span class="ff-platformInlinePill">$250.00</span>
+151:              <span class="ff-platformInlinePill">Active</span>
+152:              <span class="ff-platformInlinePill">Starter lane</span>
+160:              <span class="ff-platformInlinePill">$1000.00</span>
+161:              <span class="ff-platformInlinePill">Featured</span>
+162:              <span class="ff-platformInlinePill">Active</span>
+168:      <article class="ff-card ff-glass ff-pad ff-platformPanel" aria-labelledby="platformMembershipTitle">
+169:        <header class="ff-platformPanel__head">
+172:            <span class="ff-platformInlinePill">Recurring lane</span>
+179:        <div class="ff-platformMiniList ff-mt-3">
+184:              <span class="ff-platformInlinePill">$19.00</span>
+185:              <span class="ff-platformInlinePill">monthly</span>
+193:              <span class="ff-platformInlinePill">$199.00</span>
+194:              <span class="ff-platformInlinePill">yearly</span>
+195:              <span class="ff-platformInlinePill">Featured</span>
+216:      {% include "platform/_partials/_promo_bar.html" %}
+248:      {% include "platform/_partials/_promo_bar.html" %}

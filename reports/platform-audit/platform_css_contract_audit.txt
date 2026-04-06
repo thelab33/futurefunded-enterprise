@@ -1,0 +1,60 @@
+== PLATFORM CSS CONTRACT AUDIT ==
+
+Template files:
+ - apps/web/app/templates/platform/shells/marketing_base.html
+ - apps/web/app/templates/platform/shells/operator_base.html
+ - apps/web/app/templates/platform/pages/home.html
+ - apps/web/app/templates/platform/pages/pricing.html
+ - apps/web/app/templates/platform/pages/demo.html
+ - apps/web/app/templates/platform/pages/onboarding.html
+ - apps/web/app/templates/platform/pages/dashboard.html
+ - apps/web/app/templates/shared/partials/_platform_topbar.html
+ - apps/web/app/templates/shared/partials/_platform_status_bar.html
+
+CSS files:
+ - ff.css: apps/web/app/static/css/ff.css
+ - platform-pages.css: apps/web/app/static/css/platform-pages.css
+
+Platform-family HTML classes: 10
+Missing in all CSS: 1
+Owned by ff.css only: 1
+Owned by platform-pages.css: 8
+Shared between both CSS files: 3
+data-ff-* attrs found: 14
+
+-- Missing platform-family classes in all CSS --
+ - ff-platformBrand__wordmark
+
+-- Platform-family classes owned by ff.css only --
+ - ff-navPill
+
+-- Platform-family classes owned by platform-pages.css --
+ - ff-platformBrand
+ - ff-platformBrand__disc
+ - ff-platformBrand__subline
+ - ff-platformChrome__inner
+ - ff-platformGridTop
+ - ff-platformInlinePill
+ - ff-platformMiniList
+ - ff-proofMini
+
+-- Platform-family classes shared between ff.css and platform-pages.css --
+ - ff-platformBrand
+ - ff-platformBrand__disc
+ - ff-proofMini
+
+-- data-ff-* attrs found in platform runtime --
+ - data-ff-body
+ - data-ff-brand
+ - data-ff-canonical
+ - data-ff-chrome
+ - data-ff-main
+ - data-ff-page
+ - data-ff-platform
+ - data-ff-platform-config
+ - data-ff-platform-surface
+ - data-ff-platform-trust
+ - data-ff-shell
+ - data-ff-template
+ - data-ff-theme
+ - data-ff-toasts

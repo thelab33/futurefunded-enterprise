@@ -1,126 +1,173 @@
-from __future__ import annotations
-
+#!/usr/bin/env python3
 from pathlib import Path
+from collections import Counter
 import json
 import re
-from collections import Counter, defaultdict
 
-ROOT = Path(".")
-INDEX = ROOT / "apps/web/app/templates/campaign/index.html"
-CSS_MAIN = ROOT / "apps/web/app/static/css/ff.css"
-CSS_SHIM = ROOT / "apps/web/app/static/css/ff-above-main-premium.css"
+ROOT = Path(__file__).resolve().parents[2]
+TEMPLATE = ROOT / "apps/web/app/templates/campaign/index.html"
+CSS_FILES = [
+    ROOT / "apps/web/app/static/css/ff.css",
+    ROOT / "apps/web/app/static/css/ff-above-main-premium.css",
+]
+SCRIPT_ID = "ffSelectors"
 
-if not INDEX.exists():
-    raise SystemExit(f"❌ Missing index template: {INDEX}")
 
-text = INDEX.read_text(encoding="utf-8", errors="replace")
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
 
-id_re = re.compile(r'\bid="([^"]+)"')
-class_re = re.compile(r'\bclass="([^"]+)"')
-data_ff_re = re.compile(r'\b(data-ff-[a-zA-Z0-9_-]+)\b')
-aria_controls_re = re.compile(r'\baria-controls="([^"]+)"')
-href_hash_re = re.compile(r'\bhref="#([^"]+)"')
 
-ids = id_re.findall(text)
-classes = []
-for raw in class_re.findall(text):
-    classes.extend([c for c in raw.split() if c.strip()])
+def print_header(title: str) -> None:
+    print(f"\n== {title} ==")
 
-data_ff = data_ff_re.findall(text)
-aria_controls = aria_controls_re.findall(text)
-href_hashes = href_hash_re.findall(text)
 
-selector_json_match = re.search(
-    r'<script id="ffSelectors"[^>]*>\s*(\{.*?\})\s*</script>',
-    text,
-    re.S
-)
-selector_hooks = {}
-selector_hook_values = []
-
-if selector_json_match:
-    raw_json = selector_json_match.group(1)
-    try:
-        parsed = json.loads(raw_json)
-        selector_hooks = parsed.get("hooks", {})
-        selector_hook_values = list(selector_hooks.values())
-    except Exception as e:
-        print(f"❌ Could not parse ffSelectors JSON: {e}")
-
-all_ids = Counter(ids)
-dupe_ids = [k for k, v in all_ids.items() if v > 1]
-
-declared_targets = set(ids)
-missing_aria_targets = sorted(set(aria_controls) - declared_targets)
-missing_href_targets = sorted(set(href_hashes) - declared_targets)
-
-css_texts = {}
-for p in [CSS_MAIN, CSS_SHIM]:
-    if p.exists():
-        css_texts[str(p)] = p.read_text(encoding="utf-8", errors="replace")
-
-selector_presence = defaultdict(dict)
-for sel in selector_hook_values:
-    for path, css in css_texts.items():
-        selector_presence[sel][path] = sel in css or any(
-            token in css for token in re.findall(r'[#.\[][^\s>+~:,]+', sel)
-        )
-
-print("== FF SELECTOR CONTRACT AUDIT ==")
-print(f"Template: {INDEX}")
-print(f"IDs: {len(ids)}")
-print(f"Classes: {len(classes)}")
-print(f"Unique classes: {len(set(classes))}")
-print(f"data-ff hooks: {len(data_ff)}")
-print(f"Unique data-ff hooks: {len(set(data_ff))}")
-print(f"aria-controls refs: {len(aria_controls)}")
-print(f"href hash refs: {len(href_hashes)}")
-print(f"ffSelectors hooks: {len(selector_hooks)}")
-print()
-
-print("== DUPLICATE IDS ==")
-if dupe_ids:
-    for i in dupe_ids:
-        print("❌", i)
-else:
-    print("✅ none")
-print()
-
-print("== MISSING aria-controls TARGETS ==")
-if missing_aria_targets:
-    for t in missing_aria_targets:
-        print("❌", t)
-else:
-    print("✅ none")
-print()
-
-print("== MISSING href=\"#...\" TARGETS ==")
-if missing_href_targets:
-    for t in missing_href_targets:
-        print("❌", t)
-else:
-    print("✅ none")
-print()
-
-print("== ffSelectors HOOKS ==")
-for k, v in selector_hooks.items():
-    print(f"- {k}: {v}")
-print()
-
-print("== ffSelectors PRESENCE IN CSS ==")
-for sel, status in selector_presence.items():
-    row = " | ".join(
-        f"{Path(path).name}: {'✅' if ok else '⚠️'}"
-        for path, ok in status.items()
+def find_script_payload(html: str) -> str | None:
+    match = re.search(
+        r'<script[^>]*id=["\']ffSelectors["\'][^>]*>([\s\S]*?)</script>',
+        html,
+        re.IGNORECASE,
     )
-    print(f"{sel} -> {row}")
+    return match.group(1).strip() if match else None
 
-print()
-print("== TOP data-ff HOOKS ==")
-for k, v in Counter(data_ff).most_common(40):
-    print(f"{k}: {v}")
 
-print()
-print("== TOP CLASSES ==")
-for k, v in Counter(classes).most_common(50):
-    print(f"{k}: {v}")
+def parse_ffselectors(payload: str | None) -> tuple[dict[str, str], str | None]:
+    if not payload:
+        return {}, f'Missing <script id="{SCRIPT_ID}"> payload'
+
+    try:
+        parsed = json.loads(payload)
+    except Exception as exc:
+        return {}, f"Could not parse {SCRIPT_ID} JSON: {exc}"
+
+    if not isinstance(parsed, dict):
+        return {}, f"{SCRIPT_ID} payload is not a JSON object"
+
+    normalized: dict[str, str] = {}
+    for key, value in parsed.items():
+        if isinstance(key, str) and isinstance(value, str):
+            normalized[key] = value
+
+    return normalized, None
+
+
+def duplicate_values(values: list[str]) -> list[tuple[str, int]]:
+    counts = Counter(values)
+    return sorted(
+        [(k, v) for k, v in counts.items() if v > 1],
+        key=lambda x: (-x[1], x[0]),
+    )
+
+
+def missing_targets(refs: list[str], available_ids: set[str]) -> list[str]:
+    return sorted([ref for ref in refs if ref not in available_ids])
+
+
+def selector_parts(selector: str) -> list[str]:
+    return [part.strip() for part in selector.split(",") if part.strip()]
+
+
+def main() -> int:
+    if not TEMPLATE.exists():
+        print(f"❌ Missing template: {TEMPLATE}")
+        return 1
+
+    html = read_text(TEMPLATE)
+    css_blob = "\n".join(read_text(path) for path in CSS_FILES if path.exists())
+
+    ids = re.findall(r'id=["\']([^"\']+)["\']', html)
+
+    class_values = re.findall(r'class=["\']([^"\']+)["\']', html)
+    classes: list[str] = []
+    for raw in class_values:
+        classes.extend(raw.split())
+
+    data_ff_hooks = re.findall(r'(data-ff-[a-zA-Z0-9_-]+)', html)
+    aria_controls_refs = re.findall(r'aria-controls=["\']([^"\']+)["\']', html)
+    href_hash_refs = [
+        h for h in re.findall(r'href=["\']#([^"\']+)["\']', html)
+        if h and not h.startswith("{")
+    ]
+
+    ffselectors_payload = find_script_payload(html)
+    ffselectors_map, ffselectors_error = parse_ffselectors(ffselectors_payload)
+
+    if ffselectors_error:
+        print(f"❌ {ffselectors_error}")
+
+    print("== FF SELECTOR CONTRACT AUDIT ==")
+    print(f"Template: {TEMPLATE.relative_to(ROOT)}")
+    print(f"IDs: {len(ids)}")
+    print(f"Classes: {len(classes)}")
+    print(f"Unique classes: {len(set(classes))}")
+    print(f"data-ff hooks: {len(data_ff_hooks)}")
+    print(f"Unique data-ff hooks: {len(set(data_ff_hooks))}")
+    print(f"aria-controls refs: {len(aria_controls_refs)}")
+    print(f"href hash refs: {len(href_hash_refs)}")
+    print(f"ffSelectors hooks: {len(ffselectors_map)}")
+
+    print_header("DUPLICATE IDS")
+    dup_ids = duplicate_values(ids)
+    if dup_ids:
+        for value, count in dup_ids:
+            print(f"{value}: {count}")
+    else:
+        print("✅ none")
+
+    print_header("MISSING aria-controls TARGETS")
+    missing_aria = missing_targets(aria_controls_refs, set(ids))
+    if missing_aria:
+        for value in missing_aria:
+            print(value)
+    else:
+        print("✅ none")
+
+    print_header('MISSING href="#..." TARGETS')
+    missing_hash = missing_targets(href_hash_refs, set(ids))
+    if missing_hash:
+        for value in missing_hash:
+            print(value)
+    else:
+        print("✅ none")
+
+    print_header("ffSelectors HOOKS")
+    if ffselectors_map:
+        for key, selector in sorted(ffselectors_map.items()):
+            print(f"{key}: {selector}")
+    else:
+        print("⚠️ none detected")
+
+    print_header("ffSelectors PRESENCE IN HTML")
+    if ffselectors_map:
+        for key, selector in sorted(ffselectors_map.items()):
+            parts = selector_parts(selector)
+            statuses = []
+            for part in parts:
+                statuses.append(f"{part} => {'✅' if part in html else '❌'}")
+            print(f"{key}: " + " | ".join(statuses))
+    else:
+        print("⚠️ skipped — no parsed ffSelectors hooks")
+
+    print_header("ffSelectors PRESENCE IN CSS")
+    if ffselectors_map:
+        for key, selector in sorted(ffselectors_map.items()):
+            parts = selector_parts(selector)
+            statuses = []
+            for part in parts:
+                statuses.append(f"{part} => {'✅' if part in css_blob else '❌'}")
+            print(f"{key}: " + " | ".join(statuses))
+    else:
+        print("⚠️ skipped — no parsed ffSelectors hooks")
+
+    print_header("TOP data-ff HOOKS")
+    for hook, count in Counter(data_ff_hooks).most_common(40):
+        print(f"{hook}: {count}")
+
+    print_header("TOP CLASSES")
+    for class_name, count in Counter(classes).most_common(50):
+        print(f"{class_name}: {count}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

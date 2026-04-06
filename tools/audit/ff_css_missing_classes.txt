@@ -1,0 +1,14 @@
+ff-checkoutContent
+ff-checkoutScroll
+ff-checkoutStage
+ff-modal--video
+ff-onboardModal__footer
+ff-sectionhead__text
+ff-sponsorModal__footer
+ff-teamsEmpty
+ff-themeToggle--desktop
+ff-topbarBrand--flagship
+ff-topbarGoal__metaRow
+ff-topbar__brandCluster
+ff-topbar__desktopActions
+ff-topbar__rightCluster

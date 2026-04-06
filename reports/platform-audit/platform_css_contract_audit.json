@@ -1,0 +1,74 @@
+{
+  "template_files": [
+    "apps/web/app/templates/platform/shells/marketing_base.html",
+    "apps/web/app/templates/platform/shells/operator_base.html",
+    "apps/web/app/templates/platform/pages/home.html",
+    "apps/web/app/templates/platform/pages/pricing.html",
+    "apps/web/app/templates/platform/pages/demo.html",
+    "apps/web/app/templates/platform/pages/onboarding.html",
+    "apps/web/app/templates/platform/pages/dashboard.html",
+    "apps/web/app/templates/shared/partials/_platform_topbar.html",
+    "apps/web/app/templates/shared/partials/_platform_status_bar.html"
+  ],
+  "css_files": {
+    "ff.css": "apps/web/app/static/css/ff.css",
+    "platform-pages.css": "apps/web/app/static/css/platform-pages.css"
+  },
+  "platform_family_classes_in_html": [
+    "ff-navPill",
+    "ff-platformBrand",
+    "ff-platformBrand__disc",
+    "ff-platformBrand__subline",
+    "ff-platformBrand__wordmark",
+    "ff-platformChrome__inner",
+    "ff-platformGridTop",
+    "ff-platformInlinePill",
+    "ff-platformMiniList",
+    "ff-proofMini"
+  ],
+  "missing_platform_family_classes_in_all_css": [
+    "ff-platformBrand__wordmark"
+  ],
+  "platform_family_owned_by_ff_css_only": [
+    "ff-navPill"
+  ],
+  "platform_family_owned_by_platform_pages_css": [
+    "ff-platformBrand",
+    "ff-platformBrand__disc",
+    "ff-platformBrand__subline",
+    "ff-platformChrome__inner",
+    "ff-platformGridTop",
+    "ff-platformInlinePill",
+    "ff-platformMiniList",
+    "ff-proofMini"
+  ],
+  "platform_family_shared_between_ff_and_platform_pages": [
+    "ff-platformBrand",
+    "ff-platformBrand__disc",
+    "ff-proofMini"
+  ],
+  "platform_data_attrs_found": [
+    "data-ff-body",
+    "data-ff-brand",
+    "data-ff-canonical",
+    "data-ff-chrome",
+    "data-ff-main",
+    "data-ff-page",
+    "data-ff-platform",
+    "data-ff-platform-config",
+    "data-ff-platform-surface",
+    "data-ff-platform-trust",
+    "data-ff-shell",
+    "data-ff-template",
+    "data-ff-theme",
+    "data-ff-toasts"
+  ],
+  "counts": {
+    "platform_family_html_classes": 10,
+    "missing_platform_family_classes_in_all_css": 1,
+    "platform_family_owned_by_ff_css_only": 1,
+    "platform_family_owned_by_platform_pages_css": 8,
+    "platform_family_shared_between_ff_and_platform_pages": 3,
+    "platform_data_attrs_found": 14
+  }
+}

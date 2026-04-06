@@ -1,0 +1,280 @@
+apps/web/app/templates/shared/partials/_footer_minimal.html:13:            <li><a class="ff-footer__link" href="/platform/">Platform</a></li>
+apps/web/app/templates/shared/partials/_footer_minimal.html:14:            <li><a class="ff-footer__link" href="/platform/onboarding">Onboarding</a></li>
+apps/web/app/templates/shared/partials/_footer_minimal.html:15:            <li><a class="ff-footer__link" href="/platform/dashboard">Dashboard</a></li>
+apps/web/app/templates/shared/partials/_footer_minimal.html:16:            <li><a class="ff-footer__link" href="/platform/pricing">Pricing</a></li>
+apps/web/app/templates/shared/partials/_footer_minimal.html:17:            <li><a class="ff-footer__link" href="/platform/demo">Demo</a></li>
+apps/web/app/data/campaign_store.py:50:                "campaign_url": payload.get("campaign_url", f"/c/{slug}"),
+apps/web/app/data/campaign_store.py:51:                "share_url": payload.get("share_url", f"/c/{slug}"),
+apps/web/app/routes/platform.py:1:from flask import Blueprint, render_template
+apps/web/app/routes/platform.py:5:bp = Blueprint("platform", __name__)
+apps/web/app/routes/platform.py:16:            "primary_cta_href": "/platform/onboarding",
+apps/web/app/routes/platform.py:18:            "secondary_cta_href": "/platform/dashboard",
+apps/web/app/routes/platform.py:77:            "primary_cta_href": "/platform/onboarding",
+apps/web/app/routes/platform.py:79:            "secondary_cta_href": "/platform/dashboard",
+apps/web/app/routes/platform.py:109:        "submit_href": "/platform/dashboard",
+apps/web/app/routes/platform.py:126:            {"label": "Create another org", "href": "/platform/onboarding", "variant": "primary"},
+apps/web/app/routes/platform.py:127:            {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "secondary"},
+apps/web/app/routes/platform.py:135:                "campaign_url": "/c/spring-fundraiser",
+apps/web/app/routes/platform.py:178:                "cta_href": "/platform/onboarding",
+apps/web/app/routes/platform.py:186:                "cta_href": "/platform/onboarding",
+apps/web/app/routes/platform.py:195:                "cta_href": "/platform/demo",
+apps/web/app/routes/platform.py:199:            {"label": "Claim founder setup", "href": "/platform/onboarding"},
+apps/web/app/routes/platform.py:200:            {"label": "View live demo", "href": "/platform/demo"},
+apps/web/app/routes/platform.py:216:                "href": "/c/spring-fundraiser",
+apps/web/app/routes/platform.py:222:                "href": "/platform/onboarding",
+apps/web/app/routes/platform.py:228:                "href": "/platform/dashboard",
+apps/web/app/routes/platform.py:234:                "href": "/platform/pricing",
+apps/web/app/routes/platform.py:238:            {"label": "Launch your program", "href": "/platform/onboarding"},
+apps/web/app/routes/platform.py:239:            {"label": "View live example", "href": "/c/spring-fundraiser"},
+apps/web/app/routes/platform.py:268:        api_path="/api/v1/platform/home",
+apps/web/app/routes/platform.py:279:        api_path="/api/v1/platform/onboarding",
+apps/web/app/routes/platform.py:290:        api_path="/api/v1/platform/dashboard",
+apps/web/app/data/campaigns.json:20:    "share_url": "http://127.0.0.1:5000/c/summer-travel-fund",
+apps/web/app/data/campaigns.json:21:    "campaign_url": "http://127.0.0.1:5000/c/summer-travel-fund",
+apps/web/app/routes/campaign.py:1:from flask import Blueprint, current_app, render_template
+apps/web/app/routes/campaign.py:6:bp = Blueprint("campaign", __name__)
+apps/web/app/routes/campaign.py:50:    campaign_url = f"{base}/c/{slug}"
+apps/web/app/routes/campaign.py:123:        "share_url": f"{base}/c/{slug}",
+apps/web/app/routes/campaign.py:124:        "campaign_url": f"{base}/c/{slug}",
+apps/web/app/routes/campaign.py:128:@bp.get("/c/<slug>")
+apps/web/app/templates/shared/partials/_platform_topbar.html:3:            href="/platform/"
+apps/web/app/templates/shared/partials/_platform_topbar.html:22:              href="/platform/"
+apps/web/app/templates/shared/partials/_platform_topbar.html:27:              href="/platform/onboarding"
+apps/web/app/templates/shared/partials/_platform_topbar.html:32:              href="/platform/dashboard"
+apps/web/app/templates/shared/partials/_platform_topbar.html:37:              href="/platform/pricing"
+apps/web/app/templates/shared/partials/_platform_topbar.html:42:              href="/platform/demo"
+apps/web/app/data/fixtures/demo_campaigns.json:20:    "share_url": "/c/summer-travel-fund",
+apps/web/app/data/fixtures/demo_campaigns.json:21:    "campaign_url": "/c/summer-travel-fund",
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:12:      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/<campaign-slug>.'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:59:    <form class="ff-platformFormGrid ff-mt-3" method="get" action="/platform/dashboard">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:143:            Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:230:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:244:        {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_210201:245:        {'href': '/platform/demo', 'label': 'View demo', 'variant': 'secondary'}
+apps/web/app/templates/platform/base.html:65:{% set _request_path = (request.path if request is defined else '/platform/')|string %}
+apps/web/app/templates/platform/base.html:68:  {% set canonical = _public_base ~ '/platform/' %}
+apps/web/app/templates/platform/base.html:79:    'home': '/platform/',
+apps/web/app/templates/platform/base.html:80:    'onboarding': '/platform/onboarding',
+apps/web/app/templates/platform/base.html:81:    'dashboard': '/platform/dashboard'
+apps/web/app/templates/platform/base.html:111:  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
+apps/web/app/templates/platform/base.html:156:            href="/platform/"
+apps/web/app/templates/platform/base.html:175:              href="/platform/"
+apps/web/app/templates/platform/base.html:180:              href="/platform/onboarding"
+apps/web/app/templates/platform/base.html:185:              href="/platform/dashboard"
+apps/web/app/templates/platform/base.html:190:              href="/platform/pricing"
+apps/web/app/templates/platform/base.html:195:              href="/platform/demo"
+apps/web/app/templates/platform/home.html.bak.20260404_210201:196:      {'href': '/platform/onboarding', 'label': 'Claim founder setup', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_210201:197:      {'href': '/c/spring-fundraiser', 'label': 'View live example', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html.bak.20260404_210201:210:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_210201:211:      {'href': '/platform/dashboard', 'label': 'Open dashboard', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html.bak.20260404_210201:256:      {'href': '/platform/demo', 'label': 'Open guided demo', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_210201:257:      {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:102:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:103:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:104:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:115:            <a class="ff-platformInlinePill" href="/c/spring-fundraiser">Open live page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:206:      {'href': '/c/spring-fundraiser#sponsors', 'label': 'Open sponsor section', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:207:      {'href': '/platform/onboarding', 'label': 'Create another launch', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:238:      {'href': '/platform/', 'label': 'Open platform home', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_210201:239:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:102:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Create another org</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:103:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:104:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:115:            <a class="ff-platformInlinePill" href="/c/spring-fundraiser">Open live page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:206:      {'href': '/c/spring-fundraiser#sponsors', 'label': 'Open sponsor section', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:207:      {'href': '/platform/onboarding', 'label': 'Create another launch', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:238:      {'href': '/platform/', 'label': 'Open platform home', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194439:239:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:102:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:103:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:104:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:115:            <a class="ff-platformInlinePill" href="/c/spring-fundraiser">Open live page</a>
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:206:      {'href': '/c/spring-fundraiser#sponsors', 'label': 'Open sponsor section', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:207:      {'href': '/platform/onboarding', 'label': 'Create another launch', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:238:      {'href': '/platform/', 'label': 'Open platform home', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html.bak.20260404_194643:239:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'secondary'}
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:36:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open fundraiser</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:37:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:50:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">View live fundraiser</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:61:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Open onboarding</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:72:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:83:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:99:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live example</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:117:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
+apps/web/app/templates/platform/demo.html.bak.20260404_194439:118:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:12:      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/<campaign-slug>.'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:59:    <form class="ff-platformFormGrid ff-mt-3" method="get" action="/platform/dashboard">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:143:            Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:230:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:244:        {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194643:245:        {'href': '/platform/demo', 'label': 'View demo', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html:102:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/dashboard.html:103:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
+apps/web/app/templates/platform/dashboard.html:104:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
+apps/web/app/templates/platform/dashboard.html:115:            <a class="ff-platformInlinePill" href="/c/spring-fundraiser">Open live page</a>
+apps/web/app/templates/platform/dashboard.html:206:      {'href': '/c/spring-fundraiser#sponsors', 'label': 'Open sponsor section', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html:207:      {'href': '/platform/onboarding', 'label': 'Create another launch', 'variant': 'secondary'}
+apps/web/app/templates/platform/dashboard.html:238:      {'href': '/platform/', 'label': 'Open platform home', 'variant': 'primary'},
+apps/web/app/templates/platform/dashboard.html:239:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html:196:      {'href': '/platform/onboarding', 'label': 'Claim founder setup', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html:197:      {'href': '/c/spring-fundraiser', 'label': 'View live example', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html:210:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html:211:      {'href': '/platform/dashboard', 'label': 'Open dashboard', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html:256:      {'href': '/platform/demo', 'label': 'Open guided demo', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html:257:      {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'}
+apps/web/app/templates/platform/pages/home.html:45:              hero.get("primary_cta_href", "/platform/onboarding"),
+apps/web/app/templates/platform/pages/home.html:47:              hero.get("secondary_cta_href", "/platform/dashboard")
+apps/web/app/templates/platform/pages/home.html:120:    {% set primary_href = next_move.get("primary_cta_href", "/platform/onboarding") %}
+apps/web/app/templates/platform/pages/home.html:122:    {% set secondary_href = next_move.get("secondary_cta_href", "/platform/dashboard") %}
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:41:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:42:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open founder demo</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:67:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:91:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:114:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:148:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:149:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:167:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_210201:168:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/pages/demo.html:37:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open fundraiser</a>
+apps/web/app/templates/platform/pages/demo.html:38:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/pages/demo.html:51:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">View live fundraiser</a>
+apps/web/app/templates/platform/pages/demo.html:62:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Open onboarding</a>
+apps/web/app/templates/platform/pages/demo.html:73:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pages/demo.html:84:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/pages/demo.html:99:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/demo.html:100:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pages/demo.html:118:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/demo.html:119:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
+apps/web/app/templates/platform/pages/onboarding.html.bak.20260404_194439:18:{% set submit_href = data.get("submit_href", "/platform/dashboard") %}
+apps/web/app/templates/platform/pages/onboarding.html.bak.20260404_194439:56:            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Creates a live fundraiser at <code>/c/&lt;campaign-slug&gt;</code>.</p>
+apps/web/app/templates/platform/pages/onboarding.html.bak.20260404_194439:107:          Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/pages/onboarding.html.bak.20260404_194439:116:          {{ ff_cta_pair(submit_label, submit_href, "Back to platform home", "/platform/") }}
+apps/web/app/templates/platform/pages/pricing.html:41:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/pricing.html:42:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open founder demo</a>
+apps/web/app/templates/platform/pages/pricing.html:67:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pages/pricing.html:91:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
+apps/web/app/templates/platform/pages/pricing.html:114:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pages/pricing.html:148:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pages/pricing.html:149:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pages/pricing.html:167:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pages/pricing.html:168:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:41:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:42:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live demo</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:67:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:91:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Choose Growth</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:114:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:148:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:149:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:167:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+apps/web/app/templates/platform/pages/pricing.html.bak.20260404_194439:168:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/pages/home.html.bak.20260404_194439:45:              hero.get("primary_cta_href", "/platform/onboarding"),
+apps/web/app/templates/platform/pages/home.html.bak.20260404_194439:47:              hero.get("secondary_cta_href", "/platform/dashboard")
+apps/web/app/templates/platform/pages/home.html.bak.20260404_194439:120:    {% set primary_href = next_move.get("primary_cta_href", "/platform/onboarding") %}
+apps/web/app/templates/platform/pages/home.html.bak.20260404_194439:122:    {% set secondary_href = next_move.get("secondary_cta_href", "/platform/dashboard") %}
+apps/web/app/__init__.py:15:    app.register_blueprint(platform_bp, url_prefix="/platform")
+apps/web/app/__init__.py:20:        return redirect("/platform/", code=302)
+apps/web/app/templates/platform/pages/onboarding.html:18:{% set submit_href = data.get("submit_href", "/platform/dashboard") %}
+apps/web/app/templates/platform/pages/onboarding.html:56:            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Creates a live fundraiser at <code>/c/&lt;campaign-slug&gt;</code>.</p>
+apps/web/app/templates/platform/pages/onboarding.html:107:          Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/pages/onboarding.html:116:          {{ ff_cta_pair(submit_label, submit_href, "Back to platform home", "/platform/") }}
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_210201:67:            actions[0].get("href", "/platform/onboarding") if actions|length > 0 else "/platform/onboarding",
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_210201:69:            actions[1].get("href", "/c/spring-fundraiser") if actions|length > 1 else "/c/spring-fundraiser"
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_210201:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live page</a>
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194439:67:            actions[0].get("href", "/platform/onboarding") if actions|length > 0 else "/platform/onboarding",
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194439:69:            actions[1].get("href", "/c/spring-fundraiser") if actions|length > 1 else "/c/spring-fundraiser"
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194439:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live page</a>
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194643:67:            actions[0].get("href", "/platform/onboarding") if actions|length > 0 else "/platform/onboarding",
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194643:69:            actions[1].get("href", "/c/spring-fundraiser") if actions|length > 1 else "/c/spring-fundraiser"
+apps/web/app/templates/platform/pages/dashboard.html.bak.20260404_194643:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live page</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:37:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open fundraiser</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:38:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:51:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">View live fundraiser</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:62:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Open onboarding</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:73:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:84:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:99:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:100:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live example</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:118:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
+apps/web/app/templates/platform/pages/demo.html.bak.20260404_194439:119:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
+apps/web/app/templates/platform/pages/dashboard.html:67:            actions[0].get("href", "/platform/onboarding") if actions|length > 0 else "/platform/onboarding",
+apps/web/app/templates/platform/pages/dashboard.html:69:            actions[1].get("href", "/c/spring-fundraiser") if actions|length > 1 else "/c/spring-fundraiser"
+apps/web/app/templates/platform/pages/dashboard.html:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live page</a>
+apps/web/app/templates/platform/home.html.bak.20260404_194643:196:      {'href': '/platform/onboarding', 'label': 'Claim founder setup', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_194643:197:      {'href': '/c/spring-fundraiser', 'label': 'View live example', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html.bak.20260404_194643:210:      {'href': '/c/spring-fundraiser', 'label': 'Open live fundraiser', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_194643:211:      {'href': '/platform/dashboard', 'label': 'Open dashboard', 'variant': 'secondary'}
+apps/web/app/templates/platform/home.html.bak.20260404_194643:256:      {'href': '/platform/demo', 'label': 'Open guided demo', 'variant': 'primary'},
+apps/web/app/templates/platform/home.html.bak.20260404_194643:257:      {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'}
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:40:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:41:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open founder demo</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:66:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:90:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:113:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:147:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:148:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:166:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_210201:167:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/demo.html:36:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open fundraiser</a>
+apps/web/app/templates/platform/demo.html:37:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/demo.html:50:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">View live fundraiser</a>
+apps/web/app/templates/platform/demo.html:61:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Open onboarding</a>
+apps/web/app/templates/platform/demo.html:72:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/demo.html:83:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+apps/web/app/templates/platform/demo.html:98:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/demo.html:99:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/demo.html:117:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/demo.html:118:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
+apps/web/app/templates/campaign/index.html.bak.20260404_194439:1241:              <div class="ff-row ff-wrap ff-gap-2"><a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">Explore platform</a><a class="ff-btn ff-btn--primary ff-btn--pill" href="#ff-onboarding" data-ff-open-onboard="">Launch your own</a></div>
+apps/web/app/templates/platform/shells/marketing_base.html:65:{% set _request_path = (request.path if request is defined else '/platform/')|string %}
+apps/web/app/templates/platform/shells/marketing_base.html:68:  {% set canonical = _public_base ~ '/platform/' %}
+apps/web/app/templates/platform/shells/marketing_base.html:79:    'home': '/platform/',
+apps/web/app/templates/platform/shells/marketing_base.html:80:    'onboarding': '/platform/onboarding',
+apps/web/app/templates/platform/shells/marketing_base.html:81:    'dashboard': '/platform/dashboard'
+apps/web/app/templates/platform/shells/marketing_base.html:111:  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
+apps/web/app/templates/platform/shells/operator_base.html:65:{% set _request_path = (request.path if request is defined else '/platform/')|string %}
+apps/web/app/templates/platform/shells/operator_base.html:68:  {% set canonical = _public_base ~ '/platform/' %}
+apps/web/app/templates/platform/shells/operator_base.html:79:    'home': '/platform/',
+apps/web/app/templates/platform/shells/operator_base.html:80:    'onboarding': '/platform/onboarding',
+apps/web/app/templates/platform/shells/operator_base.html:81:    'dashboard': '/platform/dashboard'
+apps/web/app/templates/platform/shells/operator_base.html:111:  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
+apps/web/app/templates/platform/shells/platform_base_legacy.html:65:{% set _request_path = (request.path if request is defined else '/platform/')|string %}
+apps/web/app/templates/platform/shells/platform_base_legacy.html:68:  {% set canonical = _public_base ~ '/platform/' %}
+apps/web/app/templates/platform/shells/platform_base_legacy.html:79:    'home': '/platform/',
+apps/web/app/templates/platform/shells/platform_base_legacy.html:80:    'onboarding': '/platform/onboarding',
+apps/web/app/templates/platform/shells/platform_base_legacy.html:81:    'dashboard': '/platform/dashboard'
+apps/web/app/templates/platform/shells/platform_base_legacy.html:111:  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
+apps/web/app/templates/campaign/index.html:2523:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:12:      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/<campaign-slug>.'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:59:    <form class="ff-platformFormGrid ff-mt-3" method="get" action="/platform/dashboard">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:143:            Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:230:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:244:        {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'},
+apps/web/app/templates/platform/onboarding.html.bak.20260404_194439:245:        {'href': '/platform/demo', 'label': 'View demo', 'variant': 'secondary'}
+apps/web/app/templates/campaign/index.html.bak.20260405-012143:1508:              <div class="ff-row ff-wrap ff-gap-2"><a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">Explore platform</a><a class="ff-btn ff-btn--primary ff-btn--pill" href="#ff-onboarding" data-ff-open-onboard="">Start guided launch</a></div>
+apps/web/app/templates/platform/pricing.html:40:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pricing.html:41:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open founder demo</a>
+apps/web/app/templates/platform/pricing.html:66:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pricing.html:90:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
+apps/web/app/templates/platform/pricing.html:113:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pricing.html:147:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pricing.html:148:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pricing.html:166:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+apps/web/app/templates/platform/pricing.html:167:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:40:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:41:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live demo</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:66:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:90:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Choose Growth</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:113:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:147:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:148:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:166:          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+apps/web/app/templates/platform/pricing.html.bak.20260404_194439:167:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+apps/web/app/templates/platform/onboarding.html:12:      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/&lt;campaign-slug&gt;.'},
+apps/web/app/templates/platform/onboarding.html:59:    <form class="ff-platformFormGrid ff-mt-3" method="get" action="/platform/dashboard">
+apps/web/app/templates/platform/onboarding.html:143:            Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
+apps/web/app/templates/platform/onboarding.html:230:          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">
+apps/web/app/templates/platform/onboarding.html:244:        {'href': '/platform/pricing', 'label': 'View pricing', 'variant': 'secondary'},
+apps/web/app/templates/platform/onboarding.html:245:        {'href': '/platform/demo', 'label': 'View demo', 'variant': 'secondary'}
+apps/web/app/templates/campaign/index.html.bak.20260404_212217:1241:              <div class="ff-row ff-wrap ff-gap-2"><a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">Explore platform</a><a class="ff-btn ff-btn--primary ff-btn--pill" href="#ff-onboarding" data-ff-open-onboard="">Start guided launch</a></div>
+apps/web/app/templates/campaign/index.html.bak.20260404_213545:1250:              <div class="ff-row ff-wrap ff-gap-2"><a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">Explore platform</a><a class="ff-btn ff-btn--primary ff-btn--pill" href="#ff-onboarding" data-ff-open-onboard="">Start guided launch</a></div>

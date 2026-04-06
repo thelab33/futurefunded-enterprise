@@ -1,0 +1,76 @@
+{
+  "files": {
+    "ff_css": "apps/web/app/static/css/ff.css",
+    "above_css": "apps/web/app/static/css/ff-above-main-premium.css",
+    "ff_backup": "apps/web/app/static/css/ff.css.bak.20260404_224330",
+    "above_backup": "apps/web/app/static/css/ff-above-main-premium.css.bak.20260404_224330"
+  },
+  "counts": {
+    "moved_rules": 9
+  },
+  "moved_rules": [
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-footerMeta",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 260,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroAccent",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 358,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroName",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 363,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "@media (max-width: 47.99rem)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-heroAccent",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 380,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-sponsorGhost",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 457,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-themeToggle--desktop",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 556,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 588,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal__summary",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 596,
+      "to_file": "apps/web/app/static/css/ff.css"
+    },
+    {
+      "context": "(top-level)",
+      "selector_group": "body[data-ff-page=\"fundraiser\"] .ff-topbarGoal__progressWrap .ff-help",
+      "from_file": "apps/web/app/static/css/ff-above-main-premium.css",
+      "from_line": 645,
+      "to_file": "apps/web/app/static/css/ff.css"
+    }
+  ]
+}

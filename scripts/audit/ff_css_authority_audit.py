@@ -65,7 +65,7 @@ print("== SHIM CONTENT ==")
 if not shim:
     print("ℹ️ shim file missing")
 else:
-    if "Residual bridge only" in shim:
+    if "residual bridge only" in (Path(__file__).resolve().parents[2] / "apps/web/app/static/css/ff-above-main-premium.css").read_text(encoding="utf-8").lower():
         print("✅ shim labeled residual bridge only")
     else:
         print("⚠️ shim not labeled residual bridge only")
