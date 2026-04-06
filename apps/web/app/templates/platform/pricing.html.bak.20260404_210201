@@ -38,7 +38,7 @@
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
           <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open founder demo</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open founder demo</a>
         </div>
       </aside>
     </div>

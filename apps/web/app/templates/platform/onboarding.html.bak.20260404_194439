@@ -9,7 +9,7 @@
     {% set intro_pills = ['Real API', 'Brand-ready', 'Launch today'] %}
     {% set intro_aside_items = [
       {'title': 'Brand setup', 'body': 'Name, slug, and color system for the organization shell.'},
-      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/&lt;campaign-slug&gt;.'},
+      {'title': 'Public route', 'body': 'Creates a live fundraiser at /c/<campaign-slug>.'},
       {'title': 'Operator handoff', 'body': 'Moves directly into the dashboard so you can manage the campaign immediately.'}
     ] %}
     {% with
@@ -125,7 +125,7 @@
 
           <label class="ff-stack">
             <span class="ff-label">Suggested sponsor tier</span>
-            <input class="ff-input" type="text" name="sponsor_tier_seed" value="Partner Sponsor — $250" />
+            <input class="ff-input" type="text" name="sponsor_tier_seed" value="Gold Sponsor — $250" />
           </label>
 
           <label class="ff-stack">
@@ -224,7 +224,7 @@
       <div class="ff-platformCtaBar">
         <div class="ff-row ff-wrap ff-gap-2 ff-ais">
           <button class="ff-btn ff-btn--primary ff-btn--pill ff-platformCtaBar__button" type="submit">
-            Create org + launch page
+            Create org + campaign
           </button>
 
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/">

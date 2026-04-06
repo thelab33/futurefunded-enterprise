@@ -89,14 +89,14 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Close the demo</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoCloseTitle">Start guided launch with FutureFunded.</h2>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoCloseTitle">Launch your program with FutureFunded.</h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
             Use this page in DMs, calls, and founder outreach to show the full product in one clean sequence.
           </p>
         </div>
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live example</a>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
           </p>
         </div>
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch your program</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
         </div>
       </div>

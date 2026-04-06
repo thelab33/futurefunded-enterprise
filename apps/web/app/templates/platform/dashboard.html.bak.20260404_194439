@@ -99,7 +99,7 @@
         </header>
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Create another org</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live campaign</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open campaign page</a>
         </div>
@@ -124,7 +124,7 @@
 
           <article class="ff-proofMini">
             <p class="ff-kicker ff-m-0">Operator note</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">The current workspace is already structured for direct giving, sponsor upsells, and optional support-plan expansion.</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">The current workspace is already structured for direct giving, sponsor upsells, and recurring support expansion.</p>
           </article>
         </div>
       </article>

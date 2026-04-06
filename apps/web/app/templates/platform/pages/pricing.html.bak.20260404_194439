@@ -1,7 +1,8 @@
 {% set platform_page = "pricing" %}
 {% set page_title = "FutureFunded Pricing" %}
 {% set page_description = "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations." %}
-{% extends "platform/base.html" %}
+{% extends "platform/shells/marketing_base.html" %}
+{% set data = data or {} %}
 {% block platform_content %}
 <section class="ff-section" aria-labelledby="platformPricingHeroTitle">
   <div class="ff-container">
@@ -37,8 +38,8 @@
         </p>
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open founder demo</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">View live demo</a>
         </div>
       </aside>
     </div>
@@ -87,7 +88,7 @@
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
           <span class="ff-platformInlinePill">Most practical</span>
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Choose Growth</a>
         </div>
       </article>
 
@@ -163,7 +164,7 @@
           </p>
         </div>
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Claim founder setup</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
         </div>
       </div>

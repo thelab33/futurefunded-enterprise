@@ -1,7 +1,8 @@
 {% set platform_page = "pricing" %}
 {% set page_title = "FutureFunded Pricing" %}
 {% set page_description = "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations." %}
-{% extends "platform/base.html" %}
+{% extends "platform/shells/marketing_base.html" %}
+{% set data = data or {} %}
 {% block platform_content %}
 <section class="ff-section" aria-labelledby="platformPricingHeroTitle">
   <div class="ff-container">
@@ -145,7 +146,7 @@
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
           <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
         </div>
       </article>
     </div>
@@ -153,7 +154,9 @@
   </div>
 </section>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformPricingCloseTitle">
+<section class="ff-section" aria-labelledby="platformPricingCloseTitle">
+  <div class="ff-container">
+    <div class="ff-card ff-glass ff-pad" aria-labelledby="platformPricingCloseTitle">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Ready to launch?</p>
@@ -168,4 +171,6 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
 {% endblock %}

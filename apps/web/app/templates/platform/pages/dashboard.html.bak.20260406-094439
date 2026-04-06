@@ -1,0 +1,153 @@
+{% set platform_page = "dashboard" %}
+{% set data = data or {} %}
+{% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
+{% set page_description = "Manage the live fundraiser, sponsor tiers, and optional support-plan lanes from one premium FutureFunded workspace." %}
+{% extends "platform/shells/operator_base.html" %}
+{% from "shared/macros/ui.html" import ff_cta_pair %}
+{% from "shared/macros/cards.html" import metric_card %}
+{% from "shared/macros/pills.html" import ff_pill_list, ff_pill %}
+
+{% block platform_content %}
+{% set eyebrow = data.get("eyebrow", "Admin dashboard") %}
+{% set title = data.get("title", "FutureFunded command center") %}
+{% set body = data.get("body", "Manage the live Connect ATX Elite fundraiser, sponsor packages, and booster support from one premium workspace.") %}
+{% set overview_cards = data.get("overview_cards", []) or [] %}
+{% set actions = data.get("actions", []) or [] %}
+{% set org_cards = data.get("org_cards", []) or [] %}
+{% set sponsor_tiers = data.get("sponsor_tiers", []) or [] %}
+{% set membership_plans = data.get("membership_plans", []) or [] %}
+
+<section class="ff-section" aria-labelledby="platformDashboardTitle">
+  <div class="ff-container">
+
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
+      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
+        <div class="ff-sectionhead__text ff-minw-0">
+          <p class="ff-kicker ff-m-0">{{ eyebrow }}</p>
+          <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-10" id="platformDashboardTitle">
+            {{ title }}
+          </h1>
+          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
+            {{ body }}
+          </p>
+
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Dashboard signals">
+            <span role="listitem">{{ ff_pill("Live workspace", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Brand-ready", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Operator view", "ghost") }}</span>
+          </div>
+        </div>
+      </header>
+
+      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformDashboardBriefTitle">
+        <p class="ff-kicker ff-m-0">Workspace brief</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDashboardBriefTitle">One place to launch, manage, and expand.</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          This dashboard is your control layer for live fundraising, sponsor packages, and configured support-plan lanes.
+        </p>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Live campaign</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Connect ATX Elite is already launched with a public campaign page and dashboard access.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Sponsor lanes</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Manage sponsor packages that feel credible to local businesses and community partners.</p>
+          </article>
+          <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Recurring support</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Keep momentum going beyond one-time gifts with configurable monthly and annual support plans.</p>
+          </article>
+        </div>
+
+        <div class="ff-mt-3">
+          {{ ff_cta_pair(
+            actions[0].get("label", "Open live fundraiser") if actions|length > 0 else "Open live fundraiser",
+            actions[0].get("href", "/c/spring-fundraiser") if actions|length > 0 else "/c/spring-fundraiser",
+            actions[1].get("label", "Create another org") if actions|length > 1 else "Create another org",
+            actions[1].get("href", "/platform/onboarding") if actions|length > 1 else "/platform/onboarding"
+          ) }}
+        </div>
+      </aside>
+    </div>
+
+    <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3" aria-labelledby="platformOverviewTitle">
+      <div class="ff-sr" id="platformOverviewTitle">Workspace overview</div>
+      {% for item in overview_cards %}
+        {{ metric_card(item.get("title", ""), item.get("body", ""), item.get("value", "")) }}
+      {% endfor %}
+    </div>
+
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLatestOrgTitle">
+        <p class="ff-kicker ff-m-0">Latest live organization</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLatestOrgTitle">
+          {{ (org_cards[0].get("title", "Connect ATX Elite")) if org_cards|length > 0 else "Connect ATX Elite" }}
+        </h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          {{ (org_cards[0].get("campaign_name", "Spring Fundraiser")) if org_cards|length > 0 else "Spring Fundraiser" }}
+        </p>
+
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Organization status">
+          <span role="listitem">{{ ff_pill((org_cards[0].get("status", "Live")) if org_cards|length > 0 else "Live", "soft") }}</span>
+          <span role="listitem">{{ ff_pill("Brand-ready", "soft") }}</span>
+        </div>
+
+        <div class="ff-mt-3">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live fundraiser</a>
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformOperatorNoteTitle">
+        <p class="ff-kicker ff-m-0">Operator note</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOperatorNoteTitle">This workspace is already structured to expand.</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+          The current workspace is already structured for direct giving, sponsor upsells, and optional support-plan expansion.
+        </p>
+      </article>
+    </div>
+
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformSponsorTierTitle">
+        <p class="ff-kicker ff-m-0">Sponsor tiers</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSponsorTierTitle">Revenue lane</h2>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          {% for item in sponsor_tiers %}
+            <article class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">{{ item.get("title", "") }}</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
+              {% if item.get("pills") %}
+                <div class="ff-mt-2">
+                  {{ ff_pill_list(item.get("pills", []), "soft") }}
+                </div>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformMembershipTitle">
+        <p class="ff-kicker ff-m-0">Configured support plans</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformMembershipTitle">Recurring lane</h2>
+
+        <div class="ff-platformMiniList ff-mt-3">
+          {% for item in membership_plans %}
+            <article class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">{{ item.get("title", "") }}</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
+              {% if item.get("pills") %}
+                <div class="ff-mt-2">
+                  {{ ff_pill_list(item.get("pills", []), "ghost") }}
+                </div>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
