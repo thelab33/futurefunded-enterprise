@@ -1,9 +1,0 @@
-/* ==========================================================================
-   FutureFunded — ff-above-main-premium.css
-   Residual shim reset for the flagship campaign rewrite
-   --------------------------------------------------------------------------
-   Intentionally minimal.
-   Keep this file empty so ff.css remains the single authority for the
-   attached campaign surface.
-   ========================================================================== */
-

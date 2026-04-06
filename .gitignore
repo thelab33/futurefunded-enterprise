@@ -64,3 +64,11 @@ artifacts/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# FF local backup / generated noise
+*.bak
+*.bak.*
+*.bak-*
+playwright-report*/
+reports/
+tools/audit/runtime-probe-artifacts/

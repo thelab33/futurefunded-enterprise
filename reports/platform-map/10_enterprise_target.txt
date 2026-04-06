@@ -1,8 +1,0 @@
-Enterprise target map
-- base.html = shared shell / chrome authority
-- home.html = public platform sales surface
-- onboarding.html = guided launch flow
-- dashboard.html = operator command center
-- pricing.html = commercial offer page
-- demo.html = guided live proof page
-- campaign page = secondary CTA / live example, not primary platform nav

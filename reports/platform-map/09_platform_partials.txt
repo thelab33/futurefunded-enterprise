@@ -1,2 +1,0 @@
-apps/web/app/templates/platform/_partials/_intro_split.html
-apps/web/app/templates/platform/_partials/_promo_bar.html
