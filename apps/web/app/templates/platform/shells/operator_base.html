@@ -26,6 +26,8 @@ Deterministic platform shell
 {% set _platform_page = (platform_page|default('home', true))|string|trim|lower %}
 {% if not _platform_page %}{% set _platform_page = 'home' %}{% endif %}
 
+{% set _platform_surface = 'operator' %}
+
 {% set _theme = (theme|default('dark', true))|string|trim|lower %}
 {% if _theme not in ['light', 'dark'] %}{% set _theme = 'dark' %}{% endif %}
 
@@ -74,9 +76,12 @@ Deterministic platform shell
   'theme': _theme,
   'ffTheme': _ff_theme,
   'brand': _brand,
+  'surface': _platform_surface,
   'canonical': canonical,
   'routes': {
     'home': '/platform/',
+    'pricing': '/platform/pricing',
+    'demo': '/platform/demo',
     'onboarding': '/platform/onboarding',
     'dashboard': '/platform/dashboard'
   }
@@ -131,7 +136,7 @@ Deterministic platform shell
   data-ff-page="{{ _platform_page|e }}"
   data-ff-template="platform"
   data-ff-platform="true"
-  data-ff-platform-surface="operator"
+  data-ff-platform-surface="{{ _platform_surface|e }}"
   data-ff-canonical="{{ canonical|e }}"
 >
   <nav class="ff-skiplinks" aria-label="Skip links">

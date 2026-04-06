@@ -41,10 +41,10 @@
 
           <div class="ff-mt-3">
             {{ ff_cta_pair(
-              hero.get("primary_cta_label", "Launch Connect ATX Elite"),
+              hero.get("primary_cta_label", "Start guided launch"),
               hero.get("primary_cta_href", "/platform/onboarding"),
-              hero.get("secondary_cta_label", "Open dashboard"),
-              hero.get("secondary_cta_href", "/platform/dashboard")
+              hero.get("secondary_cta_label", "View live example"),
+              hero.get("secondary_cta_href", "/c/spring-fundraiser")
             ) }}
           </div>
         </div>
@@ -52,7 +52,7 @@
 
       <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchStatusTitle">
         <p class="ff-kicker ff-m-0">Launch status</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchStatusTitle">Operator readout</h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchStatusTitle">Launch snapshot</h2>
 
         <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3">
           {% for item in status_cards %}
@@ -115,11 +115,11 @@
 
     {% set kicker = next_move.get("eyebrow", "Next move") %}
     {% set title = next_move.get("title", "Launch the real program, not a demo.") %}
-    {% set body = next_move.get("body", "Use onboarding to create the real Connect ATX Elite organization, then manage the live fundraiser, sponsor packages, and booster support from the dashboard.") %}
+    {% set body = next_move.get("body", "Use onboarding to launch the real Connect ATX Elite organization, go live fast, then expand into sponsor packages and recurring support as the program grows.") %}
     {% set primary_label = next_move.get("primary_cta_label", "Create organization") %}
     {% set primary_href = next_move.get("primary_cta_href", "/platform/onboarding") %}
-    {% set secondary_label = next_move.get("secondary_cta_label", "Manage platform") %}
-    {% set secondary_href = next_move.get("secondary_cta_href", "/platform/dashboard") %}
+    {% set secondary_label = next_move.get("secondary_cta_label", "View pricing") %}
+    {% set secondary_href = next_move.get("secondary_cta_href", "/platform/pricing") %}
     <div class="ff-mt-3">
       {% include "shared/partials/_cta_band.html" %}
     </div>

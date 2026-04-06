@@ -12,10 +12,10 @@ def _fallback_home() -> dict:
             "eyebrow": "AAU launch-ready",
             "title": "Give Connect ATX Elite a premium fundraising home.",
             "body": "Launch a sponsor-ready fundraising experience for youth boys basketball, starting with Connect ATX Elite — branded giving, booster support, and a cleaner story for families and local sponsors.",
-            "primary_cta_label": "Launch Connect ATX Elite",
+            "primary_cta_label": "Start guided launch",
             "primary_cta_href": "/platform/onboarding",
-            "secondary_cta_label": "Open dashboard",
-            "secondary_cta_href": "/platform/dashboard",
+            "secondary_cta_label": "View live example",
+            "secondary_cta_href": "/c/spring-fundraiser",
             "pills": ["AAU ready", "Mobile first", "Sponsor-ready", "Booster support"],
         },
         "launch_cards": [
@@ -72,11 +72,11 @@ def _fallback_home() -> dict:
         "next_move": {
             "eyebrow": "Next move",
             "title": "Launch the real program, not a demo.",
-            "body": "Use onboarding to create the real Connect ATX Elite organization, then manage the live fundraiser, sponsor packages, and booster support from the dashboard.",
+            "body": "Use onboarding to launch the real Connect ATX Elite organization, go live fast, then expand into sponsor packages and recurring support as the program grows.",
             "primary_cta_label": "Create organization",
             "primary_cta_href": "/platform/onboarding",
-            "secondary_cta_label": "Manage platform",
-            "secondary_cta_href": "/platform/dashboard",
+            "secondary_cta_label": "View pricing",
+            "secondary_cta_href": "/platform/pricing",
         },
     }
 
@@ -123,8 +123,8 @@ def _fallback_dashboard() -> dict:
             {"title": "Membership plans", "body": "Recurring support plans configured", "value": "2"},
         ],
         "actions": [
-            {"label": "Create another org", "href": "/platform/onboarding", "variant": "primary"},
-            {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "secondary"},
+            {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "primary"},
+            {"label": "Create another org", "href": "/platform/onboarding", "variant": "secondary"},
         ],
         "org_cards": [
             {
@@ -241,14 +241,67 @@ def _fallback_demo() -> dict:
     }
 
 
+PLATFORM_PAGE_CONFIG: dict[str, dict] = {
+    "home": {
+        "template_name": "platform/pages/home.html",
+        "default_title": "FutureFunded Platform Home",
+        "fallback": _fallback_home(),
+        "api_path": "/api/v1/platform/home",
+    },
+    "pricing": {
+        "template_name": "platform/pages/pricing.html",
+        "default_title": "FutureFunded Pricing",
+        "fallback": _fallback_pricing(),
+        "api_path": "/api/v1/platform/pricing",
+    },
+    "demo": {
+        "template_name": "platform/pages/demo.html",
+        "default_title": "FutureFunded Demo",
+        "fallback": _fallback_demo(),
+        "api_path": "/api/v1/platform/demo",
+    },
+    "onboarding": {
+        "template_name": "platform/pages/onboarding.html",
+        "default_title": "FutureFunded Onboarding",
+        "fallback": _fallback_onboarding(),
+        "api_path": "/api/v1/platform/onboarding",
+    },
+    "dashboard": {
+        "template_name": "platform/pages/dashboard.html",
+        "default_title": "FutureFunded Dashboard",
+        "fallback": _fallback_dashboard(),
+        "api_path": "/api/v1/platform/dashboard",
+    },
+}
+
+
+def _page_config(page_key: str) -> dict:
+    config = PLATFORM_PAGE_CONFIG.get(page_key)
+    if not config:
+        raise KeyError(f"Unknown platform page_key: {page_key}")
+    return config
+
+
 def _render_platform_page(
     *,
-    template_name: str,
     page_key: str,
-    default_title: str,
+    template_name: str | None = None,
+    default_title: str | None = None,
     fallback: dict | None = None,
     api_path: str | None = None,
 ):
+    config = PLATFORM_PAGE_CONFIG.get(page_key, {})
+
+    template_name = template_name or config.get("template_name")
+    default_title = default_title or config.get("default_title", "FutureFunded Platform")
+    if fallback is None:
+        fallback = config.get("fallback")
+    if api_path is None:
+        api_path = config.get("api_path")
+
+    if not template_name:
+        raise KeyError(f"No platform template configured for page_key={page_key!r}")
+
     data = get_json(api_path, fallback or {}) if api_path else (fallback or {})
     return render_template(
         template_name,
@@ -260,52 +313,20 @@ def _render_platform_page(
 
 @bp.get("/")
 def home():
-    return _render_platform_page(
-        template_name="platform/pages/home.html",
-        page_key="home",
-        default_title="FutureFunded Platform Home",
-        fallback=_fallback_home(),
-        api_path="/api/v1/platform/home",
-    )
-
+    return _render_platform_page(page_key="home")
 
 @bp.get("/onboarding")
 def onboarding():
-    return _render_platform_page(
-        template_name="platform/pages/onboarding.html",
-        page_key="onboarding",
-        default_title="FutureFunded Onboarding",
-        fallback=_fallback_onboarding(),
-        api_path="/api/v1/platform/onboarding",
-    )
-
+    return _render_platform_page(page_key="onboarding")
 
 @bp.get("/dashboard")
 def dashboard():
-    return _render_platform_page(
-        template_name="platform/pages/dashboard.html",
-        page_key="dashboard",
-        default_title="FutureFunded Dashboard",
-        fallback=_fallback_dashboard(),
-        api_path="/api/v1/platform/dashboard",
-    )
-
+    return _render_platform_page(page_key="dashboard")
 
 @bp.get("/pricing")
 def pricing():
-    return _render_platform_page(
-        template_name="platform/pages/pricing.html",
-        page_key="pricing",
-        default_title="FutureFunded Pricing",
-        fallback=_fallback_pricing(),
-    )
-
+    return _render_platform_page(page_key="pricing")
 
 @bp.get("/demo")
 def demo():
-    return _render_platform_page(
-        template_name="platform/pages/demo.html",
-        page_key="demo",
-        default_title="FutureFunded Demo",
-        fallback=_fallback_demo(),
-    )
+    return _render_platform_page(page_key="demo")

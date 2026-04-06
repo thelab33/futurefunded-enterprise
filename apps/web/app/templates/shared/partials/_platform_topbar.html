@@ -1,46 +1,64 @@
-        <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-          <a
-            href="/platform/"
-            class="ff-platformBrand ff-nounderline"
-            aria-label="FutureFunded platform home"
-          >
-            <span class="ff-platformBrand__disc" aria-hidden="true"></span>
-            <span class="ff-platformBrand__wordmark">
-              <strong>FutureFunded</strong>
-              <span class="ff-help ff-muted ff-platformBrand__subline">
-                Platform
-              </span>
-            </span>
-          </a>
+<div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+  <a
+    href="/platform/"
+    class="ff-platformBrand ff-nounderline"
+    aria-label="FutureFunded platform home"
+  >
+    <span class="ff-platformBrand__disc" aria-hidden="true"></span>
+    <span class="ff-platformBrand__wordmark">
+      <strong>FutureFunded</strong>
+      <span class="ff-help ff-muted ff-platformBrand__subline">
+        {{ 'Operator' if _platform_surface == 'operator' else 'Platform' }}
+      </span>
+    </span>
+  </a>
 
-          <nav
-            class="ff-navPill ff-glass ff-surface ff-nav ff-nav--pill"
-            aria-label="Platform navigation"
-          >
-            <a
-              class="ff-nav__link"
-              href="/platform/"
-              {% if _platform_page in ['home', 'platform', 'index'] %}aria-current="page"{% endif %}
-            >Home</a>
-            <a
-              class="ff-nav__link"
-              href="/platform/onboarding"
-              {% if _platform_page == 'onboarding' %}aria-current="page"{% endif %}
-            >Onboarding</a>
-            <a
-              class="ff-nav__link"
-              href="/platform/dashboard"
-              {% if _platform_page == 'dashboard' %}aria-current="page"{% endif %}
-            >Dashboard</a>
-            <a
-              class="ff-nav__link"
-              href="/platform/pricing"
-              {% if _platform_page == 'pricing' %}aria-current="page"{% endif %}
-            >Pricing</a>
-            <a
-              class="ff-nav__link"
-              href="/platform/demo"
-              {% if _platform_page == 'demo' %}aria-current="page"{% endif %}
-            >Demo</a>
-          </nav>
-        </div>
+  <nav
+    class="ff-navPill ff-glass ff-surface ff-nav ff-nav--pill"
+    aria-label="Platform navigation"
+  >
+    {% if _platform_surface == 'operator' %}
+      <a
+        class="ff-nav__link"
+        href="/platform/dashboard"
+        {% if _platform_page == 'dashboard' %}aria-current="page"{% endif %}
+      >Dashboard</a>
+      <a
+        class="ff-nav__link"
+        href="/platform/onboarding"
+        {% if _platform_page == 'onboarding' %}aria-current="page"{% endif %}
+      >Onboarding</a>
+    {% else %}
+      <a
+        class="ff-nav__link"
+        href="/platform/"
+        {% if _platform_page in ['home', 'platform', 'index'] %}aria-current="page"{% endif %}
+      >Home</a>
+      <a
+        class="ff-nav__link"
+        href="/platform/pricing"
+        {% if _platform_page == 'pricing' %}aria-current="page"{% endif %}
+      >Pricing</a>
+      <a
+        class="ff-nav__link"
+        href="/platform/demo"
+        {% if _platform_page == 'demo' %}aria-current="page"{% endif %}
+      >Demo</a>
+    {% endif %}
+  </nav>
+
+  <div class="ff-row ff-wrap ff-gap-2">
+    {% if _platform_surface == 'operator' %}
+      <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">
+        Open live page
+      </a>
+    {% else %}
+      <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">
+        Live example
+      </a>
+      <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">
+        Start launch
+      </a>
+    {% endif %}
+  </div>
+</div>

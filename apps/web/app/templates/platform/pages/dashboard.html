@@ -1,7 +1,7 @@
 {% set platform_page = "dashboard" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
-{% set page_description = "Manage the live fundraiser, sponsor tiers, and recurring support lanes from one premium FutureFunded workspace." %}
+{% set page_description = "Manage the live fundraiser, sponsor tiers, and optional support-plan lanes from one premium FutureFunded workspace." %}
 {% extends "platform/shells/operator_base.html" %}
 {% from "shared/macros/ui.html" import ff_cta_pair %}
 {% from "shared/macros/cards.html" import metric_card %}
@@ -43,7 +43,7 @@
         <p class="ff-kicker ff-m-0">Workspace brief</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDashboardBriefTitle">One place to launch, manage, and expand.</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This dashboard is your control layer for live fundraising, sponsor packages, and recurring support lanes.
+          This dashboard is your control layer for live fundraising, sponsor packages, and configured support-plan lanes.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
@@ -57,16 +57,16 @@
           </article>
           <article class="ff-proofMini">
             <p class="ff-kicker ff-m-0">Recurring support</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Keep momentum going beyond one-time gifts with monthly and annual memberships.</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Keep momentum going beyond one-time gifts with configurable monthly and annual support plans.</p>
           </article>
         </div>
 
         <div class="ff-mt-3">
           {{ ff_cta_pair(
-            actions[0].get("label", "Create another org") if actions|length > 0 else "Create another org",
-            actions[0].get("href", "/platform/onboarding") if actions|length > 0 else "/platform/onboarding",
-            actions[1].get("label", "Open live campaign") if actions|length > 1 else "Open live campaign",
-            actions[1].get("href", "/c/spring-fundraiser") if actions|length > 1 else "/c/spring-fundraiser"
+            actions[0].get("label", "Open live fundraiser") if actions|length > 0 else "Open live fundraiser",
+            actions[0].get("href", "/c/spring-fundraiser") if actions|length > 0 else "/c/spring-fundraiser",
+            actions[1].get("label", "Create another org") if actions|length > 1 else "Create another org",
+            actions[1].get("href", "/platform/onboarding") if actions|length > 1 else "/platform/onboarding"
           ) }}
         </div>
       </aside>
@@ -95,7 +95,7 @@
         </div>
 
         <div class="ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live page</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ (org_cards[0].get('campaign_url', '/c/spring-fundraiser')) if org_cards|length > 0 else '/c/spring-fundraiser' }}">Open live fundraiser</a>
         </div>
       </article>
 
@@ -103,8 +103,13 @@
         <p class="ff-kicker ff-m-0">Operator note</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOperatorNoteTitle">This workspace is already structured to expand.</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          The current workspace is already structured for direct giving, sponsor upsells, and recurring support expansion.
+          The current workspace is already structured for direct giving, sponsor upsells, recurring support, and team-by-team expansion.
         </p>
+        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Create another org</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
+        </div>
       </article>
     </div>
 
@@ -129,7 +134,7 @@
       </article>
 
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformMembershipTitle">
-        <p class="ff-kicker ff-m-0">Membership plans</p>
+        <p class="ff-kicker ff-m-0">Configured support plans</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformMembershipTitle">Recurring lane</h2>
 
         <div class="ff-platformMiniList ff-mt-3">

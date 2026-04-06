@@ -14,7 +14,7 @@
 {% set campaign = data.get("campaign", {}) or {} %}
 {% set org_fields = organization.get("fields", []) or [] %}
 {% set campaign_fields = campaign.get("fields", []) or [] %}
-{% set submit_label = data.get("submit_label", "Create org + campaign") %}
+{% set submit_label = data.get("submit_label", "Create org + launch page") %}
 {% set submit_href = data.get("submit_href", "/platform/dashboard") %}
 
 <section class="ff-section" aria-labelledby="platformOnboardingTitle">
@@ -113,7 +113,7 @@
         </div>
 
         <div class="ff-mt-3">
-          {{ ff_cta_pair(submit_label, submit_href, "Back to platform home", "/platform/") }}
+          {{ ff_cta_pair(submit_label, submit_href, "Preview live page", "/c/spring-fundraiser") }}
         </div>
       </article>
 
@@ -131,8 +131,8 @@
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A credible base to add sponsor packages and local partner support.</p>
           </article>
           <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Membership expansion</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">The same org can later expand into booster memberships and a fuller platform hub.</p>
+            <p class="ff-kicker ff-m-0">Support-plan expansion</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">The same org can later expand into optional support plans and a fuller platform hub.</p>
           </article>
         </div>
       </article>
