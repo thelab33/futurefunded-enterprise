@@ -14,8 +14,8 @@
 {% set hero = data.get("hero", {}) or {} %}
 {% set launch_cards = data.get("launch_cards") or [
   {
-    "title": "Branded fundraiser",
-    "body": "Launch a public fundraising page that looks polished, credible, and ready to share with families and supporters."
+    "title": "Public fundraiser",
+    "body": "Launch a polished public fundraiser that is ready to share with families, donors, and sponsors."
   },
   {
     "title": "Sponsor packages",
@@ -26,8 +26,8 @@
     "body": "Turn one-time campaign momentum into memberships, booster support, and steadier revenue over time."
   },
   {
-    "title": "Operator control",
-    "body": "Manage launch messaging, pricing, and team-by-team expansion from one cleaner platform workspace."
+    "title": "Operator dashboard",
+    "body": "Manage launch messaging, pricing, and expansion from one operator dashboard."
   }
 ] %}
 {% set status_cards = data.get("status_cards") or [
@@ -51,7 +51,7 @@
 {% set why_it_wins = data.get("why_it_wins") or {
   "eyebrow": "Why it wins",
   "title": "Built to feel like a product, not a fundraiser template.",
-  "body": "FutureFunded helps you sell the system clearly: premium public pages, sponsor-ready packaging, and a cleaner operator story that feels credible in front of real buyers.",
+  "body": "FutureFunded helps you explain the public fundraiser, sponsor packages, recurring support, and operator story as one clean system buyers can understand fast.",
   "cards": [
     {
       "title": "Cleaner conversion surfaces",
@@ -88,7 +88,7 @@
           </h1>
 
           <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
-            {{ hero.get("body", "Launch a sponsor-ready fundraising experience for youth boys basketball, starting with Connect ATX Elite — branded giving, booster support, and a cleaner story for families and local sponsors.") }}
+            {{ hero.get("body", "Launch a sponsor-ready public fundraiser for youth basketball, starting with Connect ATX Elite — then expand into sponsor packages, recurring support, and cleaner operator control.") }}
           </p>
 
           {% if hero.get("pills") %}
@@ -101,7 +101,7 @@
             {{ ff_cta_pair(
               hero.get("primary_cta_label", "Start guided launch"),
               hero.get("primary_cta_href", "/platform/onboarding"),
-              hero.get("secondary_cta_label", "View live example"),
+              hero.get("secondary_cta_label", "View live fundraiser"),
               hero.get("secondary_cta_href", "/c/spring-fundraiser")
             ) }}
           </div>

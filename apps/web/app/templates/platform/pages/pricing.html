@@ -14,7 +14,7 @@
 {% set pricing_title = data.get("title", "Launch a sponsor-ready fundraiser in minutes.") %}
 {% set pricing_body = data.get(
   "body",
-  "FutureFunded helps youth teams, schools, nonprofits, and clubs launch branded fundraising systems with direct giving, sponsor lanes, and optional support-plan expansion from one premium workspace."
+  "FutureFunded helps youth teams, schools, nonprofits, and clubs launch public fundraisers, sponsor packages, and recurring support from one premium workspace."
 ) %}
 
 {% set hero_pills = data.get("hero_pills") or [
@@ -53,7 +53,7 @@
 
 {% set actions = data.get("actions") or [
   {"label": "Start guided launch", "href": "/platform/onboarding"},
-  {"label": "Open founder demo", "href": "/platform/demo"}
+  {"label": "View guided demo", "href": "/platform/demo"}
 ] %}
 
 {% set primary_action = actions[0] if actions|length > 0 else {"label": "Start guided launch", "href": "/platform/onboarding"} %}
@@ -69,8 +69,8 @@
     "body": "A premium workspace for launch, oversight, positioning, and program-by-program expansion."
   },
   {
-    "title": "Future revenue lanes",
-    "body": "Sponsor packages and support-plan readiness that extend value beyond one campaign."
+    "title": "Sponsor packages + recurring support",
+    "body": "Sponsor packages and recurring support that extend value beyond one campaign."
   }
 ] %}
 

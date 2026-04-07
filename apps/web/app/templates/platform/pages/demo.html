@@ -14,7 +14,7 @@
 {% set demo_title = data.get("title", "See FutureFunded in action.") %}
 {% set demo_body = data.get(
   "body",
-  "This guided demo shows the public fundraiser, the onboarding flow, the operator dashboard, and the founder-ready pricing model as one connected revenue system."
+  "This guided demo shows the public fundraiser, onboarding flow, operator dashboard, and founder-ready pricing model as one clean sales sequence."
 ) %}
 
 {% set hero_pills = data.get("hero_pills") or [
@@ -39,7 +39,7 @@
   {
     "label": "Step 3",
     "title": "Operator dashboard",
-    "body": "Position FutureFunded as a system, not just a page, by showing management and revenue lanes.",
+    "body": "Position FutureFunded as a system — public fundraiser, operator dashboard, and revenue lanes — not just a page.",
     "href": "/platform/dashboard"
   },
   {
@@ -51,8 +51,8 @@
 ] %}
 
 {% set actions = data.get("actions") or [
-  {"label": "Launch your program", "href": "/platform/onboarding"},
-  {"label": "View live example", "href": "/c/spring-fundraiser"}
+  {"label": "Start guided launch", "href": "/platform/onboarding"},
+  {"label": "View live fundraiser", "href": "/c/spring-fundraiser"}
 ] %}
 
 {% set primary_action = actions[0] if actions|length > 0 else {"label": "Launch your program", "href": "/platform/onboarding"} %}
