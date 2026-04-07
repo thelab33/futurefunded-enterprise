@@ -2774,6 +2774,64 @@ CONTRACTS PRESERVED
 </div>
 </section>
 <section
+  id="press-video"
+  class="ff-modal ff-modal--compact ff-modal--flagship"
+  data-ff-video-modal=""
+  data-open="false"
+  hidden
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="videoTitle"
+  aria-describedby="videoStatus"
+>
+  <a
+    class="ff-modal__backdrop ff-modal__backdrop--flagship ff-sheet__close"
+    data-ff-close-video=""
+    href="#home"
+    tabindex="-1"
+    aria-label="Close video"
+  ></a>
+
+  <div
+    class="ff-modal__panel ff-modal__panel--flagship"
+    data-ff-video-panel=""
+    role="document"
+    tabindex="-1"
+  >
+    <header class="ff-modal__head ff-modal__head--flagship ff-videoModal__head">
+      <div class="ff-minw-0">
+        <p class="ff-kicker ff-m-0">Program video</p>
+        <h2 class="ff-modal__title ff-mt-1 ff-mb-0" data-ff-video-title="" id="videoTitle">
+          {{ _press_video_title|default('Watch the story', true)|e }}
+        </h2>
+        <p class="ff-help ff-muted ff-mt-1 ff-mb-0" data-ff-video-status="" id="videoStatus">
+          Ready when you are.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="ff-iconbtn ff-sheet__close"
+        data-ff-close-video=""
+        aria-label="Close video"
+      >
+        <span aria-hidden="true">✕</span>
+        <span class="ff-sr">Close video</span>
+      </button>
+    </header>
+
+    <div class="ff-modal__body ff-videoModal__body">
+      <div
+        class="ff-videoModal__mount"
+        data-ff-video-mount=""
+        aria-live="polite"
+      ></div>
+    </div>
+  </div>
+</section>
+
+<section
   id="terms"
   class="ff-modal ff-modal--compact ff-modal--flagship"
   data-ff-terms-modal=""

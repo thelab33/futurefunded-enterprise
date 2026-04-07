@@ -39,10 +39,6 @@ const SEL = {
   openPrivacy: '[data-ff-open-privacy]',
   closePrivacy: '[data-ff-close-privacy]',
   privacyModal: '[data-ff-privacy-modal]',
-
-  openOnboard: '[data-ff-open-onboard]',
-  closeOnboard: '[data-ff-close-onboard]',
-  onboardModal: '[data-ff-onboard-modal]',
   onboardNext: '[data-ff-onboard-next]',
   onboardPrev: '[data-ff-onboard-prev]',
   onboardFinish: '[data-ff-onboard-finish]',
@@ -51,8 +47,7 @@ const SEL = {
   themeToggle: '[data-ff-theme-toggle], .ff-themeToggle, #ff-theme-toggle',
   floatingDonate: '[data-ff-floating-donate]',
   backToTop: '[data-ff-backtotop]',
-  successUpsellTemplate: '#ffDonationSuccessUpsellTemplate',
-} as const;
+  successUpsellTemplate: '#ffDonationSuccessUpsellTemplate'} as const;
 
 type RuntimeWatchers = {
   consoleErrors: string[];
@@ -211,14 +206,11 @@ test.describe('FutureFunded fundraiser smoke suite', () => {
       SEL.termsModal,
       SEL.openPrivacy,
       SEL.privacyModal,
-      SEL.openOnboard,
-      SEL.onboardModal,
       SEL.themeToggle,
       SEL.share,
       SEL.backToTop,
       SEL.floatingDonate,
-      SEL.successUpsellTemplate,
-    ];
+      SEL.successUpsellTemplate];
 
     for (const selector of checks) {
       await expect(
@@ -272,8 +264,6 @@ test.describe('FutureFunded fundraiser smoke suite', () => {
     await openAndExpectVisible(page, SEL.openPrivacy, SEL.privacyModal);
     await closeIfPresent(page, SEL.closePrivacy, SEL.privacyModal);
 
-    await openAndExpectVisible(page, SEL.openOnboard, SEL.onboardModal);
-
     if (await exists(page, SEL.onboardNext)) {
       await clickVisible(page, SEL.onboardNext);
     }
@@ -281,8 +271,6 @@ test.describe('FutureFunded fundraiser smoke suite', () => {
     if (await exists(page, SEL.onboardPrev)) {
       await clickVisible(page, SEL.onboardPrev);
     }
-
-    await closeIfPresent(page, SEL.closeOnboard, SEL.onboardModal);
 
     if (await firstVisible(page, SEL.themeToggle)) {
       await clickVisible(page, SEL.themeToggle);
@@ -349,7 +337,7 @@ test.describe('FutureFunded fundraiser smoke suite', () => {
     await closeIfPresent(page, SEL.closeCheckout, SEL.checkoutSheet);
   });
 
-  test('sponsor, legal, video, and onboarding modals all open and close', async ({ page }) => {
+  test('sponsor, legal, and video modals all open and close', async ({ page }) => {
     await openAndExpectVisible(page, SEL.openSponsor, SEL.sponsorModal);
     await closeIfPresent(page, SEL.closeSponsor, SEL.sponsorModal);
 
@@ -361,8 +349,5 @@ test.describe('FutureFunded fundraiser smoke suite', () => {
 
     await openAndExpectVisible(page, SEL.openPrivacy, SEL.privacyModal);
     await closeIfPresent(page, SEL.closePrivacy, SEL.privacyModal);
-
-    await openAndExpectVisible(page, SEL.openOnboard, SEL.onboardModal);
-    await closeIfPresent(page, SEL.closeOnboard, SEL.onboardModal);
   });
 });
