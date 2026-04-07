@@ -4088,3 +4088,173 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
 }
 
 /* FF_SPONSOR_VIDEO_MODAL_SCROLL_FIX_V1_END */
+
+/* ==========================================================================
+   FF_MOBILE_CONVERSION_FIX_V1
+   Ensure donate + sponsor are visible and tappable
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  [data-ff-donate],
+  [data-ff-open-checkout] {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 9999;
+    display: block !important;
+  }
+
+  [data-ff-sponsor] {
+    display: block !important;
+    z-index: 9998;
+  }
+
+  /* prevent parent clipping */
+  .ff-root,
+  .ff-page,
+  main {
+    overflow: visible !important;
+  }
+}
+
+/* ==========================================================================
+   FF_MOBILE_CTA_BAR_V1 (Production-grade)
+   Single canonical donate CTA for mobile
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  .ff-mobileCtaBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+
+    background: rgba(10, 12, 18, 0.85);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .ff-mobileCtaBar__btn {
+    flex: 1;
+    min-height: 48px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+
+    text-decoration: none;
+  }
+
+  .ff-mobileCtaBar__donate {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+  }
+
+  .ff-mobileCtaBar__sponsor {
+    background: rgba(255,255,255,0.08);
+    color: white;
+  }
+
+  /* prevent content being hidden behind bar */
+  body {
+    padding-bottom: 80px;
+  }
+}
+
+/* ==========================================================================
+   FF_MOBILE_DONATE_TAP_TARGET_FIX_V1
+   Ensures primary donate CTA meets tapTarget requirements
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Primary donate button (tab / CTA) */
+  .ff-donate-btn,
+  [data-ff-open-checkout] {
+
+    min-height: 48px !important;
+    min-width: 48px !important;
+
+    padding: 0.75rem 1rem !important;
+
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    border-radius: 12px;
+
+    /* prevent shrinking */
+    flex-shrink: 0;
+
+    /* ensure it's not visually collapsed */
+    line-height: 1.2;
+  }
+
+  /* if inside flex/grid, ensure it expands */
+  .ff-tab--cta {
+    flex: 1 1 auto;
+  }
+
+}
+
+/* ==========================================================================
+   FF_MOBILE_PRIMARY_CTA_LOCK_V1
+   Guarantees a visible, tappable donate CTA on mobile
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Anchor the FIRST donate button as primary CTA */
+  [data-ff-open-checkout]:first-of-type {
+    position: fixed !important;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+
+    z-index: 10000;
+
+    min-height: 52px !important;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+
+  /* Prevent layout clipping */
+  body,
+  .ff-root,
+  .ff-page,
+  main {
+    overflow: visible !important;
+  }
+
+  /* Ensure page content is not hidden behind CTA */
+  body {
+    padding-bottom: 90px;
+  }
+
+}

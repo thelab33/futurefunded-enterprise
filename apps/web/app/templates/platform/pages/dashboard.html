@@ -17,14 +17,14 @@
 
 {% set overview_cards = data.get("overview_cards") or [
   {"title": "Organizations", "body": "Active organizations in this workspace", "value": "1"},
-  {"title": "Campaigns", "body": "Live fundraising campaigns you can manage", "value": "1"},
+  {"title": "Live fundraisers", "body": "Public fundraisers you can manage", "value": "1"},
   {"title": "Sponsor packages", "body": "Active support packages for local partners", "value": "2"},
   {"title": "Recurring support", "body": "Recurring support plans configured", "value": "2"}
 ] %}
 
 {% set actions = data.get("actions") or [
   {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "primary"},
-  {"label": "Create another org", "href": "/platform/onboarding", "variant": "secondary"}
+  {"label": "Start another guided launch", "href": "/platform/onboarding", "variant": "secondary"}
 ] %}
 
 {% set org_cards = data.get("org_cards") or [
@@ -64,7 +64,7 @@
 ] %}
 
 {% set primary_action = actions[0] if actions|length > 0 else {"label": "Open live fundraiser", "href": "/c/spring-fundraiser"} %}
-{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Create another org", "href": "/platform/onboarding"} %}
+{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Start another guided launch", "href": "/platform/onboarding"} %}
 {% set latest_org = org_cards[0] if org_cards|length > 0 else {} %}
 
 <section class="ff-section" aria-labelledby="platformDashboardTitle">
@@ -226,7 +226,7 @@
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
           <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Create another org</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Start another guided launch</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
         </div>
       </article>
@@ -291,7 +291,7 @@
         </div>
 
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Launch another org</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start another guided launch</a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
         </div>
       </div>
