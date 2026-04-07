@@ -5,8 +5,3 @@
    of the primary authority surface.
 */
 
-#ff-onboarding,
-#ffOnboardPanel2,
-[data-ff-open-onboarding] {
-  --ff-legacy-bridge: 1;
-}
