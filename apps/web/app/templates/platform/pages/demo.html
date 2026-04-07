@@ -1,103 +1,191 @@
 {% set platform_page = "demo" %}
-{% set page_title = "FutureFunded Demo" %}
-{% set page_description = "See FutureFunded in action — public fundraiser, onboarding flow, operator dashboard, and founder-ready pricing in one guided demo." %}
-{% extends "platform/shells/marketing_base.html" %}
 {% set data = data or {} %}
+{% set page_title = data.get("page_title", "FutureFunded Demo") %}
+{% set page_description = data.get(
+  "page_description",
+  "See FutureFunded in action — public fundraiser, onboarding flow, operator dashboard, and founder-ready pricing in one guided demo."
+) %}
+{% extends "platform/shells/marketing_base.html" %}
+{% from "shared/macros/ui.html" import ff_cta_pair %}
+{% from "shared/macros/pills.html" import ff_pill_list %}
+
 {% block platform_content %}
+{% set demo_eyebrow = data.get("eyebrow", "Demo") %}
+{% set demo_title = data.get("title", "See FutureFunded in action.") %}
+{% set demo_body = data.get(
+  "body",
+  "This guided demo shows the public fundraiser, the onboarding flow, the operator dashboard, and the founder-ready pricing model as one connected revenue system."
+) %}
+
+{% set hero_pills = data.get("hero_pills") or [
+  "Live fundraiser",
+  "Operator dashboard",
+  "Founder-ready"
+] %}
+
+{% set steps = data.get("steps") or [
+  {
+    "label": "Step 1",
+    "title": "Public fundraiser",
+    "body": "Show the polished donation surface, sponsor offers, and public trust signals first.",
+    "href": "/c/spring-fundraiser"
+  },
+  {
+    "label": "Step 2",
+    "title": "Onboarding flow",
+    "body": "Show how quickly a team or organization can move from setup to a launch-ready page.",
+    "href": "/platform/onboarding"
+  },
+  {
+    "label": "Step 3",
+    "title": "Operator dashboard",
+    "body": "Position FutureFunded as a system, not just a page, by showing management and revenue lanes.",
+    "href": "/platform/dashboard"
+  },
+  {
+    "label": "Step 4",
+    "title": "Founder pricing",
+    "body": "End the demo with a simple pricing story that makes it easy to say yes.",
+    "href": "/platform/pricing"
+  }
+] %}
+
+{% set actions = data.get("actions") or [
+  {"label": "Launch your program", "href": "/platform/onboarding"},
+  {"label": "View live example", "href": "/c/spring-fundraiser"}
+] %}
+
+{% set primary_action = actions[0] if actions|length > 0 else {"label": "Launch your program", "href": "/platform/onboarding"} %}
+{% set secondary_action = actions[1] if actions|length > 1 else {"label": "View live example", "href": "/c/spring-fundraiser"} %}
+
 <section class="ff-section" aria-labelledby="platformDemoTitle">
   <div class="ff-container">
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
-      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
+      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact" aria-labelledby="platformDemoTitle">
         <div class="ff-sectionhead__text ff-minw-0">
-          <p class="ff-kicker ff-m-0">Demo</p>
+          <p class="ff-kicker ff-m-0">{{ demo_eyebrow }}</p>
+
           <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-10" id="platformDemoTitle">
-            See FutureFunded in action.
+            {{ demo_title }}
           </h1>
+
           <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
-            This guided demo shows the public fundraiser, the onboarding flow, the operator dashboard, and the founder-ready pricing model as one connected revenue system.
+            {{ demo_body }}
           </p>
 
-          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Demo signals">
-            <span class="ff-pill ff-pill--soft" role="listitem">Live fundraiser</span>
-            <span class="ff-pill ff-pill--soft" role="listitem">Operator dashboard</span>
-            <span class="ff-pill ff-pill--ghost" role="listitem">Founder-ready</span>
-          </div>
+          {% if hero_pills %}
+            <div class="ff-mt-3">
+              {{ ff_pill_list(hero_pills, "soft") }}
+            </div>
+          {% endif %}
+
+          <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDemoPromiseTitle">
+            <p class="ff-kicker ff-m-0">What this demo proves</p>
+            <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoPromiseTitle">
+              Show the full system in one clean sequence.
+            </h2>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+              Start with the public page, show how launch works, reveal the operator value, then close with a pricing story that feels simple and credible.
+            </p>
+          </article>
         </div>
       </header>
 
       <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformDemoHowTitle">
         <p class="ff-kicker ff-m-0">How to use this page</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoHowTitle">Use this as your guided sales flow.</h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoHowTitle">
+          Use this as your guided sales flow.
+        </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Start with the public fundraiser, show how a team gets launched through onboarding, move into the dashboard, then close with pricing.
+          Start with the fundraiser, move through onboarding, show the operator dashboard, then close on pricing. It gives buyers a full picture without making the product feel complicated.
         </p>
 
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Open pricing</a>
+        <div class="ff-mt-3">
+          {{ ff_cta_pair(
+            secondary_action.get("label", "View live example"),
+            secondary_action.get("href", "/c/spring-fundraiser"),
+            "Open pricing",
+            "/platform/pricing"
+          ) }}
         </div>
+
+        <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDemoFounderAngleTitle">
+          <p class="ff-kicker ff-m-0">Founder angle</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoFounderAngleTitle">
+            Sell the before-and-after.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Before FutureFunded: scattered fundraising, weak sponsor presentation, no clear operator story. After FutureFunded: one branded launch surface with cleaner trust, revenue lanes, and expansion room.
+          </p>
+        </article>
       </aside>
     </div>
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="demoFundraiserTitle">
-        <p class="ff-kicker ff-m-0">Step 1</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoFundraiserTitle">Public fundraiser</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Show the polished donation surface, sponsor offers, and public trust signals first.
-        </p>
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">View live fundraiser</a>
+    <section class="ff-mt-3" aria-labelledby="platformDemoStepsTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Guided flow</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoStepsTitle">
+            Walk buyers through the platform in order.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Each step answers a different buying question: what the public sees, how launch works, what the operator gets, and how pricing closes the deal.
+          </p>
         </div>
-      </article>
+      </div>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="demoOnboardingTitle">
-        <p class="ff-kicker ff-m-0">Step 2</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoOnboardingTitle">Onboarding flow</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Show how quickly a team or organization can move from setup to a launch-ready page.
-        </p>
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Open onboarding</a>
-        </div>
-      </article>
+      <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+        {% for step in steps %}
+          {% set step_href = step.get("href", "/platform/") %}
+          {% set step_title = step.get("title", "Step") %}
+          <article class="ff-card ff-glass ff-pad" aria-labelledby="demoStep{{ loop.index }}Title">
+            <p class="ff-kicker ff-m-0">{{ step.get("label", "Step") }}</p>
+            <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoStep{{ loop.index }}Title">{{ step_title }}</h2>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ step.get("body", "") }}</p>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="demoDashboardTitle">
-        <p class="ff-kicker ff-m-0">Step 3</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoDashboardTitle">Operator dashboard</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Position FutureFunded as a system, not just a page, by showing management and revenue lanes.
-        </p>
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/dashboard">Open dashboard</a>
-        </div>
-      </article>
-
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="demoPricingTitle">
-        <p class="ff-kicker ff-m-0">Step 4</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoPricingTitle">Founder pricing</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          End the demo with a simple pricing story that makes it easy to say yes.
-        </p>
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/pricing">Open pricing</a>
-        </div>
-      </article>
-    </div>
+            <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+              <a
+                class="ff-btn {{ 'ff-btn--primary' if loop.index in [1, 4] else 'ff-btn--secondary' }} ff-btn--pill"
+                href="{{ step_href }}"
+              >
+                {% if "fundraiser" in step_title|lower %}
+                  View live fundraiser
+                {% elif "onboarding" in step_title|lower %}
+                  Open onboarding
+                {% elif "dashboard" in step_title|lower %}
+                  Open dashboard
+                {% elif "pricing" in step_title|lower %}
+                  Open pricing
+                {% else %}
+                  Open step
+                {% endif %}
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
 
     <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="demoCloseTitle">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Close the demo</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoCloseTitle">Start guided launch with FutureFunded.</h2>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoCloseTitle">
+            Start guided launch with FutureFunded.
+          </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Use this page in DMs, calls, and founder outreach to show the full product in one clean sequence.
+            Use this page in DMs, calls, and founder outreach to show the full product in one clean sequence — then move directly into launch.
           </p>
         </div>
+
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_action.get('href', '/platform/onboarding') }}">
+            {{ primary_action.get("label", "Launch your program") }}
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_action.get('href', '/c/spring-fundraiser') }}">
+            {{ secondary_action.get("label", "View live example") }}
+          </a>
         </div>
       </div>
     </div>
@@ -111,14 +199,21 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Founder close</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoFounderCloseTitle">Show this flow, then ask for the launch.</h2>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoFounderCloseTitle">
+            Show this flow, then ask for the launch.
+          </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            The simplest founder close is: this is your live page, this is your setup flow, this is your operator dashboard, and this is the pricing to get started today.
+            The cleanest founder close is: this is your live page, this is your setup flow, this is your operator workspace, and this is the pricing to get started today.
           </p>
         </div>
+
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">Review pricing</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">
+            Start guided launch
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">
+            Review pricing
+          </a>
         </div>
       </div>
     </div>

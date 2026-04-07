@@ -1,12 +1,13 @@
 <!doctype html>
-{# ---------------------------------------------------------------------------
-FutureFunded • Marketing Base
-Deterministic platform shell
+{# -----------------------------------------------------------------------------
+FutureFunded • Marketing Base (Prestige)
+Deterministic premium platform shell
 - shared platform chrome
-- canonical/meta/theme-color
+- strong canonical/meta/theme-color contract
 - lightweight ffPlatformConfig payload
 - no campaign-only ffConfig / ffSelectors here
---------------------------------------------------------------------------- #}
+- safe extension points for premium marketing pages
+----------------------------------------------------------------------------- #}
 
 {% set _cfg = (config if config is mapping else {}) %}
 
@@ -21,34 +22,64 @@ Deterministic platform shell
   |default(_cfg.get('FF_VERSION'), true)
   |default('1', true)
 )|string|trim %}
-{% if not _asset_v %}{% set _asset_v = '1' %}{% endif %}
+{% if not _asset_v %}
+  {% set _asset_v = '1' %}
+{% endif %}
 
 {% set _platform_page = (platform_page|default('home', true))|string|trim|lower %}
-{% if not _platform_page %}{% set _platform_page = 'home' %}{% endif %}
+{% if not _platform_page %}
+  {% set _platform_page = 'home' %}
+{% endif %}
 
 {% set _platform_surface = 'marketing' %}
 
 {% set _theme = (theme|default('dark', true))|string|trim|lower %}
-{% if _theme not in ['light', 'dark'] %}{% set _theme = 'dark' %}{% endif %}
+{% if _theme not in ['light', 'dark'] %}
+  {% set _theme = 'dark' %}
+{% endif %}
 
 {% set _ff_theme = (ff_theme|default('core', true))|string|trim %}
-{% if not _ff_theme %}{% set _ff_theme = 'core' %}{% endif %}
+{% if not _ff_theme %}
+  {% set _ff_theme = 'core' %}
+{% endif %}
 
 {% set _brand = (ff_brand|default('futurefunded', true))|string|trim %}
-{% if not _brand %}{% set _brand = 'futurefunded' %}{% endif %}
+{% if not _brand %}
+  {% set _brand = 'futurefunded' %}
+{% endif %}
 
 {% set _page_title = (page_title|default('FutureFunded Platform', true))|string|trim %}
-{% if not _page_title %}{% set _page_title = 'FutureFunded Platform' %}{% endif %}
+{% if not _page_title %}
+  {% set _page_title = 'FutureFunded Platform' %}
+{% endif %}
 
 {% set _page_desc = (
   page_description
-  |default('Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace.', true)
+  |default(
+    'Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace.',
+    true
+  )
 )|string|trim %}
 {% if not _page_desc %}
   {% set _page_desc = 'Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace.' %}
 {% endif %}
 
-{% set _theme_color = (theme_color|default('#0b1220' if _theme == 'dark' else '#f7f9fc', true))|string|trim %}
+{% set _theme_color = (
+  theme_color|default('#0b1220' if _theme == 'dark' else '#f7f9fc', true)
+)|string|trim %}
+{% if not _theme_color %}
+  {% set _theme_color = '#0b1220' if _theme == 'dark' else '#f7f9fc' %}
+{% endif %}
+
+{% set _robots = (page_robots|default('index,follow', true))|string|trim %}
+{% if not _robots %}
+  {% set _robots = 'index,follow' %}
+{% endif %}
+
+{% set _site_name = (site_name|default('FutureFunded', true))|string|trim %}
+{% if not _site_name %}
+  {% set _site_name = 'FutureFunded' %}
+{% endif %}
 
 {% set _public_base_raw = (
   ff_public_base_url|default('', true)
@@ -56,43 +87,66 @@ Deterministic platform shell
   or _cfg.get('PUBLIC_BASE_URL')
   or (request.url_root if request is defined else '')
 )|string|trim %}
+
 {% if _public_base_raw.endswith('/') %}
   {% set _public_base_raw = _public_base_raw[:-1] %}
 {% endif %}
+
 {% if not _public_base_raw %}
   {% set _public_base_raw = 'https://getfuturefunded.com' %}
 {% endif %}
+
 {% set _public_base = _public_base_raw %}
 
-{% set _request_path = (request.path if request is defined else '/platform/')|string %}
+{% set _request_path = (request.path if request is defined else '/platform/')|string|trim %}
+{% if not _request_path %}
+  {% set _request_path = '/platform/' %}
+{% endif %}
+
 {% set canonical = (canonical_url|default((_public_base ~ _request_path), true))|string|trim %}
 {% if not canonical %}
   {% set canonical = _public_base ~ '/platform/' %}
 {% endif %}
 
+{% set _meta_image = (
+  og_image
+  |default(meta_image, true)
+  |default('', true)
+)|string|trim %}
+
+{% set _platform_routes = {
+  'home': '/platform/',
+  'pricing': '/platform/pricing',
+  'demo': '/platform/demo',
+  'onboarding': '/platform/onboarding',
+  'dashboard': '/platform/dashboard'
+} %}
+
 {% set _platform_config = {
   'page': _platform_page,
   'template': 'platform',
+  'surface': _platform_surface,
   'theme': _theme,
   'ffTheme': _ff_theme,
   'brand': _brand,
-  'surface': _platform_surface,
+  'title': _page_title,
+  'description': _page_desc,
   'canonical': canonical,
-  'routes': {
-    'home': '/platform/',
-    'pricing': '/platform/pricing',
-    'demo': '/platform/demo',
-    'onboarding': '/platform/onboarding',
-    'dashboard': '/platform/dashboard'
-  }
+  'publicBase': _public_base,
+  'routes': _platform_routes
 } %}
+
+{% set _platform_use_premium_bridge = (
+  platform_use_premium_bridge|default(false, true)
+) %}
 
 <html
   lang="en"
-  class="ff-root"
+  class="ff-root ff-root--platform"
   data-theme="{{ _theme|e }}"
   data-ff-theme="{{ _ff_theme|e }}"
   data-ff-brand="{{ _brand|e }}"
+  data-ff-surface="{{ _platform_surface|e }}"
 >
 <head>
   <meta charset="utf-8" />
@@ -101,24 +155,40 @@ Deterministic platform shell
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="{{ _theme_color|e }}" />
   <meta name="description" content="{{ _page_desc|e }}" />
+  <meta name="robots" content="{{ _robots|e }}" />
+
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="{{ _site_name|e }}" />
   <meta property="og:title" content="{{ _page_title|e }}" />
   <meta property="og:description" content="{{ _page_desc|e }}" />
   <meta property="og:url" content="{{ canonical|e }}" />
-  <meta name="twitter:card" content="summary" />
+  {% if _meta_image %}
+    <meta property="og:image" content="{{ _meta_image|e }}" />
+  {% endif %}
+
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ _page_title|e }}" />
   <meta name="twitter:description" content="{{ _page_desc|e }}" />
+  {% if _meta_image %}
+    <meta name="twitter:image" content="{{ _meta_image|e }}" />
+  {% endif %}
 
   <title>{{ _page_title|e }}</title>
   <link rel="canonical" href="{{ canonical|e }}" />
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/ff.css') }}?v={{ _asset_v|e }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
-  {% set _platform_use_premium_bridge = (
-    platform_use_premium_bridge|default(false, true)
-  ) %}
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/ff.css') }}?v={{ _asset_v|e }}"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}"
+  />
   {% if _platform_use_premium_bridge %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}"
+    />
   {% endif %}
 
   <script
@@ -130,12 +200,14 @@ Deterministic platform shell
 
   {% block platform_head_extra %}{% endblock %}
 </head>
+
 <body
-  class="ff-body"
+  class="ff-body ff-body--platform"
   data-ff-body=""
-  data-ff-page="{{ _platform_page|e }}"
   data-ff-template="platform"
+  data-ff-page="{{ _platform_page|e }}"
   data-ff-platform="true"
+  data-ff-platform-page="{{ _platform_page|e }}"
   data-ff-platform-surface="{{ _platform_surface|e }}"
   data-ff-canonical="{{ canonical|e }}"
 >
@@ -152,21 +224,44 @@ Deterministic platform shell
     aria-relevant="additions removals"
   ></div>
 
-  <div class="ff-shell" data-ff-shell="">
+  {% block platform_body_open %}{% endblock %}
+
+  <div class="ff-shell ff-shell--platform" data-ff-shell="">
     <div class="ff-shellBg" aria-hidden="true"></div>
 
-    <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
-      <div class="ff-container ff-platformChrome__inner">
-        {% include "shared/partials/_platform_topbar.html" %}
-        {% include "shared/partials/_platform_status_bar.html" %}
-      </div>
-    </header>
+    {% block platform_chrome %}
+      <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
+        <div class="ff-container ff-platformChrome__inner">
+          {% include "shared/partials/_platform_topbar.html" %}
+          {% include "shared/partials/_platform_status_bar.html" %}
+        </div>
+      </header>
+    {% endblock %}
 
-    <main id="content" class="ff-main" data-ff-main="" tabindex="-1">
+    {% block platform_before_main %}{% endblock %}
+
+    <main
+      id="content"
+      class="ff-main"
+      data-ff-main=""
+      tabindex="-1"
+      aria-label="{{ _page_title|e }}"
+    >
       {% block platform_content %}{% endblock %}
     </main>
+
+    {% block platform_after_main %}{% endblock %}
   </div>
 
+  <noscript>
+    <div class="ff-container" style="padding-bottom: 1rem;">
+      <p class="ff-help ff-muted" style="margin: 0;">
+        JavaScript is disabled. Core platform content is still available, but guided interactions and a few premium polish touches may be limited.
+      </p>
+    </div>
+  </noscript>
+
   {% block platform_scripts %}{% endblock %}
+  {% block platform_body_close %}{% endblock %}
 </body>
 </html>

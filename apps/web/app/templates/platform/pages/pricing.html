@@ -1,152 +1,235 @@
 {% set platform_page = "pricing" %}
-{% set page_title = "FutureFunded Pricing" %}
-{% set page_description = "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations." %}
-{% extends "platform/shells/marketing_base.html" %}
 {% set data = data or {} %}
+{% set page_title = data.get("page_title", "FutureFunded Pricing") %}
+{% set page_description = data.get(
+  "page_description",
+  "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, branded program hubs, and recurring support lanes for teams, schools, and youth organizations."
+) %}
+{% extends "platform/shells/marketing_base.html" %}
+{% from "shared/macros/ui.html" import ff_cta_pair %}
+{% from "shared/macros/pills.html" import ff_pill_list %}
+
 {% block platform_content %}
+{% set pricing_eyebrow = data.get("eyebrow", "Pricing") %}
+{% set pricing_title = data.get("title", "Launch a sponsor-ready fundraiser in minutes.") %}
+{% set pricing_body = data.get(
+  "body",
+  "FutureFunded helps youth teams, schools, nonprofits, and clubs launch branded fundraising systems with direct giving, sponsor lanes, and optional support-plan expansion from one premium workspace."
+) %}
+
+{% set hero_pills = data.get("hero_pills") or [
+  "Founder-friendly",
+  "Sponsor-ready",
+  "Launch fast"
+] %}
+
+{% set plans = data.get("plans") or [
+  {
+    "name": "Starter",
+    "price": "$49 setup",
+    "body": "Best for teams that want a premium public fundraiser fast.",
+    "fit": "Perfect for first launches and founder-led setup offers.",
+    "cta_label": "Start with Starter",
+    "cta_href": "/platform/onboarding"
+  },
+  {
+    "name": "Growth",
+    "price": "$79/mo",
+    "body": "Best for programs ready to add sponsor packages and recurring support.",
+    "fit": "Great for schools, clubs, and growing youth programs.",
+    "cta_label": "Start Growth setup",
+    "cta_href": "/platform/onboarding",
+    "featured": true
+  },
+  {
+    "name": "White-label",
+    "price": "Custom",
+    "body": "Best for schools, nonprofits, and larger organizations that want a fuller branded operating system.",
+    "fit": "Best when you want the platform to feel like your organization’s own system.",
+    "cta_label": "Request white-label path",
+    "cta_href": "/platform/onboarding"
+  }
+] %}
+
+{% set actions = data.get("actions") or [
+  {"label": "Start guided launch", "href": "/platform/onboarding"},
+  {"label": "Open founder demo", "href": "/platform/demo"}
+] %}
+
+{% set primary_action = actions[0] if actions|length > 0 else {"label": "Start guided launch", "href": "/platform/onboarding"} %}
+{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Open founder demo", "href": "/platform/demo"} %}
+
+{% set included_cards = data.get("included_cards") or [
+  {
+    "title": "Public fundraiser",
+    "body": "A polished page for direct giving, cleaner storytelling, and sponsor-ready presentation from the start."
+  },
+  {
+    "title": "Operator dashboard",
+    "body": "A premium workspace for launch, oversight, positioning, and program-by-program expansion."
+  },
+  {
+    "title": "Future revenue lanes",
+    "body": "Sponsor packages and support-plan readiness that extend value beyond one campaign."
+  }
+] %}
+
 <section class="ff-section" aria-labelledby="platformPricingHeroTitle">
   <div class="ff-container">
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
-      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
+      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact" aria-labelledby="platformPricingHeroTitle">
         <div class="ff-sectionhead__text ff-minw-0">
-          <p class="ff-kicker ff-m-0">Pricing</p>
+          <p class="ff-kicker ff-m-0">{{ pricing_eyebrow }}</p>
 
-          <h1
-            class="ff-display ff-mt-2 ff-mb-0 ff-measure-11" id="platformPricingHeroTitle"
-          >
-            Launch a sponsor-ready fundraiser in minutes.
+          <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-11" id="platformPricingHeroTitle">
+            {{ pricing_title }}
           </h1>
 
           <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
-            FutureFunded helps youth teams, schools, nonprofits, and clubs launch branded fundraising systems with direct giving, sponsor lanes, and optional support-plan expansion from one premium workspace.
+            {{ pricing_body }}
           </p>
 
-          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Pricing hero signals">
-            <span class="ff-pill ff-pill--soft" role="listitem">Founder-friendly</span>
-            <span class="ff-pill ff-pill--soft" role="listitem">Sponsor-ready</span>
-            <span class="ff-pill ff-pill--ghost" role="listitem">Launch fast</span>
-          </div>
+          {% if hero_pills %}
+            <div class="ff-mt-3">
+              {{ ff_pill_list(hero_pills, "soft") }}
+            </div>
+          {% endif %}
         </div>
       </header>
 
       <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformFounderOfferTitle">
         <p class="ff-kicker ff-m-0">Founder offer</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformFounderOfferTitle">First five programs get founder pricing.</h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformFounderOfferTitle">
+          First five programs get founder pricing.
+        </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
           Start with founder pricing, get live fast, and grow into sponsor packages, recurring support, and a cleaner operator workflow without rebuilding your system later.
         </p>
 
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open founder demo</a>
+        <div class="ff-mt-3">
+          {{ ff_cta_pair(
+            primary_action.get("label", "Start guided launch"),
+            primary_action.get("href", "/platform/onboarding"),
+            secondary_action.get("label", "Open founder demo"),
+            secondary_action.get("href", "/platform/demo")
+          ) }}
         </div>
+
+        <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformPricingPositioningTitle">
+          <p class="ff-kicker ff-m-0">Why it converts</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingPositioningTitle">
+            Easy to explain. Easy to buy.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            The strongest pricing story is simple: launch the public fundraiser first, prove the sponsor-ready surface, then expand into recurring support and broader platform value as the program grows.
+          </p>
+        </article>
       </aside>
     </div>
 
-    <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" aria-labelledby="platformPlansTitle">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformStarterTitle">
-        <p class="ff-kicker ff-m-0">Starter</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformStarterTitle">$49 setup</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Best for teams that want a premium public fundraiser fast.
-        </p>
-
-        <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Includes</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">One fundraiser page, branding setup, and a clean launch path.</p>
-          </article>
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Use case</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Perfect for first launches and founder-led setup offers.</p>
-          </article>
+    <section class="ff-mt-3" aria-labelledby="platformPlansTitle">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Plans</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlansTitle">
+            Pick the launch path that matches your program.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            Start lean, sell the premium surface fast, and keep a clean path into sponsor and membership expansion later.
+          </p>
         </div>
+      </div>
 
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start with Starter</a>
-        </div>
-      </article>
+      <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3">
+        {% for plan in plans %}
+          {% set is_featured = plan.get("featured", false) %}
+          {% set is_starter = loop.index == 1 %}
+          <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPlan{{ loop.index }}Title">
+            <p class="ff-kicker ff-m-0">{{ plan.get("name", "Plan") }}</p>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformGrowthTitle">
-        <p class="ff-kicker ff-m-0">Growth</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformGrowthTitle">$79/mo</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Best for programs ready to add sponsor packages and recurring support.
-        </p>
+            <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlan{{ loop.index }}Title">
+              {{ plan.get("price", "Custom") }}
+            </h2>
 
-        <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Includes</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Public fundraiser, sponsor-ready packages, support-plan readiness, and operator dashboard access.</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+              {{ plan.get("body", "") }}
+            </p>
+
+            <div class="ff-platformMiniList ff-mt-3">
+              <article class="ff-proofMini">
+                <p class="ff-kicker ff-m-0">Best fit</p>
+                <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+                  {{ plan.get("fit", "A clean premium launch path for programs that want to move quickly.") }}
+                </p>
+              </article>
+
+              <article class="ff-proofMini">
+                <p class="ff-kicker ff-m-0">Positioning</p>
+                <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+                  {% if is_featured %}
+                    The best upgrade path when you want sponsor lanes, recurring support, and a stronger operator story.
+                  {% elif is_starter %}
+                    The fastest way to get a premium public fundraiser live and start selling the system.
+                  {% else %}
+                    The path for institutions that want the platform to feel like their own branded operating system.
+                  {% endif %}
+                </p>
+              </article>
+            </div>
+
+            <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+              {% if is_featured %}
+                <span class="ff-platformInlinePill">Most practical</span>
+              {% elif is_starter %}
+                <span class="ff-platformInlinePill">Fastest start</span>
+              {% endif %}
+
+              <a
+                class="ff-btn {{ 'ff-btn--primary' if is_featured or is_starter else 'ff-btn--secondary' }} ff-btn--pill"
+                href="{{ plan.get('cta_href', '/platform/onboarding') }}"
+              >
+                {{ plan.get("cta_label", "Choose plan") }}
+              </a>
+            </div>
           </article>
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Use case</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Great for schools, clubs, and growing youth programs.</p>
-          </article>
-        </div>
-
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <span class="ff-platformInlinePill">Most practical</span>
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start Growth setup</a>
-        </div>
-      </article>
-
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformWhiteLabelTitle">
-        <p class="ff-kicker ff-m-0">White-label</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformWhiteLabelTitle">Custom</h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Best for schools, nonprofits, and larger organizations that want a fuller branded operating system.
-        </p>
-
-        <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Includes</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Advanced setup, branded system direction, and room for broader revenue workflows.</p>
-          </article>
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Use case</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Best when you want the platform to feel like your organization’s own system.</p>
-          </article>
-        </div>
-
-        <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Request white-label path</a>
-        </div>
-      </article>
-    </div>
+        {% endfor %}
+      </div>
+    </section>
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformIncludedTitle">
         <p class="ff-kicker ff-m-0">What’s included</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformIncludedTitle">A cleaner fundraising system from day one.</h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformIncludedTitle">
+          A cleaner fundraising system from day one.
+        </h2>
 
         <div class="ff-platformMiniList ff-mt-3">
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Public fundraiser</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A polished page for direct giving and sponsor-ready presentation.</p>
-          </article>
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Operator dashboard</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">A premium workspace for launch, oversight, and expansion.</p>
-          </article>
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Future revenue lanes</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">Sponsor packages and support-plan readiness that extend value beyond one campaign.</p>
-          </article>
+          {% for item in included_cards %}
+            <article class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">{{ item.get("title", "") }}</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
+            </article>
+          {% endfor %}
         </div>
       </article>
 
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPricingDemoTitle">
         <p class="ff-kicker ff-m-0">Live example</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingDemoTitle">See what a live FutureFunded launch looks like.</h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingDemoTitle">
+          See what a live FutureFunded launch looks like.
+        </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
           Use the current spring fundraiser as your live demo when pitching teams, schools, or community organizations.
         </p>
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">
+            Open live fundraiser
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">
+            Start guided launch
+          </a>
         </div>
       </article>
     </div>
@@ -160,14 +243,21 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Ready to launch?</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingCloseTitle">Get your program live this week.</h2>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPricingCloseTitle">
+            Get your program live this week.
+          </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
             Start with founder pricing, launch the public fundraiser first, then expand into sponsor packages and optional support plans as the program grows.
           </p>
         </div>
+
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_action.get('href', '/platform/onboarding') }}">
+            {{ primary_action.get("label", "Start guided launch") }}
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_action.get('href', '/platform/demo') }}">
+            {{ secondary_action.get("label", "Open founder demo") }}
+          </a>
         </div>
       </div>
     </div>
