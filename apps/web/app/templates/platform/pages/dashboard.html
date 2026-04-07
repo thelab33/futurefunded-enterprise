@@ -1,18 +1,15 @@
 {% set platform_page = "dashboard" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
-{% set page_description = data.get(
-  "page_description",
-  "Manage the live fundraiser, sponsor tiers, and optional support-plan lanes from one premium FutureFunded workspace."
-) %}
+{% set page_description = "Manage the live public fundraiser, sponsor packages, and recurring support from one premium operator workspace." %}
 {% extends "platform/shells/operator_base.html" %}
 {% from "shared/macros/ui.html" import ff_cta_pair %}
 {% from "shared/macros/cards.html" import metric_card %}
 {% from "shared/macros/pills.html" import ff_pill_list, ff_pill %}
 
 {% block platform_content %}
-{% set eyebrow = data.get("eyebrow", "Admin dashboard") %}
-{% set title = data.get("title", "FutureFunded command center") %}
+{% set eyebrow = data.get("eyebrow", "Operator dashboard") %}
+{% set title = data.get("title", "Operator command center") %}
 {% set body = data.get(
   "body",
   "Manage the live Connect ATX Elite fundraiser, sponsor packages, and booster support from one premium workspace."
@@ -21,8 +18,8 @@
 {% set overview_cards = data.get("overview_cards") or [
   {"title": "Organizations", "body": "Active organizations in this workspace", "value": "1"},
   {"title": "Campaigns", "body": "Live fundraising campaigns you can manage", "value": "1"},
-  {"title": "Sponsor tiers", "body": "Active support packages for local partners", "value": "2"},
-  {"title": "Membership plans", "body": "Recurring support plans configured", "value": "2"}
+  {"title": "Sponsor packages", "body": "Active support packages for local partners", "value": "2"},
+  {"title": "Recurring support", "body": "Recurring support plans configured", "value": "2"}
 ] %}
 
 {% set actions = data.get("actions") or [
@@ -87,7 +84,7 @@
           </p>
 
           <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Dashboard signals">
-            <span role="listitem">{{ ff_pill("Live workspace", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Live fundraiser", "soft") }}</span>
             <span role="listitem">{{ ff_pill("Brand-ready", "soft") }}</span>
             <span role="listitem">{{ ff_pill("Operator view", "ghost") }}</span>
           </div>
@@ -110,19 +107,19 @@
           One place to launch, manage, and expand.
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This dashboard is your control layer for live fundraising, sponsor packages, and configured support-plan lanes.
+          This dashboard is your control layer for the live public fundraiser, sponsor packages, and recurring support.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
           <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Live campaign</p>
+            <p class="ff-kicker ff-m-0">Live fundraiser</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
               Connect ATX Elite is already launched with a public campaign page and dashboard access.
             </p>
           </article>
 
           <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Sponsor lanes</p>
+            <p class="ff-kicker ff-m-0">Sponsor packages</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
               Manage sponsor packages that feel credible to local businesses and community partners.
             </p>
@@ -169,7 +166,7 @@
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLatestOrgTitle">
-        <p class="ff-kicker ff-m-0">Latest live organization</p>
+        <p class="ff-kicker ff-m-0">Latest live fundraiser</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLatestOrgTitle">
           {{ latest_org.get("title", "Connect ATX Elite") }}
         </h2>
@@ -208,7 +205,7 @@
           This workspace is already structured to expand.
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          The current workspace is already structured for direct giving, sponsor upsells, recurring support, and team-by-team expansion.
+          The current workspace is already structured for direct giving, sponsor packages, and recurring support expansion.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
@@ -237,10 +234,8 @@
 
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformSponsorTierTitle">
-        <p class="ff-kicker ff-m-0">Sponsor tiers</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSponsorTierTitle">
-          Revenue lane
-        </h2>
+        <p class="ff-kicker ff-m-0">Sponsor packages</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSponsorTierTitle">Sponsor packages</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
           Sponsor packages turn the workspace into more than a donation page — they create a business-ready support path for local partners.
         </p>
@@ -261,10 +256,8 @@
       </article>
 
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformMembershipTitle">
-        <p class="ff-kicker ff-m-0">Configured support plans</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformMembershipTitle">
-          Recurring lane
-        </h2>
+        <p class="ff-kicker ff-m-0">Recurring support</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformMembershipTitle">Recurring support</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
           Recurring plans keep momentum going after the launch by turning supporter interest into steadier monthly and annual backing.
         </p>

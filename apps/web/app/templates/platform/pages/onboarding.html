@@ -1,17 +1,14 @@
 {% set platform_page = "onboarding" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Onboarding") %}
-{% set page_description = data.get(
-  "page_description",
-  "Create your first organization and campaign, then hand off directly into the operating dashboard."
-) %}
+{% set page_description = "Create your first organization and public fundraiser, then hand off directly into the operator dashboard." %}
 {% extends "platform/shells/operator_base.html" %}
 {% from "shared/macros/ui.html" import ff_cta_pair %}
 {% from "shared/macros/pills.html" import ff_pill %}
 
 {% block platform_content %}
-{% set eyebrow = data.get("eyebrow", "Step 1 · Launch your first org") %}
-{% set title = data.get("title", "Onboarding") %}
+{% set eyebrow = data.get("eyebrow", "Guided launch") %}
+{% set title = data.get("title", "Set up your first live fundraiser.") %}
 {% set body = data.get(
   "body",
   "Create your first organization and campaign against the real API, then hand off directly into your operational dashboard."
@@ -32,7 +29,7 @@
   {"label": "Goal amount", "value": "10000.00"}
 ] %}
 
-{% set submit_label = data.get("submit_label", "Create org + launch page") %}
+{% set submit_label = data.get("submit_label", "Create org + live page") %}
 {% set submit_href = data.get("submit_href", "/platform/dashboard") %}
 
 <section class="ff-section" aria-labelledby="platformOnboardingTitle">
@@ -71,11 +68,9 @@
 
       <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformOnboardingBriefTitle">
         <p class="ff-kicker ff-m-0">Launch brief</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOnboardingBriefTitle">
-          Start with one org. Publish one live campaign.
-        </h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOnboardingBriefTitle">Start with one org. Publish one live fundraiser.</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This setup gives you the minimum premium launch surface: a branded organization, a live fundraiser route, and a direct dashboard handoff.
+          This setup gives you the minimum premium launch surface: a branded organization, a live fundraiser route, and a direct operator-dashboard handoff.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
@@ -139,7 +134,7 @@
           {{ campaign.get("title", "Campaign") }}
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Set the live campaign headline, URL slug, and launch goal.
+          Set the live public fundraiser headline, URL slug, and launch goal.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
@@ -156,9 +151,7 @@
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
       <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchOutcomeTitle">
         <p class="ff-kicker ff-m-0">Launch outcome</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchOutcomeTitle">
-          Create once. Go live instantly.
-        </h2>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchOutcomeTitle">Create once. Go live fast.</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
           Submitting this form creates a live public fundraiser at <code>/c/&lt;campaign-slug&gt;</code> and makes it available from your dashboard.
         </p>
@@ -195,7 +188,7 @@
           </article>
 
           <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Support-plan expansion</p>
+            <p class="ff-kicker ff-m-0">Recurring support</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
               The same org can later expand into optional support plans and a fuller platform hub.
             </p>
