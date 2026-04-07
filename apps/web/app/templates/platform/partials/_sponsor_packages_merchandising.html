@@ -1,0 +1,94 @@
+{% set sponsor_packages = [
+  {
+    "name": "Community Sponsor",
+    "price": "$500",
+    "badge": "Entry visibility",
+    "best_for": "Best for local shops, solo operators, and family businesses",
+    "benefits": [
+      "Logo placement on campaign sponsor wall",
+      "Thank-you mention in sponsor rotation",
+      "Visibility on the live fundraiser surface",
+      "Good first step for local community support"
+    ],
+    "cta_href": "/platform/demo",
+    "cta_label": "See sponsor demo"
+  },
+  {
+    "name": "Featured Partner",
+    "price": "$1,500",
+    "badge": "Best value",
+    "best_for": "Best for growth-minded local brands that want more repeat visibility",
+    "benefits": [
+      "Priority logo placement and featured sponsor treatment",
+      "Higher visibility across sponsor panels and proof sections",
+      "Better positioning for event-night and campaign traffic",
+      "Strong option for businesses wanting meaningful local presence"
+    ],
+    "cta_href": "/platform/pricing",
+    "cta_label": "Review package"
+  },
+  {
+    "name": "Founding Partner",
+    "price": "$3,000+",
+    "badge": "Premium lane",
+    "best_for": "Best for flagship partners, clinics, realtors, restaurants, and community anchors",
+    "benefits": [
+      "Top-tier sponsor visibility and premium placement",
+      "Founder-level positioning across the fundraising story",
+      "Flexible white-glove package conversation",
+      "Invoice-friendly setup for larger supporters"
+    ],
+    "cta_href": "/platform/onboarding",
+    "cta_label": "Start sponsor setup"
+  }
+] %}
+
+<section class="ff-platformSponsorMerch" aria-labelledby="ffSponsorPackagesTitle">
+  <div class="ff-platformSponsorMerch__inner">
+    <div class="ff-platformSponsorMerch__intro">
+      <p class="ff-platformSponsorMerch__eyebrow">Sponsor packages</p>
+      <h2 id="ffSponsorPackagesTitle" class="ff-platformSponsorMerch__title">
+        Turn sponsor interest into a package a founder can actually sell
+      </h2>
+      <p class="ff-platformSponsorMerch__body">
+        FutureFunded is stronger when sponsorship feels productized, not improvised.
+        These package lanes help founders explain value clearly, price it confidently,
+        and move local businesses from “maybe” to “send me the link.”
+      </p>
+
+      <div class="ff-platformSponsorMerch__chips" aria-label="Package use cases">
+        <span class="ff-platformSponsorMerch__chip">Local business visibility</span>
+        <span class="ff-platformSponsorMerch__chip">Invoice-friendly sponsorships</span>
+        <span class="ff-platformSponsorMerch__chip">Premium partner positioning</span>
+      </div>
+    </div>
+
+    <div class="ff-platformSponsorMerch__grid">
+      {% for pkg in sponsor_packages %}
+      <article class="ff-platformSponsorMerch__card{% if loop.index == 2 %} is-featured{% endif %}">
+        <div class="ff-platformSponsorMerch__cardTop">
+          <p class="ff-platformSponsorMerch__badge">{{ pkg.badge }}</p>
+          <h3 class="ff-platformSponsorMerch__name">{{ pkg.name }}</h3>
+          <p class="ff-platformSponsorMerch__price">{{ pkg.price }}</p>
+          <p class="ff-platformSponsorMerch__bestFor">{{ pkg.best_for }}</p>
+        </div>
+
+        <ul class="ff-platformSponsorMerch__list" aria-label="{{ pkg.name }} benefits">
+          {% for benefit in pkg.benefits %}
+          <li>{{ benefit }}</li>
+          {% endfor %}
+        </ul>
+
+        <div class="ff-platformSponsorMerch__actions">
+          <a class="ff-platformSponsorMerch__button ff-platformSponsorMerch__button--primary" href="{{ pkg.cta_href }}">
+            {{ pkg.cta_label }}
+          </a>
+          <a class="ff-platformSponsorMerch__button ff-platformSponsorMerch__button--secondary" href="/platform/demo">
+            Open guided demo
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

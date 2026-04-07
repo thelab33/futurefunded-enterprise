@@ -55,8 +55,8 @@
   {"label": "View live fundraiser", "href": "/c/spring-fundraiser"}
 ] %}
 
-{% set primary_action = actions[0] if actions|length > 0 else {"label": "Launch your program", "href": "/platform/onboarding"} %}
-{% set secondary_action = actions[1] if actions|length > 1 else {"label": "View live example", "href": "/c/spring-fundraiser"} %}
+{% set primary_action = actions[0] if actions|length > 0 else {"label": "Start guided launch", "href": "/platform/onboarding"} %}
+{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Open live fundraiser", "href": "/c/spring-fundraiser"} %}
 
 <section class="ff-section" aria-labelledby="platformDemoTitle">
   <div class="ff-container">
@@ -95,15 +95,15 @@
       <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformDemoHowTitle">
         <p class="ff-kicker ff-m-0">How to use this page</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDemoHowTitle">
-          Use this as your guided sales flow.
+          Use this as your launch-closing sales flow.
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Start with the fundraiser, move through onboarding, show the operator dashboard, then close on pricing. It gives buyers a full picture without making the product feel complicated.
+          Start with the fundraiser, move through onboarding, show the operator dashboard, then close on pricing. This gives buyers the full picture and makes the launch ask feel natural.
         </p>
 
         <div class="ff-mt-3">
           {{ ff_cta_pair(
-            secondary_action.get("label", "View live example"),
+            secondary_action.get("label", "Open live fundraiser"),
             secondary_action.get("href", "/c/spring-fundraiser"),
             "Open pricing",
             "/platform/pricing"
@@ -116,7 +116,7 @@
             Sell the before-and-after.
           </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Before FutureFunded: scattered fundraising, weak sponsor presentation, no clear operator story. After FutureFunded: one branded launch surface with cleaner trust, revenue lanes, and expansion room.
+            Before FutureFunded: scattered fundraising, weak sponsor presentation, and no clean operator story. After FutureFunded: one branded launch surface with trust, revenue lanes, and room to grow.
           </p>
         </article>
       </aside>
@@ -172,16 +172,16 @@
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Close the demo</p>
           <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="demoCloseTitle">
-            Start guided launch with FutureFunded.
+            Show this flow, then ask for the launch this week.
           </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Use this page in DMs, calls, and founder outreach to show the full product in one clean sequence — then move directly into launch.
+            Use this page to walk a buyer through the public page, launch flow, operator dashboard, and pricing — then ask for the launch while momentum is high.
           </p>
         </div>
 
         <div class="ff-row ff-wrap ff-gap-2">
           <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_action.get('href', '/platform/onboarding') }}">
-            {{ primary_action.get("label", "Launch your program") }}
+            {{ primary_action.get("label", "Start guided launch") }}
           </a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_action.get('href', '/c/spring-fundraiser') }}">
             {{ secondary_action.get("label", "View live example") }}
@@ -203,7 +203,7 @@
             Show this flow, then ask for the launch.
           </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            The cleanest founder close is: this is your live page, this is your setup flow, this is your operator workspace, and this is the pricing to get started today.
+            The cleanest founder close is: here is your public fundraiser, here is your launch flow, here is your operator workspace, and here is the pricing to get live this week.
           </p>
         </div>
 
@@ -212,11 +212,13 @@
             Start guided launch
           </a>
           <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">
-            Review pricing
+            Open pricing
           </a>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+{% include "platform/partials/_sponsor_packages_merchandising.html" %}
 {% endblock %}
