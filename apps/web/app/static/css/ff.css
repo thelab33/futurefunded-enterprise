@@ -4258,3 +4258,221 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
   }
 
 }
+
+/* ==========================================================================
+   FF_CONVERSION_LAYER_V2
+   Donate + sponsor conversion upgrades
+   ========================================================================== */
+
+.ff-conversionBand,
+.ff-checkoutCard--conversion,
+.ff-sponsorSpotlight {
+  position: relative;
+  overflow: clip;
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.10)) 86%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.06)) 92%, transparent), color-mix(in srgb, var(--ff-surface-1, rgba(255,255,255,.04)) 94%, transparent));
+  border-radius: 22px;
+  box-shadow:
+    0 12px 36px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.ff-conversionBand {
+  padding: 14px 16px;
+}
+
+.ff-conversionBand__urgency,
+.ff-checkoutConversion__urgency {
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--ff-text, #fff);
+}
+
+.ff-checkoutCard--conversion {
+  padding: 18px;
+}
+
+.ff-checkoutConversion__head {
+  display: grid;
+  gap: 10px;
+}
+
+.ff-donation-presets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ff-donation-presets__btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.12)) 86%, transparent);
+  background: color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 92%, transparent);
+  color: var(--ff-text, #fff);
+  border-radius: 999px;
+  min-height: 48px;
+  padding: 0 16px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+.ff-donation-presets__btn:hover,
+.ff-donation-presets__btn:focus-visible,
+.ff-donation-presets__btn.is-active {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--ff-accent, #f97316) 46%, rgba(255,255,255,.22));
+  background: color-mix(in srgb, var(--ff-accent, #f97316) 14%, var(--ff-surface-2, rgba(255,255,255,.08)));
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  outline: none;
+}
+
+.ff-donation-presets__btn--feature {
+  background: color-mix(in srgb, var(--ff-accent, #f97316) 18%, var(--ff-surface-2, rgba(255,255,255,.08)));
+}
+
+.ff-trustStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ff-trustStrip__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.10)) 88%, transparent);
+  background: color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.06)) 94%, transparent);
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--ff-text, #fff);
+}
+
+.ff-sponsorSpotlight__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ff-sponsorSpotlight__card {
+  display: grid;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  padding: 16px;
+  border-radius: 20px;
+  min-height: 170px;
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.12)) 86%, transparent);
+  background:
+    radial-gradient(circle at top right, rgba(255,255,255,.14), transparent 42%),
+    color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 94%, transparent);
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.ff-sponsorSpotlight__card:hover,
+.ff-sponsorSpotlight__card:focus-visible {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--ff-accent, #f97316) 44%, rgba(255,255,255,.22));
+  box-shadow: 0 14px 34px rgba(0,0,0,.20);
+  outline: none;
+}
+
+.ff-sponsorSpotlight__badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+}
+
+.ff-sponsorSpotlight__title {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.ff-sponsorSpotlight__amount {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -.02em;
+}
+
+.ff-sponsorSpotlight__perk {
+  font-size: .94rem;
+  color: var(--ff-text-muted, rgba(255,255,255,.74));
+}
+
+.ff-sponsorSpotlight__card--gold {
+  background:
+    radial-gradient(circle at top right, rgba(255,210,84,.20), transparent 42%),
+    color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 94%, transparent);
+}
+
+.ff-sponsorSpotlight__card--silver {
+  background:
+    radial-gradient(circle at top right, rgba(205,214,224,.18), transparent 42%),
+    color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 94%, transparent);
+}
+
+.ff-sponsorSpotlight__card--community {
+  background:
+    radial-gradient(circle at top right, rgba(249,115,22,.18), transparent 42%),
+    color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 94%, transparent);
+}
+
+.ff-sheet--checkout .ff-sheet__panel--flagship {
+  transition:
+    transform .22s cubic-bezier(.2,.9,.22,1),
+    opacity .22s ease;
+  will-change: transform, opacity;
+}
+
+.ff-sheet--checkout[data-open="true"] .ff-sheet__panel--flagship,
+.ff-sheet--checkout[aria-hidden="false"] .ff-sheet__panel--flagship {
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.44),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.ff-checkoutShell {
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.10)) 86%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.ff-checkoutCard--conversion + .ff-checkoutCard--amount {
+  margin-top: 14px;
+}
+
+@media (max-width: 920px) {
+  .ff-sponsorSpotlight__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ff-donation-presets {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ff-trustStrip__item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ff-checkoutCard--conversion {
+    padding: 16px;
+  }
+}

@@ -129,3 +129,150 @@ document.addEventListener("click", (e) => {
     initMobileActionRail();
   }
 })();
+
+/* ==========================================================================
+   FF_CONVERSION_LAYER_V2
+   Conversion polish + preset + sponsor helpers
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  if (window.__FF_CONVERSION_LAYER_V2__) return;
+  window.__FF_CONVERSION_LAYER_V2__ = true;
+
+  const doc = document;
+
+  function q(sel, root) {
+    return (root || doc).querySelector(sel);
+  }
+
+  function qa(sel, root) {
+    return Array.from((root || doc).querySelectorAll(sel));
+  }
+
+  function fire(el, type) {
+    if (!el) return;
+    el.dispatchEvent(new Event(type, { bubbles: true }));
+  }
+
+  function getAmountInput() {
+    return q('[data-ff-amount-input]') || q('#donationAmount');
+  }
+
+  function setAmount(value) {
+    const input = getAmountInput();
+    if (!input) return;
+    input.value = String(value);
+    fire(input, "input");
+    fire(input, "change");
+  }
+
+  function markActivePreset(value) {
+    qa('[data-ff-amount]').forEach((el) => {
+      const v = Number(el.getAttribute('data-ff-amount') || '');
+      const active = Number(value) === v;
+      el.classList.toggle('is-active', active);
+      if (el.classList.contains('ff-donation-presets__btn')) {
+        el.setAttribute('aria-pressed', active ? 'true' : 'false');
+      }
+    });
+  }
+
+  function preloadSponsorChoice(link) {
+    const sponsorAmount = q('input[data-ff-sponsor-amount][name="sponsor_amount"]');
+    const sponsorTierLabel = link.getAttribute('data-ff-sponsor-tier-choice') || '';
+    const sponsorAmountValue = link.getAttribute('data-ff-sponsor-amount-value') || '';
+
+    if (sponsorAmount && sponsorAmountValue) {
+      sponsorAmount.value = sponsorAmountValue;
+      fire(sponsorAmount, "input");
+      fire(sponsorAmount, "change");
+    }
+
+    const sponsorSelected = q('[data-ff-sponsor-tier-selected]');
+    if (sponsorSelected && sponsorTierLabel) {
+      sponsorSelected.textContent = sponsorTierLabel;
+    }
+  }
+
+  doc.addEventListener('click', function (event) {
+    const amountEl = event.target.closest('[data-ff-amount]');
+    if (amountEl) {
+      const raw = amountEl.getAttribute('data-ff-amount');
+      const value = Number(raw || '');
+      if (Number.isFinite(value) && value > 0) {
+        setAmount(value);
+        markActivePreset(value);
+      }
+    }
+
+    const sponsorChoice = event.target.closest('[data-ff-sponsor-tier-choice]');
+    if (sponsorChoice) {
+      preloadSponsorChoice(sponsorChoice);
+    }
+
+    const shareBtn = event.target.closest('[data-ff-success-share]');
+    if (shareBtn) {
+      const shareUrl =
+        document.body?.getAttribute('data-ff-share-url') ||
+        document.querySelector('meta[name="ff-share-url"]')?.getAttribute('content') ||
+        window.location.href;
+
+      if (navigator.share) {
+        navigator.share({
+          title: document.title,
+          text: 'Support this fundraiser',
+          url: shareUrl
+        }).catch(() => {});
+      } else if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(shareUrl).catch(() => {});
+      }
+    }
+
+    const copyBtn = event.target.closest('[data-ff-success-copy]');
+    if (copyBtn) {
+      const shareUrl =
+        document.body?.getAttribute('data-ff-share-url') ||
+        document.querySelector('meta[name="ff-share-url"]')?.getAttribute('content') ||
+        window.location.href;
+
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          copyBtn.textContent = 'Copied';
+          window.setTimeout(() => {
+            copyBtn.textContent = 'Copy link';
+          }, 1600);
+        }).catch(() => {});
+      }
+    }
+
+    const openCheckout = event.target.closest('[data-ff-open-checkout]');
+    if (openCheckout) {
+      const raw = openCheckout.getAttribute('data-ff-amount');
+      const value = Number(raw || '');
+      if (Number.isFinite(value) && value > 0) {
+        setAmount(value);
+        markActivePreset(value);
+      }
+
+      window.setTimeout(() => {
+        const input = getAmountInput();
+        if (input && !input.value) {
+          input.focus({ preventScroll: true });
+        }
+      }, 180);
+    }
+  });
+
+  const input = getAmountInput();
+  if (input) {
+    input.addEventListener('input', function () {
+      const value = Number(input.value || '');
+      if (Number.isFinite(value) && value > 0) {
+        markActivePreset(value);
+      } else {
+        markActivePreset(NaN);
+      }
+    });
+  }
+})();

@@ -470,6 +470,40 @@ CONTRACTS PRESERVED
   {% set _hero_push = 100.0 %}
 {% endif %}
 
+{% set _remaining_to_goal = ((_goal_bar - _raised_bar) if _goal_bar > _raised_bar else 0.0) %}
+{% if _remaining_to_goal > 0 %}
+  {% set _urgency_label = 'Only ' ~ money(_remaining_to_goal) ~ ' left to hit our goal 🎯' %}
+{% else %}
+  {% set _urgency_label = 'Goal reached 🎉' %}
+{% endif %}
+
+{% set _conversion_sponsor_spotlight = _conversion_sponsor_spotlight|default([
+  {
+    'label': 'Gold Sponsor',
+    'amount_label': '$1,000+',
+    'amount_value': 1000,
+    'badge': 'Top visibility',
+    'perk': 'Top logo placement, VIP spotlight, and featured recognition.',
+    'tone': 'gold'
+  },
+  {
+    'label': 'Silver Sponsor',
+    'amount_label': '$500+',
+    'amount_value': 500,
+    'badge': 'Strong local visibility',
+    'perk': 'Logo placement, shoutouts, and featured sponsor presence.',
+    'tone': 'silver'
+  },
+  {
+    'label': 'Community Sponsor',
+    'amount_label': '$250+',
+    'amount_value': 250,
+    'badge': 'Easy first step',
+    'perk': 'Business name placement and community appreciation visibility.',
+    'tone': 'community'
+  }
+], true) %}
+
 {% set _quick_amounts = _quick_amounts|default([
   (35, 'Quick support'),
   (75, 'Most common'),
@@ -1462,6 +1496,23 @@ CONTRACTS PRESERVED
               {% endfor %}
             </div>
 
+            <section
+              class="ff-conversionBand ff-conversionBand--hero ff-mt-3"
+              aria-label="Urgency and trust"
+            >
+              <p class="ff-conversionBand__urgency ff-m-0">{{ _urgency_label }}</p>
+
+              <div
+                class="ff-trustStrip ff-trustStrip--compact ff-mt-2"
+                role="list"
+                aria-label="Trust signals"
+              >
+                <span class="ff-trustStrip__item" role="listitem">🔒 Secure payments</span>
+                <span class="ff-trustStrip__item" role="listitem">💳 All major cards</span>
+                <span class="ff-trustStrip__item" role="listitem">❤️ Directly supports players</span>
+              </div>
+            </section>
+
             <div class="ff-proofMini ff-mt-3" role="note" aria-label="Donation note">
               <p class="ff-kicker ff-m-0">What support helps fund</p>
               <p class="ff-help ff-muted ff-mt-1 ff-mb-0">
@@ -2113,6 +2164,44 @@ CONTRACTS PRESERVED
           </div>
         </div>
 
+        <section
+          class="ff-sponsorSpotlight ff-mb-3"
+          aria-labelledby="ffSponsorSpotlightTitle"
+          aria-describedby="ffSponsorSpotlightDesc"
+        >
+          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+            <div class="ff-minw-0">
+              <p class="ff-kicker ff-m-0">Fast sponsor path</p>
+              <h3 class="ff-h3 ff-mt-1 ff-mb-0" id="ffSponsorSpotlightTitle">
+                Sponsor tiers built to upsell cleanly
+              </h3>
+              <p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="ffSponsorSpotlightDesc">
+                Choose a recognition level with practical visibility and an easy next step.
+              </p>
+            </div>
+
+            <span class="ff-pill ff-pill--accent">Limited local sponsor spots</span>
+          </div>
+
+          <div class="ff-sponsorSpotlight__grid ff-mt-3">
+            {% for tier in _conversion_sponsor_spotlight %}
+              <a
+                class="ff-sponsorSpotlight__card ff-sponsorSpotlight__card--{{ tier.tone }}"
+                href="#sponsor-interest"
+                data-ff-open-sponsor=""
+                data-ff-sponsor-tier-choice="{{ tier.label }}"
+                data-ff-sponsor-amount-value="{{ tier.amount_value }}"
+                aria-label="Choose {{ tier.label }} sponsorship"
+              >
+                <span class="ff-sponsorSpotlight__badge">{{ tier.badge }}</span>
+                <strong class="ff-sponsorSpotlight__title">{{ tier.label }}</strong>
+                <span class="ff-sponsorSpotlight__amount">{{ tier.amount_label }}</span>
+                <span class="ff-sponsorSpotlight__perk">{{ tier.perk }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </section>
+
         <ul
           class="ff-impactTierGrid ff-impactTierGrid--flagship ff-sponsorTierGrid"
           role="list"
@@ -2641,6 +2730,44 @@ CONTRACTS PRESERVED
 <input name="campaign_name" type="hidden" value="{{ _campaign_name|e }}" />
 <input name="organization_name" type="hidden" value="{{ _org_name|e }}" />
 <input name="supporting_label" type="hidden" value="{{ _supporting_label|e }}" />
+<section
+class="ff-checkoutCard ff-checkoutCard--conversion"
+aria-labelledby="ffCheckoutConversionTitle"
+aria-describedby="ffCheckoutConversionDesc"
+>
+<div class="ff-checkoutConversion__head">
+<div class="ff-minw-0">
+<p class="ff-kicker ff-m-0">Give faster</p>
+<h3 class="ff-label ff-mt-1 ff-mb-0" id="ffCheckoutConversionTitle">Smart donation presets</h3>
+<p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="ffCheckoutConversionDesc">
+Tap a preset to preload the donation amount instantly.
+</p>
+</div>
+<p class="ff-checkoutConversion__urgency ff-m-0">{{ _urgency_label }}</p>
+</div>
+
+<div
+class="ff-donation-presets ff-mt-3"
+role="group"
+aria-label="Smart donation presets"
+>
+<button type="button" class="ff-donation-presets__btn" data-ff-amount="25" aria-label="Choose 25 dollars">$25</button>
+<button type="button" class="ff-donation-presets__btn" data-ff-amount="50" aria-label="Choose 50 dollars">$50</button>
+<button type="button" class="ff-donation-presets__btn" data-ff-amount="100" aria-label="Choose 100 dollars">$100</button>
+<button type="button" class="ff-donation-presets__btn ff-donation-presets__btn--feature" data-ff-amount="250" aria-label="Choose 250 dollars">$250</button>
+</div>
+
+<div
+class="ff-trustStrip ff-trustStrip--checkout ff-mt-3"
+role="list"
+aria-label="Checkout trust signals"
+>
+<span class="ff-trustStrip__item" role="listitem">🔒 Secure payments (Stripe)</span>
+<span class="ff-trustStrip__item" role="listitem">💳 All major cards</span>
+<span class="ff-trustStrip__item" role="listitem">❤️ Directly supports players</span>
+</div>
+</section>
+
 <fieldset class="ff-checkoutCard ff-checkoutCard--amount" aria-describedby="donationAmountHelp donationAmountNote" >
 <legend class="ff-label ff-m-0" id="donationAmountLegend"> Choose an amount </legend>
 <div class="ff-grid ff-grid--2 ff-gap-2 ff-mt-3" role="group" aria-labelledby="donationAmountLegend" aria-label="Suggested donation amounts" >
