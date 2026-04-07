@@ -1,3 +1,4 @@
+<span hidden data-ff-trace="TRACE_PLATFORM_PAGES_PRICING"></span>
 {% set platform_page = "pricing" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Pricing") %}
@@ -265,4 +266,6 @@
 </section>
 
 {% include "platform/partials/_sponsor_packages_merchandising.html" %}
+
+{% include "platform/partials/_founder_demo_flow_strip.html" %}
 {% endblock %}

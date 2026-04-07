@@ -1,4 +1,24 @@
-{% set sponsor_packages = [
+from pathlib import Path
+from datetime import datetime
+import shutil
+
+ROOT = Path.home() / "futurefunded-enterprise"
+
+PARTIAL = ROOT / "apps/web/app/templates/platform/partials/_sponsor_packages_merchandising.html"
+CSS = ROOT / "apps/web/app/static/css/platform-pages.css"
+
+if not PARTIAL.exists():
+    raise SystemExit(f"Missing partial: {PARTIAL}")
+
+def backup(path: Path) -> None:
+    if path.exists():
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        shutil.copy2(path, path.with_name(f"{path.name}.{ts}.bak"))
+
+backup(PARTIAL)
+backup(CSS)
+
+PARTIAL_TEXT = r'''{% set sponsor_packages = [
   {
     "name": "Community Sponsor",
     "price": "$500",
@@ -190,3 +210,172 @@
     </div>
   </div>
 </section>
+'''
+
+CSS_BLOCK = r'''
+/* ==========================================================================
+   FF_PLATFORM_SPONSOR_INQUIRY_CONVERSION_V1
+   Sponsor close-path / inquiry conversion layer
+   ========================================================================== */
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.35rem;
+  padding: 1rem;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
+    rgba(9, 14, 24, 0.58);
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 16px 32px rgba(0,0,0,0.16);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__main {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+  align-items: center;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__content {
+  display: grid;
+  gap: 0.7rem;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.16;
+  font-weight: 900;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__body {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  opacity: 0.92;
+  max-width: 62ch;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.55rem 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-weight: 900;
+  transition: transform 140ms ease, border-color 140ms ease, opacity 140ms ease;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__button:hover {
+  transform: translateY(-1px);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__button--primary {
+  color: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.09));
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__button--secondary {
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__footer {
+  padding-top: 0.15rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorConvert__footer p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  opacity: 0.88;
+}
+
+@media (max-width: 980px) {
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body[data-ff-platform="true"] .ff-platformSponsorConvert {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,250,252,0.96)),
+      #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.08);
+  }
+
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__chip {
+    background: rgba(15,23,42,0.04);
+    border-color: rgba(15,23,42,0.08);
+  }
+
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__button--primary,
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__button--secondary {
+    border-color: rgba(15,23,42,0.10);
+  }
+
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__button--primary {
+    background: rgba(15,23,42,0.05);
+  }
+
+  body[data-ff-platform="true"] .ff-platformSponsorConvert__footer {
+    border-top-color: rgba(15,23,42,0.08);
+  }
+}
+'''
+
+PARTIAL.write_text(PARTIAL_TEXT, encoding="utf-8")
+print("changed: sponsor merchandising partial upgraded with inquiry conversion close")
+
+css_text = CSS.read_text(encoding="utf-8") if CSS.exists() else ""
+if "FF_PLATFORM_SPONSOR_INQUIRY_CONVERSION_V1" not in css_text:
+    if css_text and not css_text.endswith("\n"):
+        css_text += "\n"
+    css_text += "\n" + CSS_BLOCK.strip() + "\n"
+    CSS.write_text(css_text, encoding="utf-8")
+    print("changed: platform-pages.css sponsor inquiry conversion block appended")
+else:
+    print("skip: sponsor inquiry conversion css block already present")
+
+print("done.")

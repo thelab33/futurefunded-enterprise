@@ -1,3 +1,4 @@
+<span hidden data-ff-trace="TRACE_PLATFORM_PAGES_HOME"></span>
 {% set platform_page = "home" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Platform Home") %}
@@ -252,4 +253,6 @@
 
   </div>
 </section>
+
+{% include "platform/partials/_founder_demo_flow_strip.html" %}
 {% endblock %}

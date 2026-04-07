@@ -1,4 +1,24 @@
-{% set sponsor_packages = [
+from pathlib import Path
+from datetime import datetime
+import shutil
+
+ROOT = Path.home() / "futurefunded-enterprise"
+
+PARTIAL = ROOT / "apps/web/app/templates/platform/partials/_sponsor_packages_merchandising.html"
+CSS = ROOT / "apps/web/app/static/css/platform-pages.css"
+
+if not PARTIAL.exists():
+    raise SystemExit(f"Missing partial: {PARTIAL}")
+
+def backup(path: Path) -> None:
+    if path.exists():
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        shutil.copy2(path, path.with_name(f"{path.name}.{ts}.bak"))
+
+backup(PARTIAL)
+backup(CSS)
+
+PARTIAL_TEXT = r'''{% set sponsor_packages = [
   {
     "name": "Community Sponsor",
     "price": "$500",
@@ -47,7 +67,7 @@
       "Flexible white-glove package conversation and custom support",
       "Invoice-friendly setup for larger supporters and serious local partners"
     ],
-    "cta_href": "/platform/onboarding?intent=sponsor",
+    "cta_href": "/platform/onboarding",
     "cta_label": "Start sponsor setup"
   }
 ] %}
@@ -150,43 +170,147 @@
         </article>
       </div>
     </div>
-
-    <div class="ff-platformSponsorConvert" aria-labelledby="ffSponsorConvertTitle">
-      <div class="ff-platformSponsorConvert__main">
-        <div class="ff-platformSponsorConvert__content">
-          <p class="ff-platformSponsorConvert__eyebrow">Sponsor inquiry path</p>
-          <h3 id="ffSponsorConvertTitle" class="ff-platformSponsorConvert__title">
-            Ready to move forward with a sponsor package?
-          </h3>
-          <p class="ff-platformSponsorConvert__body">
-            Start with a package review, request a sponsor packet, or open a guided
-            setup path for larger partnerships. This keeps the next step clear for
-            both founders and local businesses.
-          </p>
-
-          <div class="ff-platformSponsorConvert__chips" aria-label="Sponsor inquiry reassurances">
-            <span class="ff-platformSponsorConvert__chip">Custom packages available</span>
-            <span class="ff-platformSponsorConvert__chip">Invoice-friendly setup</span>
-            <span class="ff-platformSponsorConvert__chip">White-glove support for larger partners</span>
-          </div>
-        </div>
-
-        <div class="ff-platformSponsorConvert__actions">
-          <a class="ff-platformSponsorConvert__button ff-platformSponsorConvert__button--primary" href="/platform/onboarding?intent=sponsor">
-            Become a sponsor
-          </a>
-          <a class="ff-platformSponsorConvert__button ff-platformSponsorConvert__button--secondary" href="/platform/demo?sponsor_packet=1">
-            Request sponsor packet
-          </a>
-        </div>
-      </div>
-
-      <div class="ff-platformSponsorConvert__footer">
-        <p>
-          Best for founders who want a cleaner sponsor close, and for businesses that want
-          a more professional path than a casual DM or one-off ask.
-        </p>
-      </div>
-    </div>
   </div>
 </section>
+'''
+
+CSS_BLOCK = r'''
+/* ==========================================================================
+   FF_PLATFORM_SPONSOR_ROI_PROOF_V1
+   Sponsor proof + ROI framing upgrade for package lane
+   ========================================================================== */
+
+body[data-ff-platform="true"] .ff-platformSponsorMerch__meta {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorMerch__meta > div {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorMerch__meta dt {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.68;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorMerch__meta dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.25rem;
+  padding: 1rem;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025)),
+    rgba(7, 11, 20, 0.52);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__head {
+  display: grid;
+  gap: 0.35rem;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__title {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__card {
+  display: grid;
+  gap: 0.45rem;
+  min-height: 100%;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__card h4 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 900;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorProof__card p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  opacity: 0.92;
+}
+
+body[data-ff-platform="true"] .ff-platformSponsorMerch__card.is-featured .ff-platformSponsorMerch__badge {
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  body[data-ff-platform="true"] .ff-platformSponsorProof__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body[data-ff-platform="true"] .ff-platformSponsorMerch__meta > div,
+  body[data-ff-platform="true"] .ff-platformSponsorProof__card {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  body[data-ff-platform="true"] .ff-platformSponsorProof {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.92), rgba(248,250,252,0.94)),
+      #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+  }
+}
+'''
+
+PARTIAL.write_text(PARTIAL_TEXT, encoding="utf-8")
+print("changed: sponsor merchandising partial upgraded to ROI/proof version")
+
+css_text = CSS.read_text(encoding="utf-8") if CSS.exists() else ""
+if "FF_PLATFORM_SPONSOR_ROI_PROOF_V1" not in css_text:
+    if css_text and not css_text.endswith("\n"):
+        css_text += "\n"
+    css_text += "\n" + CSS_BLOCK.strip() + "\n"
+    CSS.write_text(css_text, encoding="utf-8")
+    print("changed: platform-pages.css roi/proof block appended")
+else:
+    print("skip: roi/proof css block already present")
+
+print("done.")

@@ -1,3 +1,4 @@
+<span hidden data-ff-trace="TRACE_PLATFORM_PAGES_DASHBOARD"></span>
 {% set platform_page = "dashboard" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
@@ -299,4 +300,6 @@
 
   </div>
 </section>
+
+{% include "platform/partials/_dashboard_operator_premium_strip.html" %}
 {% endblock %}
