@@ -471,19 +471,26 @@ CONTRACTS PRESERVED
 {% endif %}
 
 {% set _remaining_to_goal = ((_goal_bar - _raised_bar) if _goal_bar > _raised_bar else 0.0) %}
+{% if _remaining_to_goal > 1500 %}
+  {% set _push = 250 %}
+{% elif _remaining_to_goal > 600 %}
+  {% set _push = 150 %}
+{% else %}
+  {% set _push = _remaining_to_goal %}
+{% endif %}
 {% if _remaining_to_goal > 0 %}
-  {% set _urgency_label = 'Only ' ~ money(_remaining_to_goal) ~ ' left to hit our goal 🎯' %}
+  {% set _urgency_label = 'Only ' ~ money(_remaining_to_goal) ~ ' left — push the next $' ~ (_push|round(0, 'floor')|int) ~ ' 🎯' %}
 {% else %}
   {% set _urgency_label = 'Goal reached 🎉' %}
 {% endif %}
 
 {% set _conversion_sponsor_spotlight = _conversion_sponsor_spotlight|default([
   {
-    'label': 'Gold Sponsor',
+    'label': 'Founding Sponsor',
     'amount_label': '$1,000+',
     'amount_value': 1000,
-    'badge': 'Top visibility',
-    'perk': 'Top logo placement, VIP spotlight, and featured recognition.',
+    'badge': 'Limited availability',
+    'perk': 'Top logo placement, VIP spotlight, shoutouts, and community exposure.',
     'tone': 'gold'
   },
   {
@@ -1504,12 +1511,17 @@ CONTRACTS PRESERVED
 
               <div
                 class="ff-trustStrip ff-trustStrip--compact ff-mt-2"
-                role="list"
                 aria-label="Trust signals"
               >
-                <span class="ff-trustStrip__item" role="listitem">🔒 Secure payments</span>
-                <span class="ff-trustStrip__item" role="listitem">💳 All major cards</span>
-                <span class="ff-trustStrip__item" role="listitem">❤️ Directly supports players</span>
+                <div class="ff-trustStrip__row" role="list" aria-label="Primary trust signals">
+                  <span class="ff-trustStrip__item" role="listitem">🔒 Secure checkout powered by Stripe</span>
+                  <span class="ff-trustStrip__item" role="listitem">💳 All major cards + Apple Pay</span>
+                  <span class="ff-trustStrip__item" role="listitem">⚡ Takes less than 30 seconds</span>
+                </div>
+                <div class="ff-trustStrip__row ff-trustStrip__row--soft" role="list" aria-label="Social proof signals">
+                  <span class="ff-trustStrip__item" role="listitem">👥 Trusted by teams, schools, and nonprofits</span>
+                  <span class="ff-trustStrip__item" role="listitem">📈 $24,000+ raised across programs</span>
+                </div>
               </div>
             </section>
 
@@ -2183,6 +2195,9 @@ CONTRACTS PRESERVED
             <span class="ff-pill ff-pill--accent">Limited local sponsor spots</span>
           </div>
 
+          <p class="ff-sponsorPitch ff-mt-2 ff-mb-0">
+            Support the program while getting real local visibility. Sponsorships may be tax-deductible.
+          </p>
           <div class="ff-sponsorSpotlight__grid ff-mt-3">
             {% for tier in _conversion_sponsor_spotlight %}
               <a
@@ -2759,13 +2774,18 @@ aria-label="Smart donation presets"
 
 <div
 class="ff-trustStrip ff-trustStrip--checkout ff-mt-3"
-role="list"
 aria-label="Checkout trust signals"
 >
-<span class="ff-trustStrip__item" role="listitem">🔒 Secure payments (Stripe)</span>
-<span class="ff-trustStrip__item" role="listitem">💳 All major cards</span>
-<span class="ff-trustStrip__item" role="listitem">❤️ Directly supports players</span>
+<div class="ff-trustStrip__row" role="list" aria-label="Checkout trust signals">
+<span class="ff-trustStrip__item" role="listitem">🔒 Secure</span>
+<span class="ff-trustStrip__item" role="listitem">🏦 Powered by Stripe</span>
+<span class="ff-trustStrip__item" role="listitem">📜 Receipt included</span>
 </div>
+</div>
+
+<p class="ff-checkoutEmotion ff-mt-3 ff-mb-0">
+You're supporting travel, training, tournament fees, and equipment for the team.
+</p>
 </section>
 
 <fieldset class="ff-checkoutCard ff-checkoutCard--amount" aria-describedby="donationAmountHelp donationAmountNote" >

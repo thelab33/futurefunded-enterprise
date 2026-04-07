@@ -4476,3 +4476,81 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
     padding: 16px;
   }
 }
+
+/* ==========================================================================
+   FF_POLISH_V3_TRUST_REVENUE_CLOSE
+   Trust, sponsor revenue, and checkout confidence polish
+   ========================================================================== */
+
+body[data-ff-page="fundraiser"] .ff-trustStrip {
+  display: grid;
+  gap: 0.45rem;
+}
+
+body[data-ff-page="fundraiser"] .ff-trustStrip__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+body[data-ff-page="fundraiser"] .ff-trustStrip__row--soft {
+  opacity: 0.78;
+}
+
+body[data-ff-page="fundraiser"] .ff-trustStrip__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.4rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--ff-line, rgba(255,255,255,.12)) 86%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.07)) 94%, transparent);
+  color: var(--ff-text-soft, #e5eef8);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorPitch {
+  max-width: 52ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ff-text-soft, rgba(255,255,255,.82));
+}
+
+body[data-ff-page="fundraiser"] .ff-checkoutEmotion {
+  max-width: 52ch;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ff-text-soft, rgba(255,255,255,.82));
+}
+
+body[data-ff-page="fundraiser"] .ff-sponsorSpotlight__card--gold {
+  background:
+    radial-gradient(circle at top right, rgba(255,210,84,.24), transparent 42%),
+    linear-gradient(180deg, rgba(255,184,76,.08), rgba(255,184,76,0)),
+    color-mix(in srgb, var(--ff-surface-2, rgba(255,255,255,.08)) 94%, transparent);
+  border-color: rgba(255,210,84,.22);
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+@media (max-width: 640px) {
+  body[data-ff-page="fundraiser"] .ff-trustStrip__row {
+    gap: 0.5rem;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-trustStrip__item {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  body[data-ff-page="fundraiser"] .ff-sponsorPitch,
+  body[data-ff-page="fundraiser"] .ff-checkoutEmotion {
+    font-size: 0.9rem;
+  }
+}
