@@ -81,6 +81,13 @@ Deterministic premium platform shell
   {% set _site_name = 'FutureFunded' %}
 {% endif %}
 
+{% set _platform_logo = (
+  platform_logo_url
+  |default(_cfg.get('FF_PLATFORM_LOGO_URL'), true)
+  |default(_cfg.get('FF_LOGO_URL'), true)
+  |default(url_for('static', filename='images/fundchamps-fc.svg') ~ '?v=' ~ _asset_v, true)
+)|string|trim %}
+
 {% set _public_base_raw = (
   ff_public_base_url|default('', true)
   or _cfg.get('FF_PUBLIC_BASE_URL')
@@ -129,6 +136,7 @@ Deterministic premium platform shell
   'theme': _theme,
   'ffTheme': _ff_theme,
   'brand': _brand,
+  'logo': _platform_logo,
   'title': _page_title,
   'description': _page_desc,
   'canonical': canonical,
