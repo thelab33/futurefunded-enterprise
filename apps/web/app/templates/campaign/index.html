@@ -1,3 +1,4 @@
+<span hidden data-ff-trace="TRACE_CAMPAIGN_INDEX"></span>
 <!DOCTYPE html>
 <!--
 FutureFunded • Flagship — INDEX (DROP-IN REPLACEMENT)
@@ -30,13 +31,18 @@ CONTRACTS PRESERVED
 {%- endmacro %}
 
 {# ---------------------------------------------
-   Build / asset version
----------------------------------------------- #}
-{% set FF_BUILD_ID = (FF_BUILD_ID|default(_cfg.get('FF_BUILD_ID'), true)|default('dev', true))|string|trim %}
-{% set FF_VERSION = (FF_VERSION|default(_cfg.get('FF_VERSION'), true)|default('dev', true))|string|trim %}
-{% set _v = (asset_v|default(FF_ASSET_V|default(FF_BUILD_ID|default(FF_VERSION, true), true), true))|string|trim %}
-{% if not _v %}
-  {% set _v = '1' %}
+{# Build / asset version ---------------------------------------------------- #}
+{% set _asset_v = (
+  asset_v
+  |default(FF_ASSET_V|default(_cfg.get('FF_BUILD_ID'), true), true)
+  |default(_cfg.get('FF_VERSION'), true)
+)|string|trim %}
+{% if not _asset_v %}
+  {% set _asset_v = '1' %}
+{% endif %}
+{% set FF_BUILD_ID = (FF_BUILD_ID|default(_cfg.get('FF_BUILD_ID'), true)|default(_asset_v, true))|string|trim %}
+{% set FF_VERSION = (FF_VERSION|default(_cfg.get('FF_VERSION'), true)|default(_asset_v, true))|string|trim %}
+{% set _v = _asset_v %}
 {% endif %}
 
 {# ---------------------------------------------
@@ -747,12 +753,16 @@ CONTRACTS PRESERVED
     <meta name="ff:{{ k }}" content="{{ v|e }}" />
   {% endfor %}
 
-  {% set _ff_css_url = (ff_css_url|default(url_for('static', filename='css/ff.css') ~ '?v=' ~ _v, true))|string|trim %}
-  {% set _app = url_for('static', filename='js/ff-app.js') ~ '?v=' ~ _v %}
-  {% set _sponsor_leads_app = url_for('static', filename='js/ff-sponsor-leads-v1.js') ~ '?v=' ~ _v %}
+{% set _ff_css_authority = url_for('static', filename='css/ff.css') ~ '?v=' ~ _asset_v %}
+{% set _ff_css_overrides = url_for('static', filename='css/ff-above-main-premium.css') ~ '?v=' ~ _asset_v %}
+{% set _app = url_for('static', filename='js/ff-app.js') ~ '?v=' ~ _asset_v %}
+{% set _sponsor_leads_app = url_for('static', filename='js/ff-sponsor-leads-v1.js') ~ '?v=' ~ _asset_v %}
 
-  <link rel="preload" as="style" href="{{ _ff_css_url|e }}" />
-  <link rel="stylesheet" href="{{ _ff_css_url|e }}" />
+  <link rel="preload" as="style" href="{{ _ff_css_authority|e }}" />
+  <link rel="stylesheet" href="{{ _ff_css_authority|e }}" />
+
+  <link rel="preload" as="style" href="{{ _ff_css_overrides|e }}" />
+  <link rel="stylesheet" href="{{ _ff_css_overrides|e }}" />
 
   <link rel="preload" as="script" href="{{ _app|e }}" />
 
