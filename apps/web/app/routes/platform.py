@@ -1,1 +1,259 @@
-from __future__ import annotations from copy import deepcopy from flask import Blueprint, render_template from app.services.api_client import get_json bp = Blueprint("platform", __name__) def _deep_merge(base: dict | None, override: dict | None) -> dict: """ Merge override data onto base data without losing nested fallback structure. Lists are replaced wholesale. Dicts are merged recursively. """ merged = deepcopy(base if isinstance(base, dict) else {}) if not isinstance(override, dict): return merged for key, value in override.items(): if isinstance(value, dict) and isinstance(merged.get(key), dict): merged[key] = _deep_merge(merged.get(key, {}), value) else: merged[key] = deepcopy(value) return merged def _fallback_home() -> dict: return { "page_title": "FutureFunded Platform Home", "page_description": ( "Launch and manage premium fundraising pages, sponsor-ready packages, " "and recurring memberships from one branded FutureFunded workspace." ), "hero": { "eyebrow": "AAU launch-ready", "title": "Give Connect ATX Elite a premium fundraising home.", "body": ( "Launch a sponsor-ready fundraising experience for youth boys basketball, " "starting with Connect ATX Elite — branded giving, booster support, and a " "cleaner story for families and local sponsors." ), "primary_cta_label": "Start guided launch", "primary_cta_href": "/platform/onboarding", "secondary_cta_label": "View live fundraiser", "secondary_cta_href": "/c/spring-fundraiser", "pills": ["AAU ready", "Mobile first", "Sponsor-ready", "Booster support"], "proof_kicker": "What launches on day one", "proof_title": "A founder-grade fundraising system, not just a page.", "proof_body": ( "A branded public fundraiser, sponsor-ready support lanes, recurring " "membership potential, and a cleaner operator story you can actually demo and sell." ), "snapshot_note": ( "Use one polished launch to show buyers the public page, the sponsor story, " "and the operator value in one connected funnel." ), "operator_eyebrow": "Operator angle", "operator_title": "Sell the system, not just the fundraiser.", "operator_body": ( "The strongest pitch is not ‘we made a page.’ It’s ‘we built a premium revenue " "surface with a clean operator workflow, sponsor lanes, and room to expand team by team.’" ), }, "launch_cards": [ { "title": "Public fundraiser", "body": ( "A polished public fundraiser for Connect ATX Elite with cleaner hierarchy, " "stronger trust, and a fast path to support." ), }, { "title": "Sponsor packages", "body": ( "Credible local business support lanes that feel ready to share with " "community partners and parent networks." ), }, { "title": "Recurring support", "body": ( "Recurring support options that help the program build stability " "beyond one-time campaign pushes." ), }, { "title": "Operator dashboard", "body": ( "An operator dashboard for launch, oversight, and room to grow into a fuller platform later." ), }, ], "status_cards": [ {"label": "Backend", "value": "Live"}, {"label": "Campaign", "value": "Live"}, {"label": "Positioning", "value": "Premium"}, ], "status_pills": ["Connect ATX Elite", "Spring Fundraiser", "Launchable now"], "left_feature": { "eyebrow": "Built for youth programs", "title": "One platform. Multiple support lanes.", "body": ( "Give youth basketball programs a premium fundraising product with direct giving, " "sponsor support, booster memberships, and branded organization pages in one place." ), "pills": ["Youth sports", "Families", "Sponsors", "Boosters"], }, "right_feature": { "eyebrow": "Launch lanes", "title": "Start with one team. Expand with confidence.", "body": ( "Begin with Connect ATX Elite, then expand into sponsor packages, recurring support, " "announcement bars, countdowns, and branded organization hubs without rebuilding from scratch." ), "pills": ["Campaigns", "Memberships", "Sponsors", "Branding"], }, "why_it_wins": { "eyebrow": "Why it wins", "title": "Built to feel like a product, not a fundraiser template.", "body": ( "FutureFunded helps families, supporters, and local sponsors understand the need faster " "and act with more confidence." ), "cards": [ { "title": "Cleaner conversion surfaces", "body": "Reduce hesitation with sharper hierarchy, stronger CTAs, and clearer support paths.", }, { "title": "Real-world team launch flow", "body": ( "Spin up a real AAU organization with campaign defaults that are already " "sponsor-ready and parent-friendly." ), }, ], }, "next_move": { "eyebrow": "Next move", "title": "Launch the real program, not a demo.", "body": ( "Use onboarding to launch the real Connect ATX Elite organization, go live fast, " "then expand into sponsor packages and recurring support as the program grows." ), "primary_cta_label": "Create organization", "primary_cta_href": "/platform/onboarding", "secondary_cta_label": "View pricing", "secondary_cta_href": "/platform/pricing", }, } def _fallback_onboarding() -> dict: return { "page_title": "FutureFunded Onboarding", "page_description": ( "Set up your organization, public fundraiser, and brand defaults for a premium FutureFunded launch." ), "eyebrow": "Guided launch", "title": "Set up your first live fundraiser.", "body": ( "Create the organization, configure the first public fundraiser, " "and hand off directly into the operator dashboard." ), "organization": { "title": "Organization", "fields": [ {"label": "Organization name", "name": "org_name", "value": "Connect ATX Elite"}, {"label": "Organization slug", "name": "org_slug", "value": "connect-atx-elite"}, {"label": "Primary color", "name": "primary_color", "value": "#f97316"}, {"label": "Secondary color", "name": "secondary_color", "value": "#111827"}, ], }, "campaign": { "title": "Public fundraiser", "fields": [ {"label": "Campaign name", "name": "campaign_name", "value": "Spring Fundraiser"}, {"label": "Campaign slug", "name": "campaign_slug", "value": "spring-fundraiser"}, {"label": "Headline", "name": "headline", "value": "Fuel the season. Fund the future."}, {"label": "Goal amount", "name": "goal_amount", "value": "10000.00"}, ], }, "submit_label": "Create org + live page", "submit_href": "/platform/dashboard", } def _fallback_dashboard() -> dict: return { "page_title": "FutureFunded Dashboard", "page_description": ( "Manage the live public fundraiser, sponsor packages, and recurring support from one premium operator workspace." ), "eyebrow": "Operator dashboard", "title": "Operator command center", "body": ( "Manage the live public fundraiser, sponsor packages, and recurring support " "from one premium operator workspace." ), "overview_cards": [ {"title": "Organizations", "body": "Active organizations in this workspace", "value": "1"}, {"title": "Live fundraisers", "body": "Public fundraisers you can manage", "value": "1"}, {"title": "Sponsor packages", "body": "Active support packages for local partners", "value": "2"}, {"title": "Recurring support", "body": "Recurring support plans configured", "value": "2"}, ], "actions": [ {"label": "Open live fundraiser", "href": "/c/spring-fundraiser", "variant": "primary"}, {"label": "Start another guided launch", "href": "/platform/onboarding", "variant": "secondary"}, ], "org_cards": [ { "title": "Connect ATX Elite", "slug": "connect-atx-elite", "status": "Live", "campaign_name": "Spring Fundraiser", "campaign_url": "/c/spring-fundraiser", }, ], "sponsor_tiers": [ { "title": "Bronze Sponsor", "body": ( "Entry-tier local sponsor visibility for businesses that want to support " "the team and be seen on the campaign page." ), "pills": ["$250.00", "Active"], }, { "title": "Gold Sponsor", "body": ( "Premium sponsor placement and recognition with stronger visibility " "across the fundraising experience." ), "pills": ["$1000.00", "Featured", "Active"], }, ], "membership_plans": [ { "title": "Booster Monthly", "body": "Monthly support for the Connect ATX Elite program.", "pills": ["$19.00", "monthly"], }, { "title": "Booster Annual", "body": ( "Annual support with stronger recognition and long-term backing for the program." ), "pills": ["$199.00", "yearly", "Featured"], }, ], } def _fallback_pricing() -> dict: return { "page_title": "FutureFunded Pricing", "page_description": ( "Simple, premium pricing for FutureFunded — launch sponsor-ready fundraisers, " "branded program hubs, and recurring support lanes for teams, schools, and youth organizations." ), "eyebrow": "Pricing", "title": "Launch a sponsor-ready fundraiser in minutes.", "body": ( "FutureFunded helps youth teams, schools, nonprofits, and clubs launch public " "fundraisers, sponsor packages, and recurring support from one premium workspace." ), "hero_pills": ["Founder-friendly", "Sponsor-ready", "Launch fast"], "plans": [ { "name": "Starter", "price": "$49 setup", "body": "Best for teams that want a premium public fundraiser fast.", "fit": "Perfect for first launches and founder-led setup offers.", "cta_label": "Start with Starter", "cta_href": "/platform/onboarding", }, { "name": "Growth", "price": "$79/mo", "body": "Best for programs ready to add sponsor packages and recurring support.", "fit": "Great for schools, clubs, and growing youth programs.", "cta_label": "Start Growth setup", "cta_href": "/platform/onboarding", "featured": True, }, { "name": "White-label", "price": "Custom", "body": ( "Best for schools, nonprofits, and larger organizations that want a fuller " "branded operating system." ), "fit": "Best when you want the platform to feel like your organization’s own system.", "cta_label": "Request white-label path", "cta_href": "/platform/demo", }, ], "actions": [ {"label": "Start guided launch", "href": "/platform/onboarding"}, {"label": "View guided demo", "href": "/platform/demo"}, ], "included_cards": [ { "title": "Public fundraiser", "body": ( "A polished page for direct giving, cleaner storytelling, and sponsor-ready " "presentation from the start." ), }, { "title": "Operator dashboard", "body": ( "A premium workspace for launch, oversight, positioning, and " "program-by-program expansion." ), }, { "title": "Sponsor packages + recurring support", "body": ( "Sponsor packages and recurring support that extend value beyond one campaign." ), }, ], } def _fallback_demo() -> dict: return { "page_title": "FutureFunded Demo", "page_description": ( "See how the public fundraiser, onboarding flow, pricing, and operator dashboard work together." ), "eyebrow": "Demo", "title": "See FutureFunded in action.", "body": ( "This guided demo shows the public fundraiser, onboarding flow, " "operator dashboard, and founder-ready pricing as one clean sales sequence." ), "steps": [ { "label": "Step 1", "title": "Public fundraiser", "body": "Show the polished donation surface, sponsor offers, and public trust signals first.", "href": "/c/spring-fundraiser", }, { "label": "Step 2", "title": "Onboarding flow", "body": "Show how quickly a team or organization can move from setup to a launch-ready page.", "href": "/platform/onboarding", }, { "label": "Step 3", "title": "Operator dashboard", "body": ( "Position FutureFunded as a system — public fundraiser, operator dashboard, and revenue lanes — not just a page." ), "href": "/platform/dashboard", }, { "label": "Step 4", "title": "Founder pricing", "body": "End the demo with a simple pricing story that makes it easy to say yes.", "href": "/platform/pricing", }, ], "actions": [ {"label": "Start guided launch", "href": "/platform/onboarding"}, {"label": "View live fundraiser", "href": "/c/spring-fundraiser"}, ], } PLATFORM_PAGE_CONFIG: dict[str, dict] = { "home": { "template_name": "platform/pages/home.html", "default_title": "FutureFunded Platform Home", "fallback_factory": _fallback_home, "api_path": "/api/v1/platform/home", }, "pricing": { "template_name": "platform/pages/pricing.html", "default_title": "FutureFunded Pricing", "fallback_factory": _fallback_pricing, "api_path": "/api/v1/platform/pricing", }, "demo": { "template_name": "platform/pages/demo.html", "default_title": "FutureFunded Demo", "fallback_factory": _fallback_demo, "api_path": "/api/v1/platform/demo", }, "onboarding": { "template_name": "platform/pages/onboarding.html", "default_title": "FutureFunded Onboarding", "fallback_factory": _fallback_onboarding, "api_path": "/api/v1/platform/onboarding", }, "dashboard": { "template_name": "platform/pages/dashboard.html", "default_title": "FutureFunded Dashboard", "fallback_factory": _fallback_dashboard, "api_path": "/api/v1/platform/dashboard", }, } def _page_config(page_key: str) -> dict: config = PLATFORM_PAGE_CONFIG.get(page_key) if not config: raise KeyError(f"Unknown platform page_key: {page_key}") return config def _resolve_fallback(config: dict, explicit_fallback: dict | None = None) -> dict: if isinstance(explicit_fallback, dict): return deepcopy(explicit_fallback) fallback_factory = config.get("fallback_factory") if callable(fallback_factory): produced = fallback_factory() if isinstance(produced, dict): return deepcopy(produced) fallback = config.get("fallback") if isinstance(fallback, dict): return deepcopy(fallback) return {} def _render_platform_page( *, page_key: str, template_name: str | None = None, default_title: str | None = None, fallback: dict | None = None, api_path: str | None = None, ): config = PLATFORM_PAGE_CONFIG.get(page_key, {}) template_name = template_name or config.get("template_name") default_title = default_title or config.get("default_title", "FutureFunded Platform") resolved_fallback = _resolve_fallback(config, fallback) if api_path is None: api_path = config.get("api_path") if not template_name: raise KeyError(f"No platform template configured for page_key={page_key!r}") api_data = get_json(api_path, {}) if api_path else {} data = _deep_merge(resolved_fallback, api_data if isinstance(api_data, dict) else {}) return render_template( template_name, page_title=data.get("page_title", default_title), page_description=data.get("page_description", ""), platform_page=page_key, data=data, ) @bp.get("/") def home(): return _render_platform_page(page_key="home") @bp.get("/onboarding") def onboarding(): return _render_platform_page(page_key="onboarding") @bp.get("/dashboard") def dashboard(): return _render_platform_page(page_key="dashboard") @bp.get("/pricing") def pricing(): return _render_platform_page(page_key="pricing") @bp.get("/demo") def demo(): return _render_platform_page(page_key="demo")
+from __future__ import annotations
+
+from copy import deepcopy
+
+from flask import Blueprint, render_template
+
+from app.services.api_client import get_json
+
+bp = Blueprint("platform", __name__)
+
+
+def _deep_merge(base: dict | None, override: dict | None) -> dict:
+    """
+    Merge override data onto base data without losing nested fallback structure.
+    Lists are replaced wholesale. Dicts are merged recursively.
+    """
+    merged = deepcopy(base if isinstance(base, dict) else {})
+    if not isinstance(override, dict):
+        return merged
+
+    for key, value in override.items():
+        if isinstance(value, dict) and isinstance(merged.get(key), dict):
+            merged[key] = _deep_merge(merged.get(key, {}), value)
+        else:
+            merged[key] = deepcopy(value)
+
+    return merged
+
+
+def _fallback_home() -> dict:
+    return {
+        "page_title": "FutureFunded Platform Home",
+        "page_description": (
+            "Launch and manage premium fundraising pages, sponsor-ready packages, "
+            "and recurring memberships from one branded FutureFunded workspace."
+        ),
+        "hero": {
+            "eyebrow": "AAU launch-ready fundraising",
+            "title": "Launch premium fundraising pages without the setup drag.",
+            "body": (
+                "FutureFunded helps youth teams, nonprofits, schools, and clubs go live "
+                "with branded donation pages, sponsor lanes, memberships, and operator tools."
+            ),
+            "primary_cta": {
+                "label": "Start guided launch",
+                "href": "/platform/onboarding",
+            },
+            "secondary_cta": {
+                "label": "View live fundraiser",
+                "href": "/c/spring-fundraiser",
+            },
+        },
+        "proof_points": [
+            "Branded campaign pages",
+            "Sponsor + donor revenue lanes",
+            "Mobile-first checkout",
+            "Operator dashboard workflow",
+        ],
+        "next_move": {
+            "title": "Launch in one guided flow",
+            "body": (
+                "Upload a logo, set colors, connect payments, and go live with a "
+                "credible sponsor-ready fundraising surface."
+            ),
+        },
+    }
+
+
+def _fallback_onboarding() -> dict:
+    return {
+        "page_title": "FutureFunded Onboarding",
+        "page_description": (
+            "Guided onboarding for teams, schools, nonprofits, and clubs launching "
+            "a branded FutureFunded page."
+        ),
+        "hero": {
+            "eyebrow": "Guided setup",
+            "title": "Get your organization launch-ready fast.",
+            "body": (
+                "Create a premium fundraiser with your logo, colors, fundraising goal, "
+                "story, sponsor packages, and payment setup."
+            ),
+        },
+        "steps": [
+            "Add organization details",
+            "Upload logo and brand colors",
+            "Set fundraising goal and story",
+            "Enable donations and sponsor offers",
+            "Preview and publish",
+        ],
+    }
+
+
+def _fallback_dashboard() -> dict:
+    return {
+        "page_title": "FutureFunded Dashboard",
+        "page_description": (
+            "Track revenue lanes, campaign health, donor momentum, and sponsor performance "
+            "from one operator-friendly workspace."
+        ),
+        "hero": {
+            "eyebrow": "Operator workspace",
+            "title": "Run fundraising like a system, not a spreadsheet.",
+            "body": (
+                "Monitor donations, sponsorships, memberships, campaign progress, "
+                "and launch readiness from one polished dashboard."
+            ),
+        },
+        "operator_notes": [
+            "Track raised vs goal",
+            "See sponsor interest clearly",
+            "Spot conversion friction early",
+            "Keep launch and follow-up organized",
+        ],
+    }
+
+
+def _fallback_pricing() -> dict:
+    return {
+        "page_title": "FutureFunded Pricing",
+        "page_description": (
+            "Founder-friendly pricing for premium fundraising pages, sponsor-ready upgrades, "
+            "and organization onboarding."
+        ),
+        "hero": {
+            "eyebrow": "Simple pricing",
+            "title": "Price the platform like a real revenue tool.",
+            "body": (
+                "Use FutureFunded as a launch-ready fundraising system with branded pages, "
+                "sponsor visibility, memberships, and premium conversion UX."
+            ),
+        },
+        "plans": [
+            {
+                "name": "Starter",
+                "headline": "Get live fast",
+                "price": "$0 setup + platform fee",
+            },
+            {
+                "name": "Growth",
+                "headline": "More sponsor leverage",
+                "price": "$99/mo",
+            },
+            {
+                "name": "Pro",
+                "headline": "White-glove launch",
+                "price": "Custom",
+            },
+        ],
+    }
+
+
+def _fallback_demo() -> dict:
+    return {
+        "page_title": "FutureFunded Demo",
+        "page_description": (
+            "Walk through the public fundraiser, onboarding flow, dashboard, and pricing "
+            "as one clean founder-ready sales sequence."
+        ),
+        "hero": {
+            "eyebrow": "Guided founder demo",
+            "title": "Show the whole product story in one pass.",
+            "body": (
+                "Use the live fundraiser, guided onboarding, operator dashboard, and pricing "
+                "surface together to sell FutureFunded as a complete system."
+            ),
+            "primary_cta": {
+                "label": "Open live fundraiser",
+                "href": "/c/spring-fundraiser",
+            },
+            "secondary_cta": {
+                "label": "Start guided launch",
+                "href": "/platform/onboarding",
+            },
+        },
+    }
+
+
+PLATFORM_PAGE_CONFIG: dict[str, dict] = {
+    "home": {
+        "template_name": "platform/pages/home.html",
+        "fallback": _fallback_home,
+    },
+    "onboarding": {
+        "template_name": "platform/pages/onboarding.html",
+        "fallback": _fallback_onboarding,
+    },
+    "dashboard": {
+        "template_name": "platform/pages/dashboard.html",
+        "fallback": _fallback_dashboard,
+    },
+    "pricing": {
+        "template_name": "platform/pages/pricing.html",
+        "fallback": _fallback_pricing,
+    },
+    "demo": {
+        "template_name": "platform/pages/demo.html",
+        "fallback": _fallback_demo,
+    },
+}
+
+
+def _fetch_platform_payload(page_key: str) -> dict:
+    """
+    Best-effort API fetch. If the API is unavailable or returns bad data,
+    we fall back to the local config for that page.
+    """
+    try:
+        payload = get_json(f"/api/platform/{page_key}")
+        return payload if isinstance(payload, dict) else {}
+    except Exception:
+        return {}
+
+
+def _render_platform_page(page_key: str):
+    config = PLATFORM_PAGE_CONFIG.get(page_key)
+    if not config:
+        raise KeyError(f"Unknown platform page: {page_key}")
+
+    fallback_factory = config["fallback"]
+    template_name = config["template_name"]
+
+    fallback_payload = fallback_factory() if callable(fallback_factory) else {}
+    remote_payload = _fetch_platform_payload(page_key)
+
+    page_payload = _deep_merge(fallback_payload, remote_payload)
+
+    return render_template(
+        template_name,
+        page_key=page_key,
+        page_data=page_payload,
+        page_title=page_payload.get("page_title"),
+        page_description=page_payload.get("page_description"),
+    )
+
+
+@bp.get("/")
+def home():
+    return _render_platform_page(page_key="home")
+
+
+@bp.get("/onboarding")
+def onboarding():
+    return _render_platform_page(page_key="onboarding")
+
+
+@bp.get("/dashboard")
+def dashboard():
+    return _render_platform_page(page_key="dashboard")
+
+
+@bp.get("/pricing")
+def pricing():
+    return _render_platform_page(page_key="pricing")
+
+
+@bp.get("/demo")
+def demo():
+    return _render_platform_page(page_key="demo")
