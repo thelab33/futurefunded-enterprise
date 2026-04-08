@@ -1111,11 +1111,8 @@ nonce="{{ _n|e }}"
             </div>
           </div>
         </section>
-        <div id="ffDonationSuccessMount" class="ff-donationSuccessMount"
-          {% if not _show_success_upsell %}
-          hidden
-          {% endif %}
-          aria-live="polite" aria-atomic="true" >
+        {% set _success_mount_hidden_attr = ' hidden' if not _show_success_upsell else '' %}
+        <div id="ffDonationSuccessMount" class="ff-donationSuccessMount"{{ _success_mount_hidden_attr|safe }} aria-live="polite" aria-atomic="true" >
           {% if _show_success_upsell %}
           <section class="ff-successUpsell ff-card ff-glass ff-pad" data-ff-success-upsell="" aria-labelledby="ffSuccessUpsellTitle" aria-describedby="ffSuccessUpsellDesc" >
             <div class="ff-successUpsell__intro ff-minw-0">
@@ -1470,13 +1467,13 @@ nonce="{{ _n|e }}"
                         </div>
                       </div>
                       <footer class="ff-impactTier__footer">
-                        <a class="ff-btn ff-btn--sm
-                          {% if tier.primary %}
-                          ff-btn--primary
-                          {% else %}
-                          ff-btn--secondary
-                          {% endif %}
-                          ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="" > {{ tier.cta }} </a>
+                        {% set _tier_cta_class = 'ff-btn ff-btn--sm ff-btn--pill' %}
+                        {% if tier.primary %}
+                        {% set _tier_cta_class = _tier_cta_class ~ ' ff-btn--primary' %}
+                        {% else %}
+                        {% set _tier_cta_class = _tier_cta_class ~ ' ff-btn--secondary' %}
+                        {% endif %}
+                        <a class="{{ _tier_cta_class }}" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="" > {{ tier.cta }} </a>
                         </footer>
                       </li>
                       {% endfor %}
@@ -1894,9 +1891,13 @@ nonce="{{ _n|e }}"
                       aria-label="Smart donation presets"
                     >
                       {% for amount, meta in _checkout_presets %}
+                        {% set _checkout_preset_btn_class = 'ff-donation-presets__btn' %}
+                        {% if loop.last %}
+                        {% set _checkout_preset_btn_class = _checkout_preset_btn_class ~ ' ff-donation-presets__btn--feature' %}
+                        {% endif %}
                         <button
                           type="button"
-                          class="ff-donation-presets__btn{% if loop.last %} ff-donation-presets__btn--feature{% endif %}"
+                          class="{{ _checkout_preset_btn_class }}"
                           data-ff-amount="{{ amount }}"
                           aria-label="Choose {{ amount }} dollars"
                         >
