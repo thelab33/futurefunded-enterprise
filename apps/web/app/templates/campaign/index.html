@@ -334,8 +334,6 @@ nonce="{{ _n|e }}"
     'name': '6th Grade Gold',
     'tier': 'Gold',
     'meta': 'First AAU reps — fundamentals + communication.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': true,
     'needs': false,
     'restricted': false,
@@ -347,8 +345,6 @@ nonce="{{ _n|e }}"
     'name': '7th Grade Gold',
     'tier': 'Gold',
     'meta': 'Speed + spacing — film + pressure reps.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': true,
     'needs': false,
     'restricted': false,
@@ -360,8 +356,6 @@ nonce="{{ _n|e }}"
     'name': '7th Grade Black',
     'tier': 'Black',
     'meta': 'Defense travels — stops into transition.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': false,
     'needs': true,
     'restricted': false,
@@ -373,8 +367,6 @@ nonce="{{ _n|e }}"
     'name': '8th Grade Gold',
     'tier': 'Gold',
     'meta': 'Finish strong — intensity + leadership.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': false,
     'needs': false,
     'restricted': false,
@@ -505,7 +497,7 @@ nonce="{{ _n|e }}"
 {% endif %}
 {% set _show_success_upsell = _show_success_upsell|default(false, true) %}
 {% set _success_program_name = _success_program_name|default(_safe_org_name, true) %}
-{% set _press_watch_url = _press_watch_url|default('https://connectatxelite.com/', true) %}
+{% set _press_watch_url = _press_watch_url|default(canonical_url|default(share_url|default('https://getfuturefunded.com/c/spring-fundraiser', true), true), true) %}
 {% set _press_embed_url = _press_embed_url|default('', true) %}
 {% set _press_video_title = _press_video_title|default(_safe_org_name ~ ' program story', true) %}
 {% set _press_poster_webp = _press_poster_webp|default(url_for('static', filename='images/connect-atx-team.jpg') ~ '?v=' ~ _v, true) %}
