@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 
+from flask import jsonify
 from app import create_app
 
 
@@ -36,3 +37,36 @@ def _ff_sync_asset_version(app):
 
 
 app = _ff_sync_asset_version(create_app())
+
+
+@app.after_request
+def _ff_add_build_header(resp):
+    try:
+        build_id = str(app.config.get("FF_BUILD_ID", "")).strip()
+        if build_id:
+            resp.headers["X-FutureFunded-Build"] = build_id
+    except Exception:
+        pass
+    return resp
+
+
+@app.get("/__version")
+def _ff_version():
+    return jsonify(
+        {
+            "build_id": str(app.config.get("FF_BUILD_ID", "")).strip(),
+            "version": str(app.config.get("FF_VERSION", "")).strip(),
+            "asset_version": str(app.config.get("FF_ASSET_V", "")).strip(),
+            "env": (
+                os.getenv("APP_ENV")
+                or os.getenv("ENV")
+                or os.getenv("FLASK_ENV")
+                or ""
+            ).strip(),
+            "public_base_url": (
+                os.getenv("FF_PUBLIC_BASE_URL")
+                or os.getenv("PUBLIC_BASE_URL")
+                or ""
+            ).strip(),
+        }
+    )
