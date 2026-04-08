@@ -1,3 +1,4 @@
+from .routes.payments import bp as payments_bp
 from flask import Flask, redirect
 
 from app.config import config_by_env
@@ -14,6 +15,7 @@ def create_app() -> Flask:
     compress.init_app(app)
     app.register_blueprint(platform_bp, url_prefix="/platform")
     app.register_blueprint(campaign_bp)
+    app.register_blueprint(payments_bp)
 
     @app.get("/")
     def root():

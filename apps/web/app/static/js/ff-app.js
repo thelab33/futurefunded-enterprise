@@ -53,6 +53,7 @@ document.addEventListener("click", (e) => {
   }
 
   function initMobileActionRail() {
+    return;
     const body = document.body;
     if (!body) return;
     if (body.getAttribute("data-ff-page") !== "fundraiser") return;

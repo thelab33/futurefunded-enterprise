@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, current_app, render_template
 from urllib.parse import urlparse
 
@@ -57,6 +58,22 @@ def _normalize_campaign_context(data: dict, slug: str) -> dict:
     ctx["ff_public_base_url"] = base
     ctx["canonical_url"] = campaign_url
     ctx["stripe_return_url"] = campaign_url
+    ctx["stripe_pk"] = (
+        current_app.config.get("STRIPE_PUBLISHABLE_KEY")
+        or current_app.config.get("STRIPE_PUBLIC_KEY")
+        or current_app.config.get("FF_STRIPE_PUBLISHABLE_KEY")
+        or os.getenv("STRIPE_PUBLISHABLE_KEY")
+        or os.getenv("STRIPE_PUBLIC_KEY")
+        or os.getenv("FF_STRIPE_PUBLISHABLE_KEY")
+        or ""
+    )
+    ctx["paypal_client_id"] = (
+        current_app.config.get("PAYPAL_CLIENT_ID")
+        or current_app.config.get("FF_PAYPAL_CLIENT_ID")
+        or os.getenv("PAYPAL_CLIENT_ID")
+        or os.getenv("FF_PAYPAL_CLIENT_ID")
+        or ""
+    )
     ctx["_share_url_resolved"] = campaign_url
     ctx["_stripe_return"] = campaign_url
 
@@ -132,4 +149,35 @@ def campaign(slug: str):
     if not data:
         data = _demo_campaign_context(slug)
         data = _normalize_campaign_context(data, slug)
+    data = dict(data or {})
+
+    for key in ("asset_v", "FF_ASSET_V", "FF_BUILD_ID", "FF_VERSION"):
+
+        value = str(data.get(key, "") or "").strip().lower()
+
+        if value == "dev":
+
+            data.pop(key, None)
+
+    
+
+    cfg = data.get("_cfg")
+
+    if isinstance(cfg, dict):
+
+        cfg = dict(cfg)
+
+        for key in ("asset_v", "FF_ASSET_V", "FF_BUILD_ID", "FF_VERSION"):
+
+            value = str(cfg.get(key, "") or "").strip().lower()
+
+            if value == "dev":
+
+                cfg.pop(key, None)
+
+        data["_cfg"] = cfg
+
+    
+
     return render_template("campaign/index.html", **data)
+
