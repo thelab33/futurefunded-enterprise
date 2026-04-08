@@ -7,7 +7,6 @@ from app.routes.platform import bp as platform_bp
 from app.routes.campaign import bp as campaign_bp
 from packages.shared.settings import settings
 
-
 def create_app() -> Flask:
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.config.from_object(config_by_env.get(settings.ENV, config_by_env["development"]))

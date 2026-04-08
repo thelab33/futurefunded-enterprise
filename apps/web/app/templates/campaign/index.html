@@ -1167,12 +1167,12 @@ nonce="{{ _n|e }}"
                   </div>
                   <ul class="ff-impactPick__chips ff-impactPick__chips--flagship ff-impactChoiceGrid ff-mt-3" role="list" aria-label="Preset impact amounts" >
                     {% for amount, eyebrow, meta, is_feature in _impact_amounts %}
+                    {% set _impact_choice_class = 'ff-chip ff-chip--impact ff-chip--pill ff-impactChoice' %}
+                    {% if is_feature %}
+                    {% set _impact_choice_class = _impact_choice_class ~ ' ff-impactChoice--feature' %}
+                    {% endif %}
                     <li class="ff-impactChoiceItem">
-                      <button type="button" class="ff-chip ff-chip--impact ff-chip--pill ff-impactChoice
-                        {% if is_feature %}
-                        ff-impactChoice--feature
-                        {% endif %}
-                        " data-ff-amount="{{ amount }}" aria-label="Preload {{ amount }} dollars: {{ meta }}" >
+                      <button type="button" class="{{ _impact_choice_class }}" data-ff-amount="{{ amount }}" aria-label="Preload {{ amount }} dollars: {{ meta }}" >
                         <span class="ff-impactChoice__eyebrow">{{ eyebrow }}</span>
                         <span class="ff-chip__amt ff-impactChoice__amt">${{ amount }}</span>
                         <span class="ff-chip__meta ff-impactChoice__meta">{{ meta }}</span>
@@ -1218,11 +1218,11 @@ nonce="{{ _n|e }}"
                   </div>
                   <ul class="ff-impactTierGrid ff-impactTierGrid--flagship ff-mt-3" role="list" data-ff-sponsor-a-player="" aria-label="Sponsor a player options" >
                     {% for card in _player_sponsor_cards %}
-                    <li class="ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium
-                      {% if card.featured|default(false) %}
-                      ff-impactTier--recommended
-                      {% endif %}
-                      " role="listitem" >
+                    {% set _player_card_class = 'ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium' %}
+                    {% if card.featured|default(false) %}
+                    {% set _player_card_class = _player_card_class ~ ' ff-impactTier--recommended' %}
+                    {% endif %}
+                    <li class="{{ _player_card_class }}" role="listitem" >
                       <header class="ff-impactTier__head">
                         <div class="ff-row ff-row--between ff-ais ff-gap-2 ff-wrap">
                           <p class="ff-kicker ff-m-0">Jersey #{{ card.number }}</p>
@@ -1283,13 +1283,13 @@ nonce="{{ _n|e }}"
                   {% set tmeta = (t.meta|default('', true))|string|trim %}
                   {% set task = (t.ask|default('Support this team’s training, travel, and tournament costs for the season.', true))|string|trim %}
                   {% set _team_photo = (t.photo|default(url_for('static', filename='images/connect-atx-team.jpg') ~ '?v=' ~ _v, true))|string|trim %}
-                  <li class="ff-card ff-pad ff-teamCard ff-teamCard--flagship
-                    {% if t.featured|default(false, true) %}
-                    is-featured
-                    {% else %}
-                    ff-teamCard--quiet
-                    {% endif %}
-                    " role="listitem" >
+                  {% set _team_card_class = 'ff-card ff-pad ff-teamCard ff-teamCard--flagship' %}
+                  {% if t.featured|default(false, true) %}
+                  {% set _team_card_class = _team_card_class ~ ' is-featured' %}
+                  {% else %}
+                  {% set _team_card_class = _team_card_class ~ ' ff-teamCard--quiet' %}
+                  {% endif %}
+                  <li class="{{ _team_card_class }}" role="listitem" >
                     <article class="ff-teamCard__inner" aria-labelledby="team-{{ tid|e }}-name">
                       <header class="ff-teamCard__head">
                         <div class="ff-row ff-wrap ff-ais ff-gap-2 ff-teamCard__statusPills" role="list" aria-label="{{ tname|e }} status" >
@@ -1444,11 +1444,11 @@ nonce="{{ _n|e }}"
                   </section>
                   <ul class="ff-impactTierGrid ff-impactTierGrid--flagship ff-sponsorTierGrid" role="list" aria-label="Sponsor tier options" >
                     {% for tier in _sponsor_tiers %}
-                    <li class="ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium
-                      {% if tier.primary %}
-                      ff-impactTier--recommended
-                      {% endif %}
-                      " role="listitem"
+                    {% set _tier_card_class = 'ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium' %}
+                    {% if tier.primary %}
+                    {% set _tier_card_class = _tier_card_class ~ ' ff-impactTier--recommended' %}
+                    {% endif %}
+                    <li class="{{ _tier_card_class }}" role="listitem"
                       {% if tier.key == 'vip' %}
                       data-tier="vip"
                       {% endif %}

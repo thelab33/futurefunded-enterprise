@@ -4124,18 +4124,15 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
    ========================================================================== */
 
 @media (max-width: 768px) {
-
   .ff-mobileCtaBar {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 9999;
-
     display: flex;
     gap: 0.5rem;
     padding: 0.75rem;
-
     background: rgba(10, 12, 18, 0.85);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255,255,255,0.08);
@@ -4144,15 +4141,12 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
   .ff-mobileCtaBar__btn {
     flex: 1;
     min-height: 48px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 12px;
     font-weight: 600;
     text-align: center;
-
     text-decoration: none;
   }
 
@@ -4178,23 +4172,17 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
    ========================================================================== */
 
 @media (max-width: 768px) {
-
   /* Primary donate button (tab / CTA) */
   .ff-donate-btn,
   [data-ff-open-checkout] {
-
     min-height: 48px !important;
     min-width: 48px !important;
-
     padding: 0.75rem 1rem !important;
-
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-
     font-size: 1rem;
     font-weight: 600;
-
     border-radius: 12px;
 
     /* prevent shrinking */
@@ -4217,30 +4205,22 @@ body[data-ff-page="fundraiser"] .ff-videoModal__mount {
    ========================================================================== */
 
 @media (max-width: 768px) {
-
   /* Anchor the FIRST donate button as primary CTA */
   [data-ff-open-checkout]:first-of-type {
     position: fixed !important;
     bottom: 16px;
     left: 16px;
     right: 16px;
-
     z-index: 10000;
-
     min-height: 52px !important;
-
     display: flex !important;
     align-items: center;
     justify-content: center;
-
     font-size: 1.05rem;
     font-weight: 700;
-
     border-radius: 14px;
-
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: #fff;
-
     box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   }
 
@@ -4629,10 +4609,6 @@ body[data-ff-page="fundraiser"] .ff-teamCard__media {
     rgba(5, 10, 20, 0.42);
 }
 
-body[data-ff-page="fundraiser"] .ff-teamCard__foot {
-  margin-top: auto;
-}
-
 body[data-ff-page="fundraiser"] .ff-sponsorsBoard,
 body[data-ff-page="fundraiser"] .ff-sponsorWallBlock {
   gap: clamp(0.85rem, 1.5vw, 1.15rem);
@@ -4702,14 +4678,6 @@ body[data-ff-page="fundraiser"] .ff-sponsorTierCard__foot {
 body[data-ff-page="fundraiser"] .ff-sponsorSpotlight,
 body[data-ff-page="fundraiser"] .ff-sponsorPitch {
   margin-bottom: 0.35rem;
-}
-
-body[data-ff-page="fundraiser"] .ff-proofMini--teams {
-  margin-top: 0.2rem;
-}
-
-body[data-ff-page="fundraiser"] .ff-footerGrid {
-  gap: clamp(0.9rem, 1.8vw, 1.25rem);
 }
 
 @media (max-width: 768px) {

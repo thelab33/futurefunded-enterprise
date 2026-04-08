@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime, timezone
 
 from flask import jsonify
 from app import create_app
+
+
+_BOOTED_AT_UTC = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def _ff_sync_asset_version(app):
@@ -33,6 +37,7 @@ def _ff_sync_asset_version(app):
             app.config.get("FF_BUILD_ID", "1"),
         )
 
+    app.config["FF_BOOTED_AT_UTC"] = _BOOTED_AT_UTC
     return app
 
 
@@ -52,21 +57,45 @@ def _ff_add_build_header(resp):
 
 @app.get("/__version")
 def _ff_version():
-    return jsonify(
-        {
-            "build_id": str(app.config.get("FF_BUILD_ID", "")).strip(),
-            "version": str(app.config.get("FF_VERSION", "")).strip(),
-            "asset_version": str(app.config.get("FF_ASSET_V", "")).strip(),
-            "env": (
-                os.getenv("APP_ENV")
-                or os.getenv("ENV")
-                or os.getenv("FLASK_ENV")
-                or ""
-            ).strip(),
-            "public_base_url": (
-                os.getenv("FF_PUBLIC_BASE_URL")
-                or os.getenv("PUBLIC_BASE_URL")
-                or ""
-            ).strip(),
-        }
+    stripe_pk = (
+        os.getenv("STRIPE_PUBLISHABLE_KEY")
+        or os.getenv("STRIPE_PUBLIC_KEY")
+        or ""
+    ).strip()
+    paypal_client_id = (os.getenv("PAYPAL_CLIENT_ID") or "").strip()
+
+    stripe_mode = (
+        "test" if stripe_pk.startswith("pk_test_")
+        else "live" if stripe_pk.startswith("pk_live_")
+        else "missing"
     )
+    paypal_mode = (
+        (os.getenv("PAYPAL_MODE") or "").strip().lower()
+        or ("live" if paypal_client_id else "disabled")
+    )
+
+    payload = {
+        "build_id": str(app.config.get("FF_BUILD_ID", "")).strip(),
+        "version": str(app.config.get("FF_VERSION", "")).strip(),
+        "asset_version": str(app.config.get("FF_ASSET_V", "")).strip(),
+        "env": (
+            os.getenv("APP_ENV")
+            or os.getenv("ENV")
+            or os.getenv("FLASK_ENV")
+            or ""
+        ).strip(),
+        "public_base_url": (
+            os.getenv("FF_PUBLIC_BASE_URL")
+            or os.getenv("PUBLIC_BASE_URL")
+            or ""
+        ).strip(),
+        "stripe_mode": stripe_mode,
+        "paypal_mode": paypal_mode,
+        "data_mode": (
+            os.getenv("FF_DATA_MODE")
+            or os.getenv("DATA_MODE")
+            or "runtime"
+        ).strip(),
+        "booted_at_utc": str(app.config.get("FF_BOOTED_AT_UTC", "")).strip(),
+    }
+    return jsonify(payload)
