@@ -1,4 +1,22 @@
-# FutureFunded Platform Architecture
+from __future__ import annotations
+
+import shutil
+from datetime import datetime
+from pathlib import Path
+
+ROOT = Path.cwd()
+STAMP = datetime.now().strftime("%Y%m%d-%H%M%S")
+ARCHIVE_ROOT = ROOT / "archive" / "platform-structure-convergence" / STAMP
+LOG_PATH = ARCHIVE_ROOT / "convergence_log.txt"
+
+ARCH_DOC = ROOT / "apps" / "web" / "app" / "templates" / "ARCHITECTURE.md"
+PLATFORM_BASE = ROOT / "apps" / "web" / "app" / "templates" / "platform" / "base.html"
+PLATFORM_BASE_LEGACY = ROOT / "apps" / "web" / "app" / "templates" / "platform" / "shells" / "platform_base_legacy.html"
+INTEGRATION_SHARED = ROOT / "apps" / "web" / "app" / "templates" / "shared" / "partials" / "integration_health_panel.html"
+INTEGRATION_FLAT = ROOT / "apps" / "web" / "app" / "templates" / "partials" / "integration_health_panel.html"
+SCAFFOLD = ROOT / "tools" / "refactor" / "ff_platform_architecture_scaffold.py"
+
+ARCHITECTURE_CONTENT = r'''# FutureFunded Platform Architecture
 
 _Last updated: 2026-04-08_
 
@@ -159,15 +177,15 @@ Canonical location:
 
 - `apps/web/app/templates/shared/partials/integration_health_panel.html`
 
-Archived former flat location:
+Legacy/review location:
 
-- `archive/platform-structure-convergence/20260408-145121/integration_health_panel.legacy.flat.html`
+- `apps/web/app/templates/partials/integration_health_panel.html`
 
 ### Rule
 
 The shared partial path is canonical.
 
-The old flat `templates/partials/` copy has been archived and should not be restored as a live template path.
+The flat `templates/partials/` copy is transitional drift and should be archived once no live reference depends on it.
 
 Do not create new references to the flat path.
 
@@ -269,3 +287,120 @@ FutureFunded’s flagship structure is:
 - **Canonical integration panel:** `shared/partials/integration_health_panel.html`
 
 Any future restructure should strengthen this chain, not weaken it.
+'''
+
+COMPAT_COMMENT = """{#\n  FUTUREFUNDED_ARCHITECTURE_STATUS\n  compatibility-only bridge\n  - retained for older inheritance transition safety\n  - do not target for new platform work\n  - prefer platform/shells/marketing_base.html or operator_base.html\n#}\n\n"""
+
+LEGACY_COMMENT = """{#\n  FUTUREFUNDED_ARCHITECTURE_STATUS\n  legacy-review shell\n  - retained for migration safety and repo history\n  - do not target for new platform work\n  - current authority shells are marketing_base.html and operator_base.html\n#}\n\n"""
+
+
+def backup(path: Path) -> Path:
+    ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+    dest = path.with_name(f"{path.name}.{ts}.bak")
+    shutil.copy2(path, dest)
+    return dest
+
+
+def prepend_once(path: Path, block: str, marker: str, log: list[str]) -> None:
+    if not path.exists():
+        log.append(f"SKIP missing: {path.relative_to(ROOT)}")
+        return
+    text = path.read_text(encoding="utf-8")
+    if marker in text:
+        log.append(f"UNCHANGED marker already present: {path.relative_to(ROOT)}")
+        return
+    b = backup(path)
+    path.write_text(block + text, encoding="utf-8")
+    log.append(f"PATCHED banner: {path.relative_to(ROOT)}")
+    log.append(f"BACKUP: {b.relative_to(ROOT)}")
+
+
+def replace_in_file(path: Path, old: str, new: str, log: list[str]) -> None:
+    if not path.exists():
+        log.append(f"SKIP missing: {path.relative_to(ROOT)}")
+        return
+    text = path.read_text(encoding="utf-8")
+    if old not in text:
+        log.append(f"UNCHANGED no match in: {path.relative_to(ROOT)}")
+        return
+    if old == new:
+        log.append(f"UNCHANGED identical replace request: {path.relative_to(ROOT)}")
+        return
+    b = backup(path)
+    path.write_text(text.replace(old, new), encoding="utf-8")
+    log.append(f"PATCHED text replace: {path.relative_to(ROOT)}")
+    log.append(f"BACKUP: {b.relative_to(ROOT)}")
+
+
+def write_architecture(log: list[str]) -> None:
+    ARCH_DOC.parent.mkdir(parents=True, exist_ok=True)
+    if ARCH_DOC.exists():
+        b = backup(ARCH_DOC)
+        log.append(f"BACKUP: {b.relative_to(ROOT)}")
+    ARCH_DOC.write_text(ARCHITECTURE_CONTENT.strip() + "\n", encoding="utf-8")
+    log.append(f"WROTE architecture doc: {ARCH_DOC.relative_to(ROOT)}")
+
+
+def converge_integration_panel(log: list[str]) -> None:
+    ARCHIVE_ROOT.mkdir(parents=True, exist_ok=True)
+    if INTEGRATION_SHARED.exists() and INTEGRATION_FLAT.exists():
+        archive_dest = ARCHIVE_ROOT / "integration_health_panel.legacy.flat.html"
+        archive_dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(INTEGRATION_FLAT), str(archive_dest))
+        log.append(
+            f"ARCHIVED legacy flat integration panel: {archive_dest.relative_to(ROOT)}"
+        )
+    elif not INTEGRATION_SHARED.exists() and INTEGRATION_FLAT.exists():
+        INTEGRATION_SHARED.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(INTEGRATION_FLAT), str(INTEGRATION_SHARED))
+        log.append(
+            f"MOVED flat integration panel to canonical shared path: {INTEGRATION_SHARED.relative_to(ROOT)}"
+        )
+    elif INTEGRATION_SHARED.exists():
+        log.append(
+            f"UNCHANGED canonical integration panel already present: {INTEGRATION_SHARED.relative_to(ROOT)}"
+        )
+    else:
+        log.append("SKIP no integration panel file found in either location")
+
+    replace_in_file(
+        SCAFFOLD,
+        'TEMPLATES / "partials/integration_health_panel.html"',
+        'TEMPLATES / "shared/partials/integration_health_panel.html"',
+        log,
+    )
+    replace_in_file(
+        SCAFFOLD,
+        'copy_if_exists(shared_integration, TEMPLATES / "platform/partials/integration_health_panel.html")\n',
+        '',
+        log,
+    )
+
+
+def main() -> None:
+    ARCHIVE_ROOT.mkdir(parents=True, exist_ok=True)
+    log: list[str] = []
+    log.append(f"repo: {ROOT}")
+    log.append(f"archive_root: {ARCHIVE_ROOT.relative_to(ROOT)}")
+    log.append("")
+
+    log.append("== WRITE ARCHITECTURE DOC ==")
+    write_architecture(log)
+    log.append("")
+
+    log.append("== LABEL COMPAT / LEGACY FILES ==")
+    prepend_once(PLATFORM_BASE, COMPAT_COMMENT, "FUTUREFUNDED_ARCHITECTURE_STATUS", log)
+    prepend_once(PLATFORM_BASE_LEGACY, LEGACY_COMMENT, "FUTUREFUNDED_ARCHITECTURE_STATUS", log)
+    log.append("")
+
+    log.append("== CONVERGE INTEGRATION PANEL ==")
+    converge_integration_panel(log)
+    log.append("")
+
+    LOG_PATH.write_text("\n".join(log) + "\n", encoding="utf-8")
+    print(f"wrote: {LOG_PATH}")
+
+
+if __name__ == "__main__":
+    main()
+

@@ -74,10 +74,9 @@ def scaffold_platform_files() -> None:
         for p in legacy_partials.glob("*.html"):
             copy_if_exists(p, TEMPLATES / "platform/partials" / p.name)
 
-    shared_integration = TEMPLATES / "partials/integration_health_panel.html"
+    shared_integration = TEMPLATES / "shared/partials/integration_health_panel.html"
     if shared_integration.exists():
-        copy_if_exists(shared_integration, TEMPLATES / "platform/partials/integration_health_panel.html")
-        copy_if_exists(shared_integration, TEMPLATES / "shared/partials/integration_health_panel.html")
+                copy_if_exists(shared_integration, TEMPLATES / "shared/partials/integration_health_panel.html")
 
     for path, content in PLACEHOLDERS.items():
         if not path.exists():
