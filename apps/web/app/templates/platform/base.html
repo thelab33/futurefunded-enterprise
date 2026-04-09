@@ -3,7 +3,9 @@
   compatibility-only bridge
   - retained for older inheritance transition safety
   - do not target for new platform work
-  - prefer platform/shells/marketing_base.html or operator_base.html
+  - canonical shells:
+      * platform/shells/marketing_base.html
+      * platform/shells/operator_base.html
 #}
 
 {# -----------------------------------------------------------------------------
@@ -12,7 +14,7 @@ Compatibility shim only
 - not part of the active premium render chain
 - forwards old platform/base.html inheritance into the current shell system
 - defaults to marketing_base
-- can be overridden with `platform_shell` if ever needed
+- can be overridden with `platform_shell` when a legacy template still needs it
 ----------------------------------------------------------------------------- #}
 
 {% set _platform_shell = (platform_shell|default("platform/shells/marketing_base.html", true))|string|trim %}

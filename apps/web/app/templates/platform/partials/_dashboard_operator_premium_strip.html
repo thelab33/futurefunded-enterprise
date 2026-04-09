@@ -1,64 +1,91 @@
-<section class="ff-operatorPremium" aria-labelledby="ffOperatorPremiumTitle">
+{% set operator_premium = data.get("operator_premium") or {} %}
+
+{% set cta_label_map = {
+  "/platform/dashboard?view=launch": "Open launch workspace",
+  "/platform/dashboard": "Open operator dashboard",
+  "/c/spring-fundraiser": "Open live fundraiser"
+} %}
+
+{% set operator_premium_eyebrow = operator_premium.get("eyebrow", "Operator control") %}
+{% set operator_premium_title = operator_premium.get("title", "Run launch, fundraising, sponsors, and support from one cleaner command surface") %}
+{% set operator_premium_body = operator_premium.get(
+  "body",
+  "FutureFunded works best when operators can move from launch into confident day-to-day operation without leaving the workspace. This dashboard is where campaign progress, sponsor momentum, support lanes, and next actions should feel visible, organized, and premium."
+) %}
+
+{% set operator_premium_cards = operator_premium.get("cards") or [
+  {
+    "kicker": "Launch workspace",
+    "title": "Launch with less chaos",
+    "body": "Keep organization setup, campaign structure, and launch readiness inside one workspace instead of scattering setup across disconnected pages."
+  },
+  {
+    "kicker": "Fundraising",
+    "title": "Track momentum clearly",
+    "body": "Keep raised totals, campaign progress, and live momentum visible so operators can make faster decisions without hunting through clutter."
+  },
+  {
+    "kicker": "Sponsors + support",
+    "title": "Manage revenue lanes cleanly",
+    "body": "Treat sponsor packages and recurring support like real revenue lanes with clearer visibility, confidence, and follow-through."
+  }
+] %}
+
+{% set operator_premium_rail = operator_premium.get("rail") or {} %}
+{% set operator_premium_rail_eyebrow = operator_premium_rail.get("eyebrow", "Operator checklist") %}
+{% set operator_premium_rail_title = operator_premium_rail.get("title", "What the workspace should make obvious after launch") %}
+{% set operator_premium_list = operator_premium_rail.get("items") or [
+  "What is live and ready to share",
+  "What sponsors and support lanes are active",
+  "What needs operator attention next",
+  "What the next launch step should be"
+] %}
+
+{% set operator_premium_primary_href = operator_premium.get("primary_cta_href") or "/platform/dashboard?view=launch" %}
+{% set operator_premium_primary_label = operator_premium.get("primary_cta_label") or cta_label_map.get(operator_premium_primary_href, "Learn more") %}
+
+{% set operator_premium_secondary_href = operator_premium.get("secondary_cta_href") or "/c/spring-fundraiser" %}
+{% set operator_premium_secondary_label = operator_premium.get("secondary_cta_label") or cta_label_map.get(operator_premium_secondary_href, "Learn more") %}
+
+<section class="ff-operatorPremium" aria-labelledby="ffOperatorPremiumTitle" data-ff-reveal="operator-premium">
   <div class="ff-operatorPremium__inner">
     <div class="ff-operatorPremium__intro">
-      <p class="ff-operatorPremium__eyebrow">Operator control</p>
+      <p class="ff-operatorPremium__eyebrow">{{ operator_premium_eyebrow }}</p>
       <h2 id="ffOperatorPremiumTitle" class="ff-operatorPremium__title">
-        Run fundraising, sponsors, and launch operations from one cleaner command surface
+        {{ operator_premium_title }}
       </h2>
       <p class="ff-operatorPremium__body">
-        FutureFunded works best when founders can move from launch into confident day-to-day operation.
-        This dashboard is where campaign progress, sponsor momentum, and rollout activity should feel visible,
-        organized, and premium — not scattered across five tools and a group chat.
+        {{ operator_premium_body }}
       </p>
     </div>
 
-    <div class="ff-operatorPremium__grid" aria-label="Operator management areas">
-      <article class="ff-operatorPremium__card">
-        <p class="ff-operatorPremium__kicker">Fundraising</p>
-        <h3>Track momentum clearly</h3>
-        <p>
-          Keep raised totals, campaign progress, and active momentum visible so founders can make
-          quicker decisions without hunting through clutter.
-        </p>
+    <div class="ff-operatorPremium__grid" aria-label="Operator management areas" data-ff-stagger="operator-cards">
+      {% for card in operator_premium_cards %}
+      <article class="ff-operatorPremium__card" data-ff-hover="lift">
+        <p class="ff-operatorPremium__kicker">{{ card.get("kicker", "Operator") }}</p>
+        <h3>{{ card.get("title", "") }}</h3>
+        <p>{{ card.get("body", "") }}</p>
       </article>
-
-      <article class="ff-operatorPremium__card">
-        <p class="ff-operatorPremium__kicker">Sponsors</p>
-        <h3>Manage sponsor visibility</h3>
-        <p>
-          Treat sponsor support like a real revenue lane with cleaner package awareness,
-          placement confidence, and follow-through.
-        </p>
-      </article>
-
-      <article class="ff-operatorPremium__card">
-        <p class="ff-operatorPremium__kicker">Operations</p>
-        <h3>Launch with less chaos</h3>
-        <p>
-          Give operators one place to understand what is live, what needs attention,
-          and what the next action should be.
-        </p>
-      </article>
+      {% endfor %}
     </div>
 
-    <div class="ff-operatorPremium__rail">
+    <div class="ff-operatorPremium__rail" data-ff-hover="soft">
       <div class="ff-operatorPremium__railMain">
-        <p class="ff-operatorPremium__railEyebrow">Operator checklist</p>
-        <h3 class="ff-operatorPremium__railTitle">What a founder should feel after launch</h3>
+        <p class="ff-operatorPremium__railEyebrow">{{ operator_premium_rail_eyebrow }}</p>
+        <h3 class="ff-operatorPremium__railTitle">{{ operator_premium_rail_title }}</h3>
         <ul class="ff-operatorPremium__list">
-          <li>Campaign is live and easy to understand</li>
-          <li>Sponsor packages are visible and sellable</li>
-          <li>Core performance and momentum are easy to check</li>
-          <li>The next operator action is obvious</li>
+          {% for item in operator_premium_list %}
+          <li>{{ item }}</li>
+          {% endfor %}
         </ul>
       </div>
 
       <div class="ff-operatorPremium__railActions">
-        <a class="ff-operatorPremium__button ff-operatorPremium__button--secondary" href="/platform/demo">
-          Open guided demo
+        <a class="ff-operatorPremium__button ff-operatorPremium__button--secondary" href="{{ operator_premium_secondary_href }}">
+          {{ operator_premium_secondary_label }}
         </a>
-        <a class="ff-operatorPremium__button ff-operatorPremium__button--primary" href="/platform/pricing">
-          Review growth plan
+        <a class="ff-operatorPremium__button ff-operatorPremium__button--primary" href="{{ operator_premium_primary_href }}">
+          {{ operator_premium_primary_label }}
         </a>
       </div>
     </div>

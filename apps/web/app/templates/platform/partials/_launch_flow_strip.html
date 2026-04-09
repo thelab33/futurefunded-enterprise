@@ -1,0 +1,96 @@
+{% set launch_flow = launch_flow if launch_flow is defined and launch_flow else (data.get("launch_flow") or {}) %}
+
+{% set cta_label_map = {
+  "/platform/onboarding": "Start guided launch",
+  "/platform/dashboard": "Open operator dashboard",
+  "/platform/pricing": "View pricing",
+  "/platform/demo": "Open platform walkthrough",
+  "/c/spring-fundraiser": "Open live fundraiser",
+  "/platform/onboarding?intent=sponsor": "Start sponsor setup",
+  "/platform/dashboard?view=launch": "Open launch workspace"
+} %}
+
+{% set launch_flow_eyebrow = launch_flow.get("eyebrow", "FutureFunded launch flow") %}
+{% set launch_flow_title = launch_flow.get("title", "Move buyers from first impression to live launch in one clean sequence") %}
+{% set launch_flow_body = launch_flow.get(
+  "body",
+  "FutureFunded sells best when the story feels guided, branded, and production-ready. Start with the live fundraiser, show the sponsor and support upside, then open the operator side and move the buyer into launch with a clear next step."
+) %}
+
+{% set launch_flow_steps = launch_flow.get("steps") or [
+  {
+    "title": "Open the live fundraiser",
+    "body": "Start with the public surface so buyers immediately see premium branding, donor trust, sponsor visibility, and mobile-first conversion."
+  },
+  {
+    "title": "Show sponsor + support upside",
+    "body": "Use sponsor packages and recurring support to show how FutureFunded grows from a fundraiser into a broader revenue system."
+  },
+  {
+    "title": "Open the operator side",
+    "body": "Use the dashboard to prove this is real software with launch control, sponsor setup, and cleaner organization workflow."
+  },
+  {
+    "title": "Move into launch workspace",
+    "body": "Finish with the launch workspace so the next step feels immediate, guided, and easy to act on."
+  }
+] %}
+
+{% set launch_flow_close = launch_flow.get("close") or {} %}
+{% set launch_flow_close_eyebrow = launch_flow_close.get("eyebrow", "Ready to launch") %}
+{% set launch_flow_close_title = launch_flow_close.get("title", "Show the public surface. Show the operator side. Give the launch step.") %}
+{% set launch_flow_close_body = launch_flow_close.get(
+  "body",
+  "This sequence makes FutureFunded feel polished, credible, and ready to buy — not like a generic fundraiser template or a loose demo."
+) %}
+
+{% set launch_flow_primary_href = launch_flow.get("primary_cta_href") or "/platform/dashboard?view=launch" %}
+{% set launch_flow_primary_label = launch_flow.get("primary_cta_label") or cta_label_map.get(launch_flow_primary_href, "Learn more") %}
+
+{% set launch_flow_secondary_href = launch_flow.get("secondary_cta_href") or "/c/spring-fundraiser" %}
+{% set launch_flow_secondary_label = launch_flow.get("secondary_cta_label") or cta_label_map.get(launch_flow_secondary_href, "Learn more") %}
+
+<section class="ff-founderFlow" aria-labelledby="ffFounderFlowTitle" data-ff-reveal="launch-flow">
+  <div class="ff-founderFlow__inner">
+    <div class="ff-founderFlow__intro">
+      <p class="ff-founderFlow__eyebrow">{{ launch_flow_eyebrow }}</p>
+      <h2 id="ffFounderFlowTitle" class="ff-founderFlow__title">
+        {{ launch_flow_title }}
+      </h2>
+      <p class="ff-founderFlow__body">
+        {{ launch_flow_body }}
+      </p>
+    </div>
+
+    <div class="ff-founderFlow__steps" aria-label="FutureFunded launch flow steps" data-ff-stagger="launch-flow-steps">
+      {% for step in launch_flow_steps %}
+      <article class="ff-founderFlow__step" data-ff-hover="lift">
+        <p class="ff-founderFlow__stepNumber">{{ "%02d"|format(loop.index) }}</p>
+        <h3>{{ step.get("title", "Launch step") }}</h3>
+        <p>{{ step.get("body", "") }}</p>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="ff-founderFlow__close" data-ff-hover="soft">
+      <div class="ff-founderFlow__closeCopy">
+        <p class="ff-founderFlow__closeEyebrow">{{ launch_flow_close_eyebrow }}</p>
+        <h3 class="ff-founderFlow__closeTitle">
+          {{ launch_flow_close_title }}
+        </h3>
+        <p class="ff-founderFlow__closeBody">
+          {{ launch_flow_close_body }}
+        </p>
+      </div>
+
+      <div class="ff-founderFlow__actions">
+        <a class="ff-founderFlow__button ff-founderFlow__button--secondary" href="{{ launch_flow_secondary_href }}">
+          {{ launch_flow_secondary_label }}
+        </a>
+        <a class="ff-founderFlow__button ff-founderFlow__button--primary" href="{{ launch_flow_primary_href }}">
+          {{ launch_flow_primary_label }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

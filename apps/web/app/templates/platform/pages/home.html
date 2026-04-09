@@ -1,163 +1,149 @@
 <span hidden data-ff-trace="TRACE_PLATFORM_PAGES_HOME"></span>
 {% set platform_page = "home" %}
-{% set data = data or {} %}
+{% set data = data if data is mapping else {} %}
 
-{% set page_title = data.get("page_title", "FutureFunded Platform | Premium fundraising for teams, schools, and nonprofits") %}
+{% set page_title = data.get("page_title", "FutureFunded | Premium fundraising for teams, schools, clubs, and nonprofits") %}
 {% set page_description = data.get(
   "page_description",
-  "FutureFunded helps teams, schools, clubs, and nonprofits launch premium branded fundraising pages, sponsor-ready support lanes, and recurring revenue programs from one polished platform."
+  "Launch premium fundraising, sponsor packages, and recurring support from one FutureFunded platform."
 ) %}
 
 {% extends "platform/shells/marketing_base.html" %}
-{% from "shared/macros/ui.html" import ff_cta_pair %}
 {% from "shared/macros/cards.html" import metric_card, feature_card %}
 {% from "shared/macros/pills.html" import ff_pill_list %}
 
 {% block platform_content %}
-{% set hero = data.get("hero") or {} %}
+{% set hero_raw = data.get("hero") %}
+{% set hero = hero_raw if hero_raw is mapping else {} %}
+
+{% set next_move_raw = data.get("next_move") %}
+{% set next_move = next_move_raw if next_move_raw is mapping else {} %}
 
 {% set cta_label_map = {
   "/platform/onboarding": "Start guided launch",
   "/platform/dashboard": "Open operator dashboard",
   "/platform/pricing": "View pricing",
   "/platform/demo": "Open platform walkthrough",
-  "/c/spring-fundraiser": "Open live fundraiser"
+  "/c/spring-fundraiser": "Open live fundraiser",
+  "/platform/dashboard?view=launch": "Open launch workspace"
 } %}
 
-{# -----------------------------------------------------------------------
-   HERO
-   ----------------------------------------------------------------------- #}
 {% set hero_eyebrow = hero.get("eyebrow", "Launch-ready fundraising platform") %}
-{% set hero_title = hero.get("title", "Launch premium fundraising pages, sponsor lanes, and recurring support from one platform.") %}
+{% set hero_title = hero.get("title", "Launch premium fundraising. Add sponsors. Keep support recurring.") %}
 {% set hero_body = hero.get(
   "body",
-  "FutureFunded turns a youth program into a sponsor-ready, donor-ready fundraising presence with stronger branding, cleaner readability, and operator control that feels built — not pieced together."
+  "FutureFunded gives programs a cleaner public page, a real sponsor lane, and an operator workspace that stays organized after launch."
 ) %}
-{% set hero_pills = hero.get("pills") or ["FutureFunded", "Sponsor-ready", "Brand-ready", "Launch fast"] %}
+{% set hero_pills = hero.get("pills") or ["Public page", "Sponsors", "Recurring", "Workspace"] %}
 
-{% set hero_primary_href = hero.get("primary_cta_href") or "/platform/onboarding" %}
-{% set hero_primary_label = hero.get("primary_cta_label") or cta_label_map.get(hero_primary_href, "Learn more") %}
+{% set hero_primary_href = (hero.get("primary_cta_href") or "/platform/dashboard?view=launch")|string|trim %}
+{% set hero_primary_label = cta_label_map.get(hero_primary_href, hero.get("primary_cta_label", "Open")) %}
 
-{% set hero_secondary_href = hero.get("secondary_cta_href") or "/c/spring-fundraiser" %}
-{% set hero_secondary_label = hero.get("secondary_cta_label") or cta_label_map.get(hero_secondary_href, "Learn more") %}
+{% set hero_secondary_href = (hero.get("secondary_cta_href") or "/c/spring-fundraiser")|string|trim %}
+{% set hero_secondary_label = cta_label_map.get(hero_secondary_href, hero.get("secondary_cta_label", "Open")) %}
 
-{% set hero_proof_kicker = hero.get("proof_kicker", "What FutureFunded launches on day one") %}
-{% set hero_proof_title = hero.get("proof_title", "A platform launch, not a one-page fundraiser.") %}
+{% set hero_proof_kicker = hero.get("proof_kicker", "Why it works") %}
+{% set hero_proof_title = hero.get("proof_title", "Built as a system, not a one-off page.") %}
 {% set hero_proof_body = hero.get(
   "proof_body",
-  "FutureFunded packages the public fundraiser, sponsor visibility, recurring support potential, and cleaner operator control into one production-ready surface you can launch, share, and sell with confidence."
+  "Public fundraising, sponsor packages, recurring support, and operator control stay aligned from launch through follow-up."
 ) %}
-
-{% set hero_snapshot_kicker = hero.get("snapshot_kicker", "Launch status") %}
-{% set hero_snapshot_title = hero.get("snapshot_title", "Launch snapshot") %}
-{% set hero_snapshot_note = hero.get(
-  "snapshot_note",
-  "Use the live platform view to show how FutureFunded presents public fundraising, sponsor visibility, and operator readiness in one cleaner system."
-) %}
-
-{% set hero_operator_eyebrow = hero.get("operator_eyebrow", "Operator angle") %}
-{% set hero_operator_title = hero.get("operator_title", "Sell FutureFunded as the platform, not just the page.") %}
-{% set hero_operator_body = hero.get(
-  "operator_body",
-  "The strongest pitch is not ‘here is a campaign page.’ It is ‘FutureFunded gives programs a branded fundraising system with donor trust, sponsor lanes, memberships, and room to scale cleanly.’"
-) %}
-
-{# -----------------------------------------------------------------------
-   CONTENT BLOCKS
-   ----------------------------------------------------------------------- #}
-{% set launch_cards = data.get("launch_cards") or [
-  {
-    "title": "Public fundraiser",
-    "body": "Launch a polished branded fundraising page that is ready to share with families, donors, sponsors, and community supporters."
-  },
-  {
-    "title": "Sponsor packages",
-    "body": "Give local businesses cleaner support lanes with visibility that feels premium enough to pitch with confidence."
-  },
-  {
-    "title": "Recurring support",
-    "body": "Turn campaign momentum into memberships, booster support, and steadier recurring revenue over time."
-  },
-  {
-    "title": "Operator workflow",
-    "body": "Manage launch messaging, pricing, and rollout control from one cleaner FutureFunded platform surface."
-  }
-] %}
 
 {% set status_cards = data.get("status_cards") or [
   {
-    "label": "Backend",
-    "body": "Core platform systems active and launch-capable.",
-    "value": "Live"
-  },
-  {
     "label": "Campaign",
-    "body": "Public fundraiser ready for real production traffic.",
+    "body": "Public page ready for traffic.",
     "value": "Live"
   },
   {
-    "label": "Branding",
-    "body": "Premium FutureFunded positioning and polished presentation.",
-    "value": "Premium"
-  }
-] %}
-
-{% set status_pills = data.get("status_pills") or ["FutureFunded", "Sponsor-ready", "Launch-ready"] %}
-
-{% set left_feature = data.get("left_feature") or {} %}
-{% set left_feature_eyebrow = left_feature.get("eyebrow", "Built for modern programs") %}
-{% set left_feature_title = left_feature.get("title", "One FutureFunded platform. Multiple support lanes.") %}
-{% set left_feature_body = left_feature.get(
-  "body",
-  "FutureFunded gives teams, schools, clubs, and nonprofits a cleaner path to direct giving, sponsor support, recurring memberships, and branded fundraising launches without stitching together disconnected tools."
-) %}
-{% set left_feature_pills = left_feature.get("pills") or ["Youth teams", "Schools", "Sponsors", "Memberships"] %}
-
-{% set right_feature = data.get("right_feature") or {} %}
-{% set right_feature_eyebrow = right_feature.get("eyebrow", "Expansion path") %}
-{% set right_feature_title = right_feature.get("title", "Start with one launch. Expand without rework.") %}
-{% set right_feature_body = right_feature.get(
-  "body",
-  "Launch one flagship FutureFunded program first, prove the revenue story, then expand into more teams, schools, clubs, and branded rollouts without rebuilding the experience."
-) %}
-{% set right_feature_pills = right_feature.get("pills") or ["Team-by-team", "White-label path", "Operator workflow", "Sales-ready"] %}
-
-{% set why_it_wins = data.get("why_it_wins") or {} %}
-{% set why_it_wins_eyebrow = why_it_wins.get("eyebrow", "Why it wins") %}
-{% set why_it_wins_title = why_it_wins.get("title", "Built to feel like a real platform, not a fundraiser template.") %}
-{% set why_it_wins_body = why_it_wins.get(
-  "body",
-  "FutureFunded helps buyers understand the full system fast: branded fundraising, sponsor support, memberships, and operator control in one cleaner premium story."
-) %}
-{% set why_it_wins_cards = why_it_wins.get("cards") or [
-  {
-    "title": "Premium donor readability",
-    "body": "Sharper hierarchy, stronger messaging, and cleaner trust cues make the page easier to read and more credible to support."
+    "label": "Sponsors",
+    "body": "Sponsor lane ready to sell.",
+    "value": "Ready"
   },
   {
-    "title": "Sales-ready sponsor framing",
-    "body": "FutureFunded makes sponsor support feel like a structured business offer instead of an improvised add-on."
+    "label": "Workspace",
+    "body": "Operator side ready to run.",
+    "value": "Active"
   }
 ] %}
 
-{% set next_move = data.get("next_move") or {} %}
+{% set launch_cards = data.get("launch_cards") or [
+  {
+    "title": "Public fundraiser",
+    "body": "Launch a branded page families and donors can trust."
+  },
+  {
+    "title": "Sponsor packages",
+    "body": "Turn sponsor support into a cleaner local offer."
+  },
+  {
+    "title": "Recurring support",
+    "body": "Keep momentum going without rebuilding the system."
+  },
+  {
+    "title": "Operator workspace",
+    "body": "Manage launch, fundraising, sponsors, and support in one place."
+  }
+] %}
+
+{% set plans = data.get("plans") or [
+  {
+    "name": "Starter",
+    "price": "$49 setup",
+    "body": "Best for getting the public page live with a strong first impression.",
+    "tag": "Fastest start",
+    "cta_href": "/platform/onboarding"
+  },
+  {
+    "name": "Growth",
+    "price": "$79/mo",
+    "body": "Best for programs adding sponsor packages, recurring support, and cleaner operating flow.",
+    "tag": "Best default",
+    "featured": true,
+    "cta_href": "/platform/dashboard?view=launch"
+  },
+  {
+    "name": "White-label",
+    "price": "Custom",
+    "body": "Best for schools, nonprofits, and institutions that need broader rollout and support.",
+    "tag": "Institution-ready",
+    "cta_href": "/platform/pricing"
+  }
+] %}
+
+{% set proof_cards = data.get("proof_cards") or [
+  {
+    "eyebrow": "Live fundraiser",
+    "title": "Open the live page buyers can judge.",
+    "body": "Show brand quality, trust, sponsor visibility, and mobile conversion in one pass.",
+    "cta_href": "/c/spring-fundraiser"
+  },
+  {
+    "eyebrow": "Operator workspace",
+    "title": "Open the app side that proves real software.",
+    "body": "Show launch control, sponsor handling, and support lanes from a cleaner operating surface.",
+    "cta_href": "/platform/dashboard"
+  }
+] %}
+
 {% set kicker = next_move.get("eyebrow", "Next move") %}
-{% set title = next_move.get("title", "Launch with a cleaner fundraising system.") %}
+{% set title = next_move.get("title", "Launch with less friction.") %}
 {% set body = next_move.get(
   "body",
-  "Use onboarding to configure branding, launch a premium public fundraiser, and expand into sponsor packages and recurring support without rebuilding the experience."
+  "Start guided. Launch clean. Add sponsor and support lanes when the program is ready."
 ) %}
-{% set primary_href = next_move.get("primary_cta_href") or "/platform/onboarding" %}
-{% set primary_label = next_move.get("primary_cta_label") or cta_label_map.get(primary_href, "Learn more") %}
-{% set secondary_href = next_move.get("secondary_cta_href") or "/platform/pricing" %}
-{% set secondary_label = next_move.get("secondary_cta_label") or cta_label_map.get(secondary_href, "Learn more") %}
+{% set primary_href = (next_move.get("primary_cta_href") or "/platform/dashboard?view=launch")|string|trim %}
+{% set primary_label = cta_label_map.get(primary_href, next_move.get("primary_cta_label", "Open")) %}
+{% set secondary_href = (next_move.get("secondary_cta_href") or "/platform/dashboard")|string|trim %}
+{% set secondary_label = cta_label_map.get(secondary_href, next_move.get("secondary_cta_label", "Open")) %}
 
-<section class="ff-section" aria-labelledby="platformHomeHeroTitle">
+<section class="ff-section" aria-labelledby="platformHomeHeroTitle" data-ff-reveal="hero">
   <div class="ff-container">
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
       <header
         class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact"
         aria-labelledby="platformHomeHeroTitle"
+        data-ff-hover="soft"
       >
         <div class="ff-sectionhead__text ff-minw-0">
           <p class="ff-kicker ff-m-0">{{ hero_eyebrow }}</p>
@@ -174,142 +160,156 @@
           </div>
           {% endif %}
 
-          <div class="ff-mt-3">
-            {{ ff_cta_pair(
-              hero_primary_label,
-              hero_primary_href,
-              hero_secondary_label,
-              hero_secondary_href
-            ) }}
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="group" aria-label="Primary platform actions">
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ hero_primary_href }}">
+              {{ hero_primary_label }}
+            </a>
+            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ hero_secondary_href }}">
+              {{ hero_secondary_label }}
+            </a>
           </div>
-
-          <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformHomeLaunchPromiseTitle">
-            <p class="ff-kicker ff-m-0">{{ hero_proof_kicker }}</p>
-            <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeLaunchPromiseTitle">
-              {{ hero_proof_title }}
-            </h2>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              {{ hero_proof_body }}
-            </p>
-          </article>
         </div>
       </header>
 
-      <div class="ff-grid ff-grid--1 ff-gap-3">
-        <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchStatusTitle">
-          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-            <div class="ff-minw-0">
-              <p class="ff-kicker ff-m-0">{{ hero_snapshot_kicker }}</p>
-              <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchStatusTitle">
-                {{ hero_snapshot_title }}
-              </h2>
-            </div>
-          </div>
+      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformHomeProofTitle" data-ff-hover="lift">
+        <p class="ff-kicker ff-m-0">{{ hero_proof_kicker }}</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeProofTitle">
+          {{ hero_proof_title }}
+        </h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">
+          {{ hero_proof_body }}
+        </p>
 
-          <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3">
-            {% for item in status_cards %}
-              {{ metric_card(item.get("label", ""), item.get("body", ""), item.get("value", "")) }}
-            {% endfor %}
-          </div>
-
-          {% if status_pills %}
-          <div class="ff-mt-3">
-            {{ ff_pill_list(status_pills, "soft") }}
-          </div>
-          {% endif %}
-
-          <p class="ff-help ff-muted ff-mt-3 ff-mb-0">
-            {{ hero_snapshot_note }}
-          </p>
-        </aside>
-
-        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformHomeOperatorAngleTitle">
-          <p class="ff-kicker ff-m-0">{{ hero_operator_eyebrow }}</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeOperatorAngleTitle">
-            {{ hero_operator_title }}
-          </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            {{ hero_operator_body }}
-          </p>
-        </article>
-      </div>
+        <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3" data-ff-stagger="metrics">
+          {% for item in status_cards %}
+            {{ metric_card(item.get("label", ""), item.get("body", ""), item.get("value", "")) }}
+          {% endfor %}
+        </div>
+      </aside>
     </div>
 
-    <section class="ff-mt-3" aria-labelledby="platformLaunchCardsTitle">
+    <section id="sponsor-packages" class="ff-mt-3" aria-labelledby="platformLaunchCardsTitle" data-ff-reveal="launch-lanes">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
-          <p class="ff-kicker ff-m-0">Launch-ready platform lanes</p>
+          <p class="ff-kicker ff-m-0">What launches</p>
           <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchCardsTitle">
-            What launches on day one.
+            Everything needed to go live.
           </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            FutureFunded starts with a clear launch offer that is easy to explain, easy to trust, and strong enough to expand into sponsor packages and recurring support later.
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
+            Start with the public page. Add sponsor and support lanes when the program is ready.
           </p>
         </div>
       </div>
 
-      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3">
+      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3" data-ff-stagger="cards">
         {% for item in launch_cards %}
           {{ feature_card(item.get("title", ""), item.get("body", "")) }}
         {% endfor %}
       </div>
     </section>
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLeftFeatureTitle">
-        <p class="ff-kicker ff-m-0">{{ left_feature_eyebrow }}</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLeftFeatureTitle">
-          {{ left_feature_title }}
-        </h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          {{ left_feature_body }}
-        </p>
-        {% if left_feature_pills %}
-        <div class="ff-mt-3">
-          {{ ff_pill_list(left_feature_pills, "soft") }}
+    <section id="plans" class="ff-mt-3" aria-labelledby="platformPlansTitle" data-ff-reveal="plans">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Plans</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlansTitle">
+            Start simple. Expand when it pays off.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
+            Launch the page first. Add sponsor and support lanes once the operating rhythm is there.
+          </p>
         </div>
-        {% endif %}
-      </article>
+      </div>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformRightFeatureTitle">
-        <p class="ff-kicker ff-m-0">{{ right_feature_eyebrow }}</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformRightFeatureTitle">
-          {{ right_feature_title }}
-        </h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          {{ right_feature_body }}
-        </p>
-        {% if right_feature_pills %}
-        <div class="ff-mt-3">
-          {{ ff_pill_list(right_feature_pills, "ghost") }}
-        </div>
-        {% endif %}
-      </article>
-    </div>
+      <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" data-ff-stagger="plans">
+        {% for plan in plans %}
+          {% set plan_href = (plan.get("cta_href") or "/platform/onboarding")|string|trim %}
+          {% set plan_label = cta_label_map.get(plan_href, plan.get("cta_label", "Choose")) %}
+          {% set is_featured = plan.get("featured", false) %}
+          <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPlan{{ loop.index }}Title" data-ff-hover="lift">
+            <p class="ff-kicker ff-m-0">{{ plan.get("name", "Plan") }}</p>
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformWhyItWinsTitle">
-        <p class="ff-kicker ff-m-0">{{ why_it_wins_eyebrow }}</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformWhyItWinsTitle">
-          {{ why_it_wins_title }}
-        </h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          {{ why_it_wins_body }}
-        </p>
-      </article>
+            <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlan{{ loop.index }}Title">
+              {{ plan.get("price", "Custom") }}
+            </h3>
 
-      <div class="ff-grid ff-grid--1 ff-gap-3" aria-label="Why FutureFunded works">
-        {% for item in why_it_wins_cards %}
-          {{ feature_card(item.get("title", ""), item.get("body", "")) }}
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+              {{ plan.get("body", "") }}
+            </p>
+
+            <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+              {% if plan.get("tag") %}
+              <span class="ff-platformInlinePill">{{ plan.get("tag") }}</span>
+              {% endif %}
+              <a
+                class="ff-btn {{ 'ff-btn--primary' if is_featured else 'ff-btn--secondary' }} ff-btn--pill"
+                href="{{ plan_href }}"
+              >
+                {{ plan_label }}
+              </a>
+            </div>
+          </article>
         {% endfor %}
       </div>
-    </div>
+    </section>
 
-    <div class="ff-mt-3">
-      {% include "shared/partials/_cta_band.html" %}
+    <section id="see-it-live" class="ff-mt-3" aria-labelledby="platformSeeItLiveTitle" data-ff-reveal="see-it-live">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">See it live</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSeeItLiveTitle">
+            Show the public page and the operator side together.
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
+            The fundraiser proves the public experience. The dashboard proves the system behind it.
+          </p>
+        </div>
+      </div>
+
+      <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3" data-ff-stagger="proof-cards">
+        {% for item in proof_cards %}
+        {% set proof_href = (item.get("cta_href") or "#")|string|trim %}
+        {% set proof_label = cta_label_map.get(proof_href, item.get("cta_label", "Open")) %}
+        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformProofCard{{ loop.index }}Title" data-ff-hover="lift">
+          <p class="ff-kicker ff-m-0">{{ item.get("eyebrow", "Proof") }}</p>
+          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformProofCard{{ loop.index }}Title">
+            {{ item.get("title", "") }}
+          </h3>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            {{ item.get("body", "") }}
+          </p>
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ proof_href }}">
+              {{ proof_label }}
+            </a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformHomeCloseTitle" data-ff-reveal="close-band">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">{{ kicker }}</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeCloseTitle">
+            {{ title }}
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">
+            {{ body }}
+          </p>
+        </div>
+
+        <div class="ff-row ff-wrap ff-gap-2">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_href }}">
+            {{ primary_label }}
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_href }}">
+            {{ secondary_label }}
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
-
-{% include "platform/partials/_founder_demo_flow_strip.html" %}
 {% endblock %}

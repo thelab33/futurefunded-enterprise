@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, url_for
 
 from app.services.api_client import get_json
 
@@ -29,65 +29,36 @@ def _deep_merge(base: dict | None, override: dict | None) -> dict:
 
 def _fallback_home() -> dict:
     return {
-        "page_title": "FutureFunded Platform Home",
+        "page_title": "FutureFunded | Premium fundraising for teams, schools, clubs, and nonprofits",
         "page_description": (
-            "Launch and manage premium fundraising pages, sponsor-ready packages, "
-            "and recurring memberships from one branded FutureFunded workspace."
+            "Launch premium public fundraising, sponsor-ready support lanes, recurring "
+            "memberships, and cleaner operator control from one polished FutureFunded platform."
         ),
         "hero": {
-            "eyebrow": "AAU launch-ready fundraising",
-            "title": "Launch premium fundraising pages without the setup drag.",
+            "eyebrow": "Launch-ready fundraising platform",
+            "title": "Launch premium fundraising pages, sponsor lanes, and recurring support from one platform.",
             "body": (
-                "FutureFunded helps youth teams, nonprofits, schools, and clubs go live "
-                "with branded donation pages, sponsor lanes, memberships, and operator tools."
+                "FutureFunded turns a youth program into a sponsor-ready, donor-ready "
+                "fundraising presence with stronger branding, cleaner readability, and "
+                "operator control that feels built — not pieced together."
             ),
-            "primary_cta": {
-                "label": "Start guided launch",
-                "href": "/platform/onboarding",
-            },
-            "secondary_cta": {
-                "label": "View live fundraiser",
-                "href": "/c/spring-fundraiser",
-            },
+            "primary_cta_href": "/platform/dashboard?view=launch",
+            "primary_cta_label": "Open launch workspace",
+            "secondary_cta_href": "/c/spring-fundraiser",
+            "secondary_cta_label": "Open live fundraiser",
         },
-        "proof_points": [
-            "Branded campaign pages",
-            "Sponsor + donor revenue lanes",
-            "Mobile-first checkout",
-            "Operator dashboard workflow",
-        ],
         "next_move": {
-            "title": "Launch in one guided flow",
+            "eyebrow": "Next move",
+            "title": "Launch with a cleaner fundraising system.",
             "body": (
-                "Upload a logo, set colors, connect payments, and go live with a "
-                "credible sponsor-ready fundraising surface."
+                "Start with one polished organization, launch a premium public fundraiser, "
+                "and grow into sponsor packages and recurring support without rebuilding the experience."
             ),
+            "primary_cta_href": "/platform/dashboard?view=launch",
+            "primary_cta_label": "Open launch workspace",
+            "secondary_cta_href": "/platform/dashboard",
+            "secondary_cta_label": "Open operator dashboard",
         },
-    }
-
-
-def _fallback_onboarding() -> dict:
-    return {
-        "page_title": "FutureFunded Onboarding",
-        "page_description": (
-            "Guided onboarding for teams, schools, nonprofits, and clubs launching "
-            "a branded FutureFunded page."
-        ),
-        "hero": {
-            "eyebrow": "Guided setup",
-            "title": "Get your organization launch-ready fast.",
-            "body": (
-                "Create a premium fundraiser with your logo, colors, fundraising goal, "
-                "story, sponsor packages, and payment setup."
-            ),
-        },
-        "steps": [
-            "Add organization details",
-            "Upload logo and brand colors",
-            "Set fundraising goal and story",
-            "Enable donations and sponsor offers",
-            "Preview and publish",
-        ],
     }
 
 
@@ -95,84 +66,23 @@ def _fallback_dashboard() -> dict:
     return {
         "page_title": "FutureFunded Dashboard",
         "page_description": (
-            "Track revenue lanes, campaign health, donor momentum, and sponsor performance "
-            "from one operator-friendly workspace."
+            "Launch, manage, and monitor campaigns, sponsor lanes, recurring support, "
+            "and organization workflow from one operator-ready workspace."
         ),
         "hero": {
             "eyebrow": "Operator workspace",
             "title": "Run fundraising like a system, not a spreadsheet.",
             "body": (
-                "Monitor donations, sponsorships, memberships, campaign progress, "
-                "and launch readiness from one polished dashboard."
+                "Monitor campaigns, sponsorships, memberships, launch readiness, and "
+                "organization workflow from one polished FutureFunded dashboard."
             ),
         },
         "operator_notes": [
-            "Track raised vs goal",
-            "See sponsor interest clearly",
-            "Spot conversion friction early",
-            "Keep launch and follow-up organized",
+            "Open launch workspace fast",
+            "Track campaign health clearly",
+            "Manage sponsor momentum cleanly",
+            "Keep follow-up and operations organized",
         ],
-    }
-
-
-def _fallback_pricing() -> dict:
-    return {
-        "page_title": "FutureFunded Pricing",
-        "page_description": (
-            "Founder-friendly pricing for premium fundraising pages, sponsor-ready upgrades, "
-            "and organization onboarding."
-        ),
-        "hero": {
-            "eyebrow": "Simple pricing",
-            "title": "Price the platform like a real revenue tool.",
-            "body": (
-                "Use FutureFunded as a launch-ready fundraising system with branded pages, "
-                "sponsor visibility, memberships, and premium conversion UX."
-            ),
-        },
-        "plans": [
-            {
-                "name": "Starter",
-                "headline": "Get live fast",
-                "price": "$0 setup + platform fee",
-            },
-            {
-                "name": "Growth",
-                "headline": "More sponsor leverage",
-                "price": "$99/mo",
-            },
-            {
-                "name": "Pro",
-                "headline": "White-glove launch",
-                "price": "Custom",
-            },
-        ],
-    }
-
-
-def _fallback_demo() -> dict:
-    return {
-        "page_title": "FutureFunded Demo",
-        "page_description": (
-            "Walk through the public fundraiser, onboarding flow, dashboard, and pricing "
-            "as one clean founder-ready sales sequence."
-        ),
-        "hero": {
-            "eyebrow": "Guided founder demo",
-            "title": "Show the whole product story in one pass.",
-            "body": (
-                "Use the live fundraiser, guided onboarding, operator dashboard, and pricing "
-                "surface together to sell FutureFunded as a complete system."
-            ),
-            "primary_cta": {
-                "label": "Open live fundraiser",
-                "href": "/c/spring-fundraiser",
-            },
-            "secondary_cta": {
-                "label": "Start guided launch",
-                "href": "/platform/onboarding",
-            },
-        },
     }
 
 
@@ -181,21 +91,9 @@ PLATFORM_PAGE_CONFIG: dict[str, dict] = {
         "template_name": "platform/pages/home.html",
         "fallback": _fallback_home,
     },
-    "onboarding": {
-        "template_name": "platform/pages/onboarding.html",
-        "fallback": _fallback_onboarding,
-    },
     "dashboard": {
         "template_name": "platform/pages/dashboard.html",
         "fallback": _fallback_dashboard,
-    },
-    "pricing": {
-        "template_name": "platform/pages/pricing.html",
-        "fallback": _fallback_pricing,
-    },
-    "demo": {
-        "template_name": "platform/pages/demo.html",
-        "fallback": _fallback_demo,
     },
 }
 
@@ -203,7 +101,7 @@ PLATFORM_PAGE_CONFIG: dict[str, dict] = {
 def _fetch_platform_payload(page_key: str) -> dict:
     """
     Best-effort API fetch. If the API is unavailable or returns bad data,
-    we fall back to the local config for that page.
+    fall back to local page config.
     """
     try:
         payload = get_json(f"/api/platform/{page_key}")
@@ -222,13 +120,12 @@ def _render_platform_page(page_key: str):
 
     fallback_payload = fallback_factory() if callable(fallback_factory) else {}
     remote_payload = _fetch_platform_payload(page_key)
-
     page_payload = _deep_merge(fallback_payload, remote_payload)
 
     return render_template(
         template_name,
         page_key=page_key,
-        page_data=page_payload,
+        data=page_payload,  # canonical payload key used by templates
         page_title=page_payload.get("page_title"),
         page_description=page_payload.get("page_description"),
     )
@@ -239,21 +136,27 @@ def home():
     return _render_platform_page(page_key="home")
 
 
-@bp.get("/onboarding")
-def onboarding():
-    return _render_platform_page(page_key="onboarding")
-
-
 @bp.get("/dashboard")
 def dashboard():
     return _render_platform_page(page_key="dashboard")
 
 
+# ---------------------------------------------------------------------------
+# Legacy route bridge
+# Keep these routes alive while the architecture consolidates.
+# Use 302 redirects for now while iterating. Swap to 301 later if desired.
+# ---------------------------------------------------------------------------
+
+@bp.get("/onboarding")
+def onboarding():
+    return redirect(url_for("platform.dashboard", view="launch"), code=302)
+
+
 @bp.get("/pricing")
 def pricing():
-    return _render_platform_page(page_key="pricing")
+    return redirect(url_for("platform.home", _anchor="plans"), code=302)
 
 
 @bp.get("/demo")
 def demo():
-    return _render_platform_page(page_key="demo")
+    return redirect(url_for("platform.home", _anchor="see-it-live"), code=302)

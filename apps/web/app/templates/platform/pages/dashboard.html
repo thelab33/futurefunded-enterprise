@@ -2,30 +2,71 @@
 {% set platform_page = "dashboard" %}
 {% set data = data or {} %}
 {% set page_title = data.get("page_title", "FutureFunded Dashboard") %}
-{% set page_description = "Manage the live public fundraiser, sponsor packages, and recurring support from one premium operator workspace." %}
+{% set page_description = data.get(
+  "page_description",
+  "Launch, manage, and expand live fundraisers, sponsor packages, and recurring support from one premium FutureFunded operator workspace."
+) %}
+
 {% extends "platform/shells/operator_base.html" %}
 {% from "shared/macros/ui.html" import ff_cta_pair %}
 {% from "shared/macros/cards.html" import metric_card %}
 {% from "shared/macros/pills.html" import ff_pill_list, ff_pill %}
 
 {% block platform_content %}
-{% set eyebrow = data.get("eyebrow", "Operator dashboard") %}
-{% set title = data.get("title", "Operator command center") %}
+{% set dashboard_view = (request.args.get("view", "") if request is defined else "")|string|trim|lower %}
+
+{% set eyebrow = data.get("eyebrow", "Operator workspace") %}
+{% set title = data.get("title", "Launch and operate from one premium workspace") %}
 {% set body = data.get(
   "body",
-  "Manage the live Connect ATX Elite fundraiser, sponsor packages, and booster support from one premium workspace."
+  "FutureFunded gives you one place to launch the public fundraiser, manage sponsor packages, configure recurring support, and prove the platform as a real operating system."
 ) %}
 
 {% set overview_cards = data.get("overview_cards") or [
   {"title": "Organizations", "body": "Active organizations in this workspace", "value": "1"},
   {"title": "Live fundraisers", "body": "Public fundraisers you can manage", "value": "1"},
   {"title": "Sponsor packages", "body": "Active support packages for local partners", "value": "2"},
-  {"title": "Recurring support", "body": "Recurring support plans configured", "value": "2"}
+  {"title": "Support plans", "body": "Recurring support plans configured", "value": "2"}
 ] %}
 
 {% set actions = data.get("actions") or [
-  {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "primary"},
-  {"label": "Start another guided launch", "href": "/platform/onboarding", "variant": "secondary"}
+  {"label": "Open launch workspace", "href": "/platform/dashboard?view=launch", "variant": "primary"},
+  {"label": "Open live campaign", "href": "/c/spring-fundraiser", "variant": "secondary"}
+] %}
+
+{% set primary_action = actions[0] if actions|length > 0 else {"label": "Open launch workspace", "href": "/platform/dashboard?view=launch"} %}
+{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Open live campaign", "href": "/c/spring-fundraiser"} %}
+
+{% set quick_links = data.get("quick_links") or [
+  {"label": "Launch", "href": "#launch-workspace"},
+  {"label": "Live org", "href": "#live-org"},
+  {"label": "Sponsors", "href": "#sponsor-packages"},
+  {"label": "Support", "href": "#recurring-support"}
+] %}
+
+{% set launch_workspace = data.get("launch_workspace") or {} %}
+{% set launch_workspace_title = launch_workspace.get("title", "The launch workspace now lives inside dashboard.") %}
+{% set launch_workspace_body = launch_workspace.get(
+  "body",
+  "This is where onboarding now belongs. Brand the org, configure the campaign, set sponsor and support lanes, then use the same workspace to operate after launch."
+) %}
+{% set launch_steps = launch_workspace.get("steps") or [
+  {
+    "title": "Organization profile",
+    "body": "Set the organization name, slug, story, and base workspace details."
+  },
+  {
+    "title": "Brand + campaign setup",
+    "body": "Apply logo, colors, fundraising goal, and the live public campaign structure."
+  },
+  {
+    "title": "Sponsor + support lanes",
+    "body": "Configure sponsor packages and recurring support before you publish or expand."
+  },
+  {
+    "title": "Go live + operate",
+    "body": "Open the live fundraiser, monitor proof, and use the workspace as your repeatable operating layer."
+  }
 ] %}
 
 {% set org_cards = data.get("org_cards") or [
@@ -37,6 +78,7 @@
     "campaign_url": "/c/spring-fundraiser"
   }
 ] %}
+{% set latest_org = org_cards[0] if org_cards|length > 0 else {} %}
 
 {% set sponsor_tiers = data.get("sponsor_tiers") or [
   {
@@ -64,15 +106,14 @@
   }
 ] %}
 
-{% set primary_action = actions[0] if actions|length > 0 else {"label": "Open live fundraiser", "href": "/c/spring-fundraiser"} %}
-{% set secondary_action = actions[1] if actions|length > 1 else {"label": "Start another guided launch", "href": "/platform/onboarding"} %}
-{% set latest_org = org_cards[0] if org_cards|length > 0 else {} %}
-
-<section class="ff-section" aria-labelledby="platformDashboardTitle">
+<section class="ff-section" aria-labelledby="platformDashboardTitle" data-ff-reveal="dashboard-hero">
   <div class="ff-container">
-
     <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
-      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact" aria-labelledby="platformDashboardTitle">
+      <header
+        class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact"
+        aria-labelledby="platformDashboardTitle"
+        data-ff-hover="soft"
+      >
         <div class="ff-sectionhead__text ff-minw-0">
           <p class="ff-kicker ff-m-0">{{ eyebrow }}</p>
 
@@ -85,15 +126,26 @@
           </p>
 
           <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Dashboard signals">
-            <span role="listitem">{{ ff_pill("Live fundraiser", "soft") }}</span>
-            <span role="listitem">{{ ff_pill("Brand-ready", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Live workspace", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Launch-ready", "soft") }}</span>
             <span role="listitem">{{ ff_pill("Operator view", "ghost") }}</span>
+            {% if dashboard_view == "launch" %}
+              <span role="listitem">{{ ff_pill("Launch view", "soft") }}</span>
+            {% endif %}
           </div>
 
-          <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDashboardPromiseTitle">
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" aria-label="Jump to dashboard sections">
+            {% for item in quick_links %}
+              <a class="ff-platformInlinePill" href="{{ item.get('href', '#') }}">
+                {{ item.get("label", "Explore") }}
+              </a>
+            {% endfor %}
+          </div>
+
+          <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDashboardPromiseTitle" data-ff-hover="lift">
             <p class="ff-kicker ff-m-0">What this workspace gives you</p>
             <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDashboardPromiseTitle">
-              One place to operate, prove value, and expand.
+              One place to launch, operate, and expand.
             </h2>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
               This is where the platform stops looking like a page builder and starts looking like a real operating system for fundraising, sponsors, and recurring support.
@@ -102,50 +154,109 @@
         </div>
       </header>
 
-      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformDashboardBriefTitle">
+      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformDashboardBriefTitle" data-ff-hover="lift">
         <p class="ff-kicker ff-m-0">Workspace brief</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDashboardBriefTitle">
           One place to launch, manage, and expand.
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          This dashboard is your control layer for the live public fundraiser, sponsor packages, and recurring support.
+          Dashboard is now your launch layer and your control layer for the live public fundraiser, sponsor packages, and recurring support.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
           <article class="ff-proofMini">
+            <p class="ff-kicker ff-m-0">Launch workspace</p>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+              Configure org details, campaign structure, branding, sponsor lanes, and support plans from the same workspace.
+            </p>
+          </article>
+
+          <article class="ff-proofMini">
             <p class="ff-kicker ff-m-0">Live fundraiser</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              Connect ATX Elite is already launched with a public campaign page and dashboard access.
+              Open the public campaign to prove the buyer-facing experience is already live and premium.
             </p>
           </article>
 
           <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Sponsor packages</p>
+            <p class="ff-kicker ff-m-0">Growth path</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              Manage sponsor packages that feel credible to local businesses and community partners.
-            </p>
-          </article>
-
-          <article class="ff-proofMini">
-            <p class="ff-kicker ff-m-0">Recurring support</p>
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              Keep momentum going beyond one-time gifts with configurable monthly and annual support plans.
+              Expand into more sponsor inventory, more organizations, and more recurring support without rebuilding the core system.
             </p>
           </article>
         </div>
 
         <div class="ff-mt-3">
           {{ ff_cta_pair(
-            primary_action.get("label", "Open live fundraiser"),
-            primary_action.get("href", "/c/spring-fundraiser"),
-            secondary_action.get("label", "Create another org"),
-            secondary_action.get("href", "/platform/onboarding")
+            primary_action.get("label", "Open launch workspace"),
+            primary_action.get("href", "/platform/dashboard?view=launch"),
+            secondary_action.get("label", "Open live campaign"),
+            secondary_action.get("href", "/c/spring-fundraiser")
           ) }}
         </div>
       </aside>
     </div>
 
-    <section class="ff-mt-3" aria-labelledby="platformOverviewTitle">
+    <section id="launch-workspace" class="ff-mt-3" aria-labelledby="platformLaunchWorkspaceTitle" data-ff-reveal="launch-workspace">
+      <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <div class="ff-minw-0">
+          <p class="ff-kicker ff-m-0">Launch workspace</p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchWorkspaceTitle">
+            {{ launch_workspace_title }}
+          </h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            {{ launch_workspace_body }}
+          </p>
+        </div>
+      </div>
+
+      <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
+        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchStepsTitle" data-ff-hover="lift">
+          <p class="ff-kicker ff-m-0">Launch steps</p>
+          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchStepsTitle">
+            Move from setup to live operation without leaving dashboard.
+          </h3>
+
+          <div class="ff-platformMiniList ff-mt-3">
+            {% for step in launch_steps %}
+            <article class="ff-proofMini">
+              <p class="ff-kicker ff-m-0">{{ "%02d"|format(loop.index) }} · {{ step.get("title", "") }}</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+                {{ step.get("body", "") }}
+              </p>
+            </article>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLaunchControlTitle" data-ff-hover="lift">
+          <p class="ff-kicker ff-m-0">Launch control</p>
+          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchControlTitle">
+            Use dashboard as the activation layer, not a separate afterthought.
+          </h3>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
+            This keeps onboarding inside the product, makes the system feel more enterprise-ready, and reduces friction between setup and operation.
+          </p>
+
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="list" aria-label="Launch control signals">
+            <span role="listitem">{{ ff_pill("Dashboard-first", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Launch-ready", "soft") }}</span>
+            <span role="listitem">{{ ff_pill("Operator-owned", "ghost") }}</span>
+          </div>
+
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/dashboard?view=launch">
+              Open launch workspace
+            </a>
+            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">
+              Open live fundraiser
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="ff-mt-3" aria-labelledby="platformOverviewTitle" data-ff-reveal="overview">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Workspace overview</p>
@@ -153,20 +264,20 @@
             Core operator signals at a glance.
           </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            These top-line numbers help you quickly frame what is live, what is monetized, and where the platform can grow next.
+            These numbers frame what is live, what is monetized, and where the platform can grow next.
           </p>
         </div>
       </div>
 
-      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3">
+      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3" data-ff-stagger="overview-metrics">
         {% for item in overview_cards %}
           {{ metric_card(item.get("title", ""), item.get("body", ""), item.get("value", "")) }}
         {% endfor %}
       </div>
     </section>
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLatestOrgTitle">
+    <div id="live-org" class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3" data-ff-reveal="live-proof">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformLatestOrgTitle" data-ff-hover="lift">
         <p class="ff-kicker ff-m-0">Latest live fundraiser</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLatestOrgTitle">
           {{ latest_org.get("title", "Connect ATX Elite") }}
@@ -182,59 +293,55 @@
 
         <article class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformLatestOrgNoteTitle">
           <p class="ff-kicker ff-m-0">Why this matters</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLatestOrgNoteTitle">
+          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLatestOrgNoteTitle">
             Your proof is already live.
-          </h2>
+          </h3>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
             The best operator story is not theoretical. It’s a real campaign, real sponsor lanes, and a system already structured for the next launch.
           </p>
         </article>
 
         <div class="ff-mt-3">
-          <a
-            class="ff-btn ff-btn--primary ff-btn--pill"
-            href="{{ latest_org.get('campaign_url', '/c/spring-fundraiser') }}"
-          >
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ latest_org.get('campaign_url', '/c/spring-fundraiser') }}">
             Open live fundraiser
           </a>
         </div>
       </article>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformOperatorNoteTitle">
-        <p class="ff-kicker ff-m-0">Operator note</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOperatorNoteTitle">
+      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformOperatorScaleTitle" data-ff-hover="lift">
+        <p class="ff-kicker ff-m-0">Operator scale</p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformOperatorScaleTitle">
           This workspace is already structured to expand.
         </h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          The current workspace is already structured for direct giving, sponsor packages, and recurring support expansion.
+          The current workspace is already structured for direct giving, sponsor packages, recurring support, and more organizations over time.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
           <article class="ff-proofMini">
             <p class="ff-kicker ff-m-0">Today</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              One flagship org and fundraiser are live, polished, and ready to use as your sales proof.
+              One flagship org and fundraiser are live, polished, and ready to use as proof.
             </p>
           </article>
 
           <article class="ff-proofMini">
             <p class="ff-kicker ff-m-0">Next</p>
             <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              Add more organizations, more teams, more sponsor inventory, and more recurring support options without rebuilding the core system.
+              Add more organizations, more sponsor inventory, and more recurring support options without changing the operator pattern.
             </p>
           </article>
         </div>
 
         <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/onboarding">Start another guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/pricing">View pricing</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/dashboard?view=launch">Open launch workspace</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">Open live fundraiser</a>
         </div>
       </article>
     </div>
 
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3">
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformSponsorTierTitle">
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3" data-ff-reveal="monetization">
+      <article id="sponsor-packages" class="ff-card ff-glass ff-pad" aria-labelledby="platformSponsorTierTitle" data-ff-hover="lift">
         <p class="ff-kicker ff-m-0">Sponsor packages</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSponsorTierTitle">Sponsor packages</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
@@ -256,11 +363,11 @@
         </div>
       </article>
 
-      <article class="ff-card ff-glass ff-pad" aria-labelledby="platformMembershipTitle">
+      <article id="recurring-support" class="ff-card ff-glass ff-pad" aria-labelledby="platformMembershipTitle" data-ff-hover="lift">
         <p class="ff-kicker ff-m-0">Recurring support</p>
         <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformMembershipTitle">Recurring support</h2>
         <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-          Recurring plans keep momentum going after the launch by turning supporter interest into steadier monthly and annual backing.
+          Recurring plans keep momentum going after launch by turning supporter interest into steadier monthly and annual backing.
         </p>
 
         <div class="ff-platformMiniList ff-mt-3">
@@ -279,21 +386,25 @@
       </article>
     </div>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDashboardCloseTitle">
+    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformDashboardCloseTitle" data-ff-reveal="operator-close">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Next move</p>
           <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformDashboardCloseTitle">
-            Use the operator workspace as part of the sale.
+            Use the operator workspace as part of the sale and the launch.
           </h2>
           <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            Show the live fundraiser to prove the public experience, then show this workspace to prove there is a real operating system behind it.
+            Show the live fundraiser to prove the public experience, then show this dashboard to prove there is a real operating system behind it.
           </p>
         </div>
 
         <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/onboarding">Start another guided launch</a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/platform/demo">Open guided demo</a>
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="/platform/dashboard?view=launch">
+            Open launch workspace
+          </a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="/c/spring-fundraiser">
+            Open live fundraiser
+          </a>
         </div>
       </div>
     </div>

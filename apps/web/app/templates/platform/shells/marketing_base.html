@@ -1,12 +1,12 @@
 <!doctype html>
 {# -----------------------------------------------------------------------------
 FutureFunded • Marketing Base (Prestige)
-Deterministic premium platform shell
-- shared platform chrome
-- strong canonical/meta/theme-color contract
-- lightweight ffPlatformConfig payload
-- no campaign-only ffConfig / ffSelectors here
-- safe extension points for premium marketing pages
+Canonical public platform shell
+- /platform/ -> home
+- /platform/dashboard -> operator
+- /c/<slug> -> live campaign
+- self-contained shell ownership
+- no shared chrome partial dependency
 ----------------------------------------------------------------------------- #}
 
 {% set _cfg = (config if config is mapping else {}) %}
@@ -22,64 +22,43 @@ Deterministic premium platform shell
   |default(_cfg.get('FF_VERSION'), true)
   |default('1', true)
 )|string|trim %}
-{% if not _asset_v %}
-  {% set _asset_v = '1' %}
-{% endif %}
+{% if not _asset_v %}{% set _asset_v = '1' %}{% endif %}
 
 {% set _platform_page = (platform_page|default('home', true))|string|trim|lower %}
-{% if not _platform_page %}
-  {% set _platform_page = 'home' %}
-{% endif %}
+{% if not _platform_page %}{% set _platform_page = 'home' %}{% endif %}
 
 {% set _platform_surface = 'marketing' %}
 
 {% set _theme = (theme|default('dark', true))|string|trim|lower %}
-{% if _theme not in ['light', 'dark'] %}
-  {% set _theme = 'dark' %}
-{% endif %}
+{% if _theme not in ['light', 'dark'] %}{% set _theme = 'dark' %}{% endif %}
 
 {% set _ff_theme = (ff_theme|default('core', true))|string|trim %}
-{% if not _ff_theme %}
-  {% set _ff_theme = 'core' %}
-{% endif %}
+{% if not _ff_theme %}{% set _ff_theme = 'core' %}{% endif %}
 
 {% set _brand = (ff_brand|default('futurefunded', true))|string|trim %}
-{% if not _brand %}
-  {% set _brand = 'futurefunded' %}
-{% endif %}
+{% if not _brand %}{% set _brand = 'futurefunded' %}{% endif %}
 
 {% set _page_title = (page_title|default('FutureFunded Platform', true))|string|trim %}
-{% if not _page_title %}
-  {% set _page_title = 'FutureFunded Platform' %}
-{% endif %}
+{% if not _page_title %}{% set _page_title = 'FutureFunded Platform' %}{% endif %}
 
 {% set _page_desc = (
   page_description
-  |default(
-    'Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace.',
-    true
-  )
+  |default('Launch premium fundraising, sponsor packages, and recurring support from one FutureFunded platform.', true)
 )|string|trim %}
 {% if not _page_desc %}
-  {% set _page_desc = 'Launch and manage premium fundraising pages, sponsor-ready packages, and recurring memberships from one branded FutureFunded workspace.' %}
+  {% set _page_desc = 'Launch premium fundraising, sponsor packages, and recurring support from one FutureFunded platform.' %}
 {% endif %}
 
-{% set _theme_color = (
-  theme_color|default('#0b1220' if _theme == 'dark' else '#f7f9fc', true)
-)|string|trim %}
+{% set _theme_color = (theme_color|default('#0b1220' if _theme == 'dark' else '#f7f9fc', true))|string|trim %}
 {% if not _theme_color %}
   {% set _theme_color = '#0b1220' if _theme == 'dark' else '#f7f9fc' %}
 {% endif %}
 
 {% set _robots = (page_robots|default('index,follow', true))|string|trim %}
-{% if not _robots %}
-  {% set _robots = 'index,follow' %}
-{% endif %}
+{% if not _robots %}{% set _robots = 'index,follow' %}{% endif %}
 
 {% set _site_name = (site_name|default('FutureFunded', true))|string|trim %}
-{% if not _site_name %}
-  {% set _site_name = 'FutureFunded' %}
-{% endif %}
+{% if not _site_name %}{% set _site_name = 'FutureFunded' %}{% endif %}
 
 {% set _platform_logo = (
   platform_logo_url
@@ -94,15 +73,12 @@ Deterministic premium platform shell
   or _cfg.get('PUBLIC_BASE_URL')
   or (request.url_root if request is defined else '')
 )|string|trim %}
-
 {% if _public_base_raw.endswith('/') %}
   {% set _public_base_raw = _public_base_raw[:-1] %}
 {% endif %}
-
 {% if not _public_base_raw %}
   {% set _public_base_raw = 'https://getfuturefunded.com' %}
 {% endif %}
-
 {% set _public_base = _public_base_raw %}
 
 {% set _request_path = (request.path if request is defined else '/platform/')|string|trim %}
@@ -115,18 +91,19 @@ Deterministic premium platform shell
   {% set canonical = _public_base ~ '/platform/' %}
 {% endif %}
 
-{% set _meta_image = (
-  og_image
-  |default(meta_image, true)
-  |default('', true)
-)|string|trim %}
+{% set _meta_image = (og_image|default(meta_image, true)|default('', true))|string|trim %}
 
 {% set _platform_routes = {
   'home': '/platform/',
-  'pricing': '/platform/pricing',
-  'demo': '/platform/demo',
-  'onboarding': '/platform/onboarding',
-  'dashboard': '/platform/dashboard'
+  'dashboard': '/platform/dashboard',
+  'launch': '/platform/dashboard?view=launch',
+  'live': '/c/spring-fundraiser',
+  'plans': '/platform/#plans',
+  'seeLive': '/platform/#see-it-live',
+  'sponsors': '/platform/#sponsor-packages',
+  'pricing': '/platform/#plans',
+  'demo': '/platform/#see-it-live',
+  'onboarding': '/platform/dashboard?view=launch'
 } %}
 
 {% set _platform_config = {
@@ -144,9 +121,7 @@ Deterministic premium platform shell
   'routes': _platform_routes
 } %}
 
-{% set _platform_use_premium_bridge = (
-  platform_use_premium_bridge|default(false, true)
-) %}
+{% set _platform_use_premium_bridge = (platform_use_premium_bridge|default(false, true)) %}
 
 <html
   lang="en"
@@ -164,39 +139,28 @@ Deterministic premium platform shell
   <meta name="theme-color" content="{{ _theme_color|e }}" />
   <meta name="description" content="{{ _page_desc|e }}" />
   <meta name="robots" content="{{ _robots|e }}" />
-
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="{{ _site_name|e }}" />
   <meta property="og:title" content="{{ _page_title|e }}" />
   <meta property="og:description" content="{{ _page_desc|e }}" />
   <meta property="og:url" content="{{ canonical|e }}" />
   {% if _meta_image %}
-    <meta property="og:image" content="{{ _meta_image|e }}" />
+  <meta property="og:image" content="{{ _meta_image|e }}" />
   {% endif %}
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ _page_title|e }}" />
   <meta name="twitter:description" content="{{ _page_desc|e }}" />
   {% if _meta_image %}
-    <meta name="twitter:image" content="{{ _meta_image|e }}" />
+  <meta name="twitter:image" content="{{ _meta_image|e }}" />
   {% endif %}
 
   <title>{{ _page_title|e }}</title>
   <link rel="canonical" href="{{ canonical|e }}" />
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/ff.css') }}?v={{ _asset_v|e }}"
-  />
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}"
-  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ff.css') }}?v={{ _asset_v|e }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/platform-pages.css') }}?v={{ _asset_v|e }}" />
   {% if _platform_use_premium_bridge %}
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}"
-    />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ff-above-main-premium.css') }}?v={{ _asset_v|e }}" />
   {% endif %}
 
   <script
@@ -208,7 +172,6 @@ Deterministic premium platform shell
 
   {% block platform_head_extra %}{% endblock %}
 </head>
-
 <body
   class="ff-body ff-body--platform"
   data-ff-body=""
@@ -238,23 +201,82 @@ Deterministic premium platform shell
     <div class="ff-shellBg" aria-hidden="true"></div>
 
     {% block platform_chrome %}
-      <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
-        <div class="ff-container ff-platformChrome__inner">
-          {% include "shared/partials/_platform_topbar.html" %}
-          {% include "shared/partials/_platform_status_bar.html" %}
+    <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
+      <div class="ff-container ff-platformChrome__inner">
+        <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+          <a class="ff-platformBrand ff-nounderline" href="{{ _platform_routes.home }}" aria-label="FutureFunded home">
+            <span class="ff-platformBrand__disc ff-platformBrand--mark" aria-hidden="true">
+              {% if _platform_logo %}
+              <img
+                class="ff-platformBrand__logo"
+                src="{{ _platform_logo|e }}"
+                alt=""
+                width="32"
+                height="32"
+                loading="eager"
+                decoding="async"
+              />
+              {% else %}
+              <span class="ff-platformBrand__fallback">FF</span>
+              {% endif %}
+            </span>
+            <span class="ff-platformBrand__wordmark">
+              <strong>FutureFunded</strong>
+              <span class="ff-platformBrand__subline">Platform</span>
+            </span>
+          </a>
+
+          <nav class="ff-nav ff-nav--pill" aria-label="Primary platform navigation">
+            <a
+              class="ff-nav__link"
+              href="{{ _platform_routes.home }}"
+              {% if _platform_page == 'home' %}aria-current="page"{% endif %}
+            >Home</a>
+            <a class="ff-nav__link" href="{{ _platform_routes.live }}">Live fundraiser</a>
+          </nav>
+
+          <div class="ff-row ff-wrap ff-gap-2" role="group" aria-label="Primary platform actions">
+            <button
+              type="button"
+              class="ff-btn ff-btn--secondary ff-btn--pill ff-themeToggle"
+              data-ff-theme-toggle=""
+              aria-label="Toggle color theme"
+              aria-pressed="false"
+            >
+              Theme
+            </button>
+            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ _platform_routes.dashboard }}">
+              Open operator dashboard
+            </a>
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ _platform_routes.launch }}">
+              Start guided launch
+            </a>
+          </div>
         </div>
-      </header>
+
+        <section class="ff-card ff-glass ff-pad" data-ff-platform-trust="" aria-label="Platform overview">
+          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+            <div class="ff-minw-0">
+              <p class="ff-kicker ff-m-0">Revenue operating system</p>
+              <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
+                One premium FutureFunded system for public fundraising, sponsor packages, recurring support, and cleaner launch control.
+              </p>
+            </div>
+
+            <div class="ff-row ff-wrap ff-gap-2" role="list" aria-label="Platform quick links">
+              <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.plans }}">View plans</a>
+              <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.seeLive }}">See it live</a>
+              <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.dashboard }}">Operator dashboard</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </header>
     {% endblock %}
 
     {% block platform_before_main %}{% endblock %}
 
-    <main
-      id="content"
-      class="ff-main"
-      data-ff-main=""
-      tabindex="-1"
-      aria-label="{{ _page_title|e }}"
-    >
+    <main id="content" class="ff-main" data-ff-main="" tabindex="-1" aria-label="{{ _page_title|e }}">
       {% block platform_content %}{% endblock %}
     </main>
 
