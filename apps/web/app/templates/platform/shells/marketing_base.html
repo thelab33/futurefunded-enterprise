@@ -203,59 +203,51 @@ Canonical public platform shell
     {% block platform_chrome %}
     <header class="ff-chrome" aria-label="Platform chrome" data-ff-chrome="">
       <div class="ff-container ff-platformChrome__inner">
-        <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
-          <a class="ff-platformBrand ff-nounderline" href="{{ _platform_routes.home }}" aria-label="FutureFunded home">
-            <span class="ff-platformBrand__disc ff-platformBrand--mark" aria-hidden="true">
-              {% if _platform_logo %}
-              <img
-                class="ff-platformBrand__logo"
-                src="{{ _platform_logo|e }}"
-                alt=""
-                width="32"
-                height="32"
-                loading="eager"
-                decoding="async"
-              />
-              {% else %}
-              <span class="ff-platformBrand__fallback">FF</span>
-              {% endif %}
-            </span>
-            <span class="ff-platformBrand__wordmark">
-              <strong>FutureFunded</strong>
-              <span class="ff-platformBrand__subline">Platform</span>
-            </span>
-          </a>
+        <div class="ff-platformChrome__bar">
+          <div class="ff-platformChrome__brandCluster">
+            <a class="ff-platformBrand ff-nounderline" href="{{ _platform_routes.home }}" aria-label="FutureFunded home">
+              <span class="ff-platformBrand__disc ff-platformBrand--mark" aria-hidden="true">
+                {% if _platform_logo %}
+                <img
+                  class="ff-platformBrand__logo"
+                  src="{{ _platform_logo|e }}"
+                  alt=""
+                  width="32"
+                  height="32"
+                  loading="eager"
+                  decoding="async"
+                />
+                {% else %}
+                <span class="ff-platformBrand__fallback">FF</span>
+                {% endif %}
+              </span>
+              <span class="ff-platformBrand__wordmark">
+                <strong>FutureFunded</strong>
+                <span class="ff-platformBrand__subline">Platform</span>
+              </span>
+            </a>
 
-          <nav class="ff-nav ff-nav--pill" aria-label="Primary platform navigation">
-            <a
-              class="ff-nav__link"
-              href="{{ _platform_routes.home }}"
-              {% if _platform_page == 'home' %}aria-current="page"{% endif %}
-            >Home</a>
-            <a class="ff-nav__link" href="{{ _platform_routes.live }}">Live fundraiser</a>
-          </nav>
+            <nav class="ff-nav ff-nav--pill ff-platformChrome__nav" aria-label="Primary platform navigation">
+              <a class="ff-nav__link" href="{{ _platform_routes.home }}" {% if _platform_page == 'home' %}aria-current="page"{% endif %}>Home</a>
+              <a class="ff-nav__link" href="{{ _platform_routes.live }}">Live fundraiser</a>
+            </nav>
+          </div>
 
-          <div class="ff-row ff-wrap ff-gap-2" role="group" aria-label="Primary platform actions">
+          <div class="ff-platformChrome__actions" role="group" aria-label="Primary platform actions">
             <button
               type="button"
               class="ff-btn ff-btn--secondary ff-btn--pill ff-themeToggle"
               data-ff-theme-toggle=""
               aria-label="Toggle color theme"
               aria-pressed="false"
-            >
-              Theme
-            </button>
-            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ _platform_routes.dashboard }}">
-              Open operator dashboard
-            </a>
-            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ _platform_routes.launch }}">
-              Start guided launch
-            </a>
+            >Theme</button>
+            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ _platform_routes.dashboard }}">Open operator dashboard</a>
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ _platform_routes.launch }}">Start guided launch</a>
           </div>
         </div>
 
-        <section class="ff-card ff-glass ff-pad" data-ff-platform-trust="" aria-label="Platform overview">
-          <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
+        <section class="ff-card ff-glass ff-pad ff-platformChrome__overview" data-ff-platform-trust="" aria-label="Platform overview">
+          <div class="ff-platformChrome__overviewInner">
             <div class="ff-minw-0">
               <p class="ff-kicker ff-m-0">Revenue operating system</p>
               <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
@@ -263,7 +255,7 @@ Canonical public platform shell
               </p>
             </div>
 
-            <div class="ff-row ff-wrap ff-gap-2" role="list" aria-label="Platform quick links">
+            <div class="ff-row ff-wrap ff-gap-2 ff-platformChrome__quicklinks" role="list" aria-label="Platform quick links">
               <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.plans }}">View plans</a>
               <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.seeLive }}">See it live</a>
               <a class="ff-platformInlinePill" role="listitem" href="{{ _platform_routes.dashboard }}">Operator dashboard</a>

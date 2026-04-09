@@ -9,8 +9,6 @@
 ) %}
 
 {% extends "platform/shells/marketing_base.html" %}
-{% from "shared/macros/cards.html" import metric_card, feature_card %}
-{% from "shared/macros/pills.html" import ff_pill_list %}
 
 {% block platform_content %}
 {% set hero_raw = data.get("hero") %}
@@ -29,10 +27,10 @@
 } %}
 
 {% set hero_eyebrow = hero.get("eyebrow", "Launch-ready fundraising platform") %}
-{% set hero_title = hero.get("title", "Launch premium fundraising. Add sponsors. Keep support recurring.") %}
+{% set hero_title = hero.get("title", "Launch premium fundraising pages, sponsor lanes, and recurring support.") %}
 {% set hero_body = hero.get(
   "body",
-  "FutureFunded gives programs a cleaner public page, a real sponsor lane, and an operator workspace that stays organized after launch."
+  "FutureFunded gives programs one cleaner system for branded fundraising, sponsor offers, and operator control without piecing the experience together."
 ) %}
 {% set hero_pills = hero.get("pills") or ["Public page", "Sponsors", "Recurring", "Workspace"] %}
 
@@ -50,87 +48,34 @@
 ) %}
 
 {% set status_cards = data.get("status_cards") or [
-  {
-    "label": "Campaign",
-    "body": "Public page ready for traffic.",
-    "value": "Live"
-  },
-  {
-    "label": "Sponsors",
-    "body": "Sponsor lane ready to sell.",
-    "value": "Ready"
-  },
-  {
-    "label": "Workspace",
-    "body": "Operator side ready to run.",
-    "value": "Active"
-  }
+  {"label": "Campaign", "body": "Public page ready for traffic.", "value": "Live"},
+  {"label": "Sponsors", "body": "Sponsor lane ready to sell.", "value": "Ready"},
+  {"label": "Workspace", "body": "Operator side ready to run.", "value": "Active"}
 ] %}
 
 {% set launch_cards = data.get("launch_cards") or [
-  {
-    "title": "Public fundraiser",
-    "body": "Launch a branded page families and donors can trust."
-  },
-  {
-    "title": "Sponsor packages",
-    "body": "Turn sponsor support into a cleaner local offer."
-  },
-  {
-    "title": "Recurring support",
-    "body": "Keep momentum going without rebuilding the system."
-  },
-  {
-    "title": "Operator workspace",
-    "body": "Manage launch, fundraising, sponsors, and support in one place."
-  }
+  {"title": "Public fundraiser", "body": "Launch a branded page families and donors can trust."},
+  {"title": "Sponsor packages", "body": "Turn sponsor support into a cleaner local offer."},
+  {"title": "Recurring support", "body": "Keep momentum going without rebuilding the system."},
+  {"title": "Operator workspace", "body": "Manage launch, fundraising, sponsors, and support in one place."}
 ] %}
 
 {% set plans = data.get("plans") or [
-  {
-    "name": "Starter",
-    "price": "$49 setup",
-    "body": "Best for getting the public page live with a strong first impression.",
-    "tag": "Fastest start",
-    "cta_href": "/platform/onboarding"
-  },
-  {
-    "name": "Growth",
-    "price": "$79/mo",
-    "body": "Best for programs adding sponsor packages, recurring support, and cleaner operating flow.",
-    "tag": "Best default",
-    "featured": true,
-    "cta_href": "/platform/dashboard?view=launch"
-  },
-  {
-    "name": "White-label",
-    "price": "Custom",
-    "body": "Best for schools, nonprofits, and institutions that need broader rollout and support.",
-    "tag": "Institution-ready",
-    "cta_href": "/platform/pricing"
-  }
+  {"name": "Starter", "price": "$49 setup", "body": "Best for getting the public page live with a strong first impression.", "tag": "Fastest start", "cta_href": "/platform/onboarding"},
+  {"name": "Growth", "price": "$79/mo", "body": "Best for programs adding sponsor packages, recurring support, and cleaner operating flow.", "tag": "Best default", "featured": true, "cta_href": "/platform/dashboard?view=launch"},
+  {"name": "White-label", "price": "Custom", "body": "Best for schools, nonprofits, and institutions that need broader rollout and support.", "tag": "Institution-ready", "cta_href": "/platform/pricing"}
 ] %}
 
 {% set proof_cards = data.get("proof_cards") or [
-  {
-    "eyebrow": "Live fundraiser",
-    "title": "Open the live page buyers can judge.",
-    "body": "Show brand quality, trust, sponsor visibility, and mobile conversion in one pass.",
-    "cta_href": "/c/spring-fundraiser"
-  },
-  {
-    "eyebrow": "Operator workspace",
-    "title": "Open the app side that proves real software.",
-    "body": "Show launch control, sponsor handling, and support lanes from a cleaner operating surface.",
-    "cta_href": "/platform/dashboard"
-  }
+  {"eyebrow": "Live fundraiser", "title": "Open the live page buyers can judge.", "body": "Show brand quality, trust, sponsor visibility, and mobile conversion in one pass.", "cta_href": "/c/spring-fundraiser"},
+  {"eyebrow": "Operator workspace", "title": "Open the app side that proves real software.", "body": "Show launch control, sponsor handling, and support lanes from a cleaner operating surface.", "cta_href": "/platform/dashboard"}
 ] %}
 
 {% set kicker = next_move.get("eyebrow", "Next move") %}
-{% set title = next_move.get("title", "Launch with less friction.") %}
+{% set title = next_move.get("title", "Launch with a cleaner fundraising system.") %}
 {% set body = next_move.get(
   "body",
-  "Start guided. Launch clean. Add sponsor and support lanes when the program is ready."
+  "Start with one polished organization, launch a premium public fundraiser, and grow into sponsor packages and recurring support without rebuilding the experience."
 ) %}
 {% set primary_href = (next_move.get("primary_cta_href") or "/platform/dashboard?view=launch")|string|trim %}
 {% set primary_label = cta_label_map.get(primary_href, next_move.get("primary_cta_label", "Open")) %}
@@ -139,50 +84,40 @@
 
 <section class="ff-section" aria-labelledby="platformHomeHeroTitle" data-ff-reveal="hero">
   <div class="ff-container">
-    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop">
-      <header
-        class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact"
-        aria-labelledby="platformHomeHeroTitle"
-        data-ff-hover="soft"
-      >
+    <div class="ff-grid ff-grid--2 ff-gap-3 ff-platformGridTop ff-platformHomeGrid">
+      <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact ff-platformHomeHero" aria-labelledby="platformHomeHeroTitle" data-ff-hover="soft">
         <div class="ff-sectionhead__text ff-minw-0">
           <p class="ff-kicker ff-m-0">{{ hero_eyebrow }}</p>
-          <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-11" id="platformHomeHeroTitle">
-            {{ hero_title }}
-          </h1>
-          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-42">
-            {{ hero_body }}
-          </p>
+          <h1 class="ff-display ff-mt-2 ff-mb-0 ff-measure-10" id="platformHomeHeroTitle">{{ hero_title }}</h1>
+          <p class="ff-lead ff-mt-3 ff-mb-0 ff-measure-38">{{ hero_body }}</p>
 
           {% if hero_pills %}
-          <div class="ff-mt-3">
-            {{ ff_pill_list(hero_pills, "soft") }}
+          <div class="ff-platformHeroPills ff-mt-3" aria-label="Hero highlights">
+            {% for pill in hero_pills %}
+            <span class="ff-platformHeroPill">{{ pill }}</span>
+            {% endfor %}
           </div>
           {% endif %}
 
-          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3" role="group" aria-label="Primary platform actions">
-            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ hero_primary_href }}">
-              {{ hero_primary_label }}
-            </a>
-            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ hero_secondary_href }}">
-              {{ hero_secondary_label }}
-            </a>
+          <div class="ff-row ff-wrap ff-gap-2 ff-mt-3 ff-platformHomeHero__actions" role="group" aria-label="Primary platform actions">
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ hero_primary_href }}">{{ hero_primary_label }}</a>
+            <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ hero_secondary_href }}">{{ hero_secondary_label }}</a>
           </div>
         </div>
       </header>
 
-      <aside class="ff-card ff-glass ff-pad" aria-labelledby="platformHomeProofTitle" data-ff-hover="lift">
+      <aside class="ff-card ff-glass ff-pad ff-platformHomeProof" aria-labelledby="platformHomeProofTitle" data-ff-hover="lift">
         <p class="ff-kicker ff-m-0">{{ hero_proof_kicker }}</p>
-        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeProofTitle">
-          {{ hero_proof_title }}
-        </h2>
-        <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">
-          {{ hero_proof_body }}
-        </p>
+        <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeProofTitle">{{ hero_proof_title }}</h2>
+        <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-36">{{ hero_proof_body }}</p>
 
-        <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3" data-ff-stagger="metrics">
+        <div class="ff-platformStatusGrid ff-mt-3" data-ff-stagger="metrics">
           {% for item in status_cards %}
-            {{ metric_card(item.get("label", ""), item.get("body", ""), item.get("value", "")) }}
+          <article class="ff-platformStatusCard" aria-label="{{ item.get('label', '') }} status">
+            <p class="ff-kicker ff-m-0">{{ item.get("label", "") }}</p>
+            <h3 class="ff-h2 ff-mt-2 ff-mb-0">{{ item.get("value", "") }}</h3>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
+          </article>
           {% endfor %}
         </div>
       </aside>
@@ -192,18 +127,17 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">What launches</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchCardsTitle">
-            Everything needed to go live.
-          </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
-            Start with the public page. Add sponsor and support lanes when the program is ready.
-          </p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformLaunchCardsTitle">Everything needed to go live.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">Start with the public page. Add sponsor and support lanes when the program is ready.</p>
         </div>
       </div>
 
-      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3" data-ff-stagger="cards">
+      <div class="ff-grid ff-grid--4 ff-gap-3 ff-mt-3 ff-platformFeatureGrid" data-ff-stagger="cards">
         {% for item in launch_cards %}
-          {{ feature_card(item.get("title", ""), item.get("body", "")) }}
+        <article class="ff-card ff-glass ff-pad ff-platformFeatureCard" aria-labelledby="platformLaunchCard{{ loop.index }}Title" data-ff-hover="lift">
+          <h3 class="ff-h2 ff-m-0" id="platformLaunchCard{{ loop.index }}Title">{{ item.get("title", "") }}</h3>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
+        </article>
         {% endfor %}
       </div>
     </section>
@@ -212,41 +146,25 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">Plans</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlansTitle">
-            Start simple. Expand when it pays off.
-          </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
-            Launch the page first. Add sponsor and support lanes once the operating rhythm is there.
-          </p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlansTitle">Start simple. Expand when it pays off.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">Launch the page first. Add sponsor and support lanes once the operating rhythm is there.</p>
         </div>
       </div>
 
-      <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3" data-ff-stagger="plans">
+      <div class="ff-grid ff-grid--3 ff-gap-3 ff-mt-3 ff-platformPlanGrid" data-ff-stagger="plans">
         {% for plan in plans %}
           {% set plan_href = (plan.get("cta_href") or "/platform/onboarding")|string|trim %}
           {% set plan_label = cta_label_map.get(plan_href, plan.get("cta_label", "Choose")) %}
           {% set is_featured = plan.get("featured", false) %}
-          <article class="ff-card ff-glass ff-pad" aria-labelledby="platformPlan{{ loop.index }}Title" data-ff-hover="lift">
+          <article class="ff-card ff-glass ff-pad ff-platformPlanCard {{ 'ff-platformPlanCard--featured' if is_featured else '' }}" aria-labelledby="platformPlan{{ loop.index }}Title" data-ff-hover="lift">
             <p class="ff-kicker ff-m-0">{{ plan.get("name", "Plan") }}</p>
-
-            <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlan{{ loop.index }}Title">
-              {{ plan.get("price", "Custom") }}
-            </h3>
-
-            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-              {{ plan.get("body", "") }}
-            </p>
-
+            <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformPlan{{ loop.index }}Title">{{ plan.get("price", "Custom") }}</h3>
+            <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ plan.get("body", "") }}</p>
             <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
               {% if plan.get("tag") %}
               <span class="ff-platformInlinePill">{{ plan.get("tag") }}</span>
               {% endif %}
-              <a
-                class="ff-btn {{ 'ff-btn--primary' if is_featured else 'ff-btn--secondary' }} ff-btn--pill"
-                href="{{ plan_href }}"
-              >
-                {{ plan_label }}
-              </a>
+              <a class="ff-btn {{ 'ff-btn--primary' if is_featured else 'ff-btn--secondary' }} ff-btn--pill" href="{{ plan_href }}">{{ plan_label }}</a>
             </div>
           </article>
         {% endfor %}
@@ -257,56 +175,38 @@
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">See it live</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSeeItLiveTitle">
-            Show the public page and the operator side together.
-          </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-42">
-            The fundraiser proves the public experience. The dashboard proves the system behind it.
-          </p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformSeeItLiveTitle">Show the public page and the operator side together.</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">The fundraiser proves the public experience. The dashboard proves the system behind it.</p>
         </div>
       </div>
 
-      <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3" data-ff-stagger="proof-cards">
+      <div class="ff-grid ff-grid--2 ff-gap-3 ff-mt-3 ff-platformProofGrid" data-ff-stagger="proof-cards">
         {% for item in proof_cards %}
         {% set proof_href = (item.get("cta_href") or "#")|string|trim %}
         {% set proof_label = cta_label_map.get(proof_href, item.get("cta_label", "Open")) %}
-        <article class="ff-card ff-glass ff-pad" aria-labelledby="platformProofCard{{ loop.index }}Title" data-ff-hover="lift">
+        <article class="ff-card ff-glass ff-pad ff-platformProofCard" aria-labelledby="platformProofCard{{ loop.index }}Title" data-ff-hover="lift">
           <p class="ff-kicker ff-m-0">{{ item.get("eyebrow", "Proof") }}</p>
-          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformProofCard{{ loop.index }}Title">
-            {{ item.get("title", "") }}
-          </h3>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">
-            {{ item.get("body", "") }}
-          </p>
+          <h3 class="ff-h2 ff-mt-2 ff-mb-0" id="platformProofCard{{ loop.index }}Title">{{ item.get("title", "") }}</h3>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ item.get("body", "") }}</p>
           <div class="ff-row ff-wrap ff-gap-2 ff-mt-3">
-            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ proof_href }}">
-              {{ proof_label }}
-            </a>
+            <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ proof_href }}">{{ proof_label }}</a>
           </div>
         </article>
         {% endfor %}
       </div>
     </section>
 
-    <div class="ff-card ff-glass ff-pad ff-mt-3" aria-labelledby="platformHomeCloseTitle" data-ff-reveal="close-band">
+    <div class="ff-card ff-glass ff-pad ff-mt-3 ff-platformCloseBand" aria-labelledby="platformHomeCloseTitle" data-ff-reveal="close-band">
       <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
         <div class="ff-minw-0">
           <p class="ff-kicker ff-m-0">{{ kicker }}</p>
-          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeCloseTitle">
-            {{ title }}
-          </h2>
-          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-38">
-            {{ body }}
-          </p>
+          <h2 class="ff-h2 ff-mt-2 ff-mb-0" id="platformHomeCloseTitle">{{ title }}</h2>
+          <p class="ff-help ff-muted ff-mt-2 ff-mb-0 ff-measure-36">{{ body }}</p>
         </div>
 
-        <div class="ff-row ff-wrap ff-gap-2">
-          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_href }}">
-            {{ primary_label }}
-          </a>
-          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_href }}">
-            {{ secondary_label }}
-          </a>
+        <div class="ff-row ff-wrap ff-gap-2 ff-platformCloseBand__actions">
+          <a class="ff-btn ff-btn--primary ff-btn--pill" href="{{ primary_href }}">{{ primary_label }}</a>
+          <a class="ff-btn ff-btn--secondary ff-btn--pill" href="{{ secondary_href }}">{{ secondary_label }}</a>
         </div>
       </div>
     </div>

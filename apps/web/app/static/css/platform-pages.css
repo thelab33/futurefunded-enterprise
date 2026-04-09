@@ -2511,3 +2511,253 @@ body[data-ff-platform="true"] .ff-operatorPremium__card {
     }
   }
 }
+
+/* FF_PLATFORM_HOME_PAGE_OWNERSHIP_V1_START */
+@layer ff.pages {
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHeroPills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHeroPill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.72rem;
+    padding: 0.22rem 0.58rem;
+    border-radius: 999px;
+    border: 1px solid rgba(14, 165, 233, 0.14);
+    background:
+      linear-gradient(180deg, rgba(14, 165, 233, 0.12), rgba(249, 115, 22, 0.06));
+    color: rgba(237, 244, 255, 0.96);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeProof {
+    min-height: 0;
+    align-content: start;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusGrid > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusCard {
+    display: grid;
+    align-content: start;
+    gap: 0.38rem;
+    min-height: 100%;
+    padding: 0.95rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+      rgba(8, 17, 37, 0.68);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformFeatureGrid,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformPlanGrid,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformProofGrid {
+    align-items: stretch;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformFeatureCard,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformPlanCard,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformProofCard {
+    display: grid;
+    align-content: start;
+    min-height: 100%;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformPlanCard--featured {
+    border-color: rgba(249, 115, 22, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(249, 115, 22, 0.06),
+      0 16px 34px rgba(0, 0, 0, 0.22);
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformCloseBand {
+    align-content: center;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformCloseBand__actions {
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusGrid {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusGrid > :last-child {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHeroPills {
+      gap: 0.42rem;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHeroPill {
+      min-height: 1.6rem;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.64rem;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusCard {
+      padding: 0.82rem;
+      border-radius: 18px;
+    }
+  }
+}
+/* FF_PLATFORM_HOME_PAGE_OWNERSHIP_V1_END */
+
+/* ========================================================================== 
+   FF_PLATFORM_SHELL_HOME_SYNC_V1
+   Sync marketing shell and home rhythm across platform pages.
+   ========================================================================== */
+@layer ff.pages {
+  body[data-ff-template="platform"] .ff-platformChrome__bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__brandCluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.6rem;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__nav {
+    min-width: 0;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__overview {
+    padding: 0.9rem 1rem;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__overviewInner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  body[data-ff-template="platform"] .ff-platformChrome__quicklinks {
+    justify-content: flex-end;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformChrome__inner {
+    gap: 0.72rem;
+    padding-top: 0.72rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+    max-width: 8.2ch;
+    font-size: clamp(2.75rem, 5.4vw, 5rem);
+    line-height: 0.9;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeHero .ff-lead {
+    max-width: 34ch;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeGrid {
+    align-items: start;
+  }
+
+  @media (min-width: 980px) {
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeGrid {
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+    }
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeProof {
+    min-height: 0;
+    padding: 1rem 1.05rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusGrid {
+    gap: 0.72rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformStatusCard {
+    padding: 0.88rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformFeatureCard,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformPlanCard,
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformProofCard {
+    gap: 0.62rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformCloseBand {
+    padding: 0.95rem 1rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformCloseBand__actions {
+    align-items: center;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="pricing"] .ff-platformChrome__inner,
+  body[data-ff-template="platform"][data-ff-page="demo"] .ff-platformChrome__inner,
+  body[data-ff-template="platform"][data-ff-page="dashboard"] .ff-platformChrome__inner {
+    gap: 0.82rem;
+    padding-top: 0.78rem;
+  }
+
+  @media (max-width: 980px) {
+    body[data-ff-template="platform"] .ff-platformChrome__bar,
+    body[data-ff-template="platform"] .ff-platformChrome__overviewInner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    body[data-ff-template="platform"] .ff-platformChrome__actions,
+    body[data-ff-template="platform"] .ff-platformChrome__quicklinks {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-ff-template="platform"] .ff-platformChrome__actions .ff-btn {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+      max-width: 9.6ch;
+      font-size: clamp(2.4rem, 11vw, 4rem);
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformHomeHero__actions .ff-btn,
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformCloseBand__actions .ff-btn {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+  }
+}
