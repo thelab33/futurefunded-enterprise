@@ -100,8 +100,6 @@ These files are shared building blocks for the platform layer.
 
 ### Shared partials
 
-- `apps/web/app/templates/shared/partials/_platform_topbar.html`
-- `apps/web/app/templates/shared/partials/_platform_status_bar.html`
 - `apps/web/app/templates/shared/partials/_cta_band.html`
 
 ### Rule

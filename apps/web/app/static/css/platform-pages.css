@@ -2364,3 +2364,150 @@ body[data-ff-platform="true"] .ff-operatorPremium__card {
     }
   }
 }
+
+/* FF_PLATFORM_HOME_FRAME_POLISH_V1_START */
+@layer ff.pages {
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformGridTop {
+    display: grid;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 980px) {
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformGridTop {
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    }
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformGridTop > * {
+    min-height: 100%;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-sectionhead[aria-labelledby="platformHomeHeroTitle"] {
+    gap: 0.85rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+    max-width: 9.4ch;
+    text-wrap: balance;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-sectionhead[aria-labelledby="platformHomeHeroTitle"] .ff-lead {
+    max-width: 44ch;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeProofTitle"] {
+    gap: 0.9rem;
+    align-content: start;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeProofTitle"] .ff-grid.ff-grid--3 {
+    gap: 0.85rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformLaunchCardsTitle"] .ff-grid.ff-grid--4,
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformPlansTitle"] .ff-grid.ff-grid--3,
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformSeeItLiveTitle"] .ff-grid.ff-grid--2 {
+    gap: 1rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformLaunchCardsTitle"] .ff-grid.ff-grid--4 > *,
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformPlansTitle"] .ff-grid.ff-grid--3 > *,
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformSeeItLiveTitle"] .ff-grid.ff-grid--2 > * {
+    min-height: 100%;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeCloseTitle"] {
+    border-radius: 28px;
+    align-content: center;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeCloseTitle"] .ff-row.ff-row--between {
+    align-items: center;
+    gap: 1rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-card.ff-glass {
+    align-content: start;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-proofMini {
+    min-height: 0;
+  }
+
+  @media (max-width: 900px) {
+    body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+      max-width: 10.2ch;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeCloseTitle"] .ff-row.ff-row--between {
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-container {
+      width: min(100% - 1rem, var(--ff-platform-shell-max));
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-platformGridTop,
+    body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformLaunchCardsTitle"] .ff-grid.ff-grid--4,
+    body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformPlansTitle"] .ff-grid.ff-grid--3,
+    body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformSeeItLiveTitle"] .ff-grid.ff-grid--2 {
+      gap: 0.85rem;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+      max-width: 10.8ch;
+    }
+
+    body[data-ff-template="platform"][data-ff-page="home"] .ff-card.ff-glass {
+      padding: 0.95rem;
+      border-radius: 22px;
+    }
+  }
+}
+/* FF_PLATFORM_HOME_FRAME_POLISH_V1_END */
+
+/* ========================================================================== 
+   FF_PLATFORM_HOME_LAUNCH_QA_CONSOLIDATED_V1
+   Final home-page compression and polish.
+   ========================================================================== */
+
+@layer ff.pages {
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-platformChrome__inner {
+    gap: 0.82rem;
+    padding-top: 0.88rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [data-ff-platform-trust] {
+    padding: 0.92rem 0.96rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+    max-width: 8.8ch;
+    line-height: 0.92;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] .ff-sectionhead[aria-labelledby="platformHomeHeroTitle"] .ff-lead {
+    max-width: 36ch;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeProofTitle"] {
+    min-height: 0;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeProofTitle"] .ff-grid.ff-grid--3 {
+    gap: 0.72rem;
+  }
+
+  body[data-ff-template="platform"][data-ff-page="home"] [aria-labelledby="platformHomeCloseTitle"] {
+    padding: 1rem 1.05rem;
+  }
+
+  @media (max-width: 640px) {
+    body[data-ff-template="platform"][data-ff-page="home"] #platformHomeHeroTitle {
+      max-width: 10.2ch;
+    }
+  }
+}
