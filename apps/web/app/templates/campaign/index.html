@@ -334,8 +334,6 @@ nonce="{{ _n|e }}"
     'name': '6th Grade Gold',
     'tier': 'Gold',
     'meta': 'First AAU reps — fundamentals + communication.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': true,
     'needs': false,
     'restricted': false,
@@ -347,8 +345,6 @@ nonce="{{ _n|e }}"
     'name': '7th Grade Gold',
     'tier': 'Gold',
     'meta': 'Speed + spacing — film + pressure reps.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': true,
     'needs': false,
     'restricted': false,
@@ -360,8 +356,6 @@ nonce="{{ _n|e }}"
     'name': '7th Grade Black',
     'tier': 'Black',
     'meta': 'Defense travels — stops into transition.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': false,
     'needs': true,
     'restricted': false,
@@ -373,8 +367,6 @@ nonce="{{ _n|e }}"
     'name': '8th Grade Gold',
     'tier': 'Gold',
     'meta': 'Finish strong — intensity + leadership.',
-    'goal': _shared_team_goal,
-    'raised': _shared_team_raised,
     'featured': false,
     'needs': false,
     'restricted': false,
@@ -505,7 +497,7 @@ nonce="{{ _n|e }}"
 {% endif %}
 {% set _show_success_upsell = _show_success_upsell|default(false, true) %}
 {% set _success_program_name = _success_program_name|default(_safe_org_name, true) %}
-{% set _press_watch_url = _press_watch_url|default('https://connectatxelite.com/', true) %}
+{% set _press_watch_url = _press_watch_url|default(canonical_url|default(share_url|default('https://getfuturefunded.com/c/spring-fundraiser', true), true), true) %}
 {% set _press_embed_url = _press_embed_url|default('', true) %}
 {% set _press_video_title = _press_video_title|default(_safe_org_name ~ ' program story', true) %}
 {% set _press_poster_webp = _press_poster_webp|default(url_for('static', filename='images/connect-atx-team.jpg') ~ '?v=' ~ _v, true) %}
@@ -1039,12 +1031,12 @@ nonce="{{ _n|e }}"
                     </header>
                     <div class="ff-grid ff-grid--2 ff-gap-2 ff-mt-3" role="list" aria-label="Trust and sponsor proof" >
                       <div class="ff-proofMini" role="listitem">
-                        <p class="ff-kicker ff-m-0">Why donors trust this page</p>
-                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Clear progress, fast checkout, and a page donors can trust right away. </p>
+                        <p class="ff-kicker ff-m-0">Why supporters trust this page</p>
+                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Clear progress, secure checkout, and a page families, alumni, and donors can trust right away. </p>
                       </div>
                       <div class="ff-proofMini" role="listitem">
-                        <p class="ff-kicker ff-m-0">Why sponsors engage</p>
-                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Structured recognition and clean placement for local businesses and community partners. </p>
+                        <p class="ff-kicker ff-m-0">Why businesses sponsor</p>
+                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Visible recognition, featured placement, and clean follow-up for local businesses and community partners. </p>
                       </div>
                     </div>
                     <footer class="ff-heroFooter">
@@ -1055,7 +1047,7 @@ nonce="{{ _n|e }}"
                           <button type="button" class="ff-btn ff-btn--ghost ff-btn--lg ff-btn--pill" data-ff-share="" aria-label="Share this fundraiser" > Share </button>
                         </div>
                       </nav>
-                      <p class="ff-help ff-mutedStrong ff-mt-2 ff-mb-0 ff-heroTrustCue"> Secure checkout • Email receipt • Clear sponsor follow-up. </p>
+                      <p class="ff-help ff-mutedStrong ff-mt-2 ff-mb-0 ff-heroTrustCue"> Secure checkout • Email receipt • Direct sponsor follow-up. </p>
                     </footer>
                   </div>
                 </article>
@@ -1096,16 +1088,21 @@ nonce="{{ _n|e }}"
                   </section>
                   <div class="ff-proofMini ff-mt-3" role="note" aria-label="Donation note">
                     <p class="ff-kicker ff-m-0">What support helps fund</p>
-                    <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Travel, tournaments, gym time, and core season costs. </p>
+                    <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Travel, tournaments, gym time, training, and the practical season costs behind every game day. </p>
+                  </div>
+                  <div class="ff-proofMini ff-mt-3 ff-checkoutEmotion" role="note" aria-label="Donor reassurance">
+                    <p class="ff-kicker ff-m-0">Support with confidence</p>
+                    <p class="ff-help ff-muted ff-mt-1 ff-mb-0">{{ _proof_blurb }}</p>
+                    <p class="ff-help ff-muted ff-mt-2 ff-mb-0">{{ _policy_blurb }}</p>
                   </div>
                   <div class="ff-grid ff-grid--2 ff-gap-2 ff-mt-3" role="list" aria-label="Panel trust signals" >
                     <div class="ff-proofMini" role="listitem">
                       <p class="ff-kicker ff-m-0">Receipt</p>
-                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Confirmation sent by email after successful payment. </p>
+                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> A confirmation email is sent after successful payment so supporters have a clear record right away. </p>
                     </div>
                     <div class="ff-proofMini" role="listitem">
                       <p class="ff-kicker ff-m-0">Sponsorships</p>
-                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Businesses can support through a clean sponsor path. </p>
+                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Businesses can support through a clear sponsor path with practical visibility and follow-up. </p>
                     </div>
                   </div>
                   <a class="ff-btn ff-btn--primary ff-btn--pill ff-w-100 ff-mt-3 ff-donate-btn" href="#checkout" aria-controls="checkout" aria-haspopup="dialog" data-ff-donate="" data-ff-open-checkout="" > Donate now </a>
@@ -1114,11 +1111,8 @@ nonce="{{ _n|e }}"
             </div>
           </div>
         </section>
-        <div id="ffDonationSuccessMount" class="ff-donationSuccessMount"
-          {% if not _show_success_upsell %}
-          hidden
-          {% endif %}
-          aria-live="polite" aria-atomic="true" >
+        {% set _success_mount_hidden_attr = ' hidden' if not _show_success_upsell else '' %}
+        <div id="ffDonationSuccessMount" class="ff-donationSuccessMount"{{ _success_mount_hidden_attr|safe }} aria-live="polite" aria-atomic="true" >
           {% if _show_success_upsell %}
           <section class="ff-successUpsell ff-card ff-glass ff-pad" data-ff-success-upsell="" aria-labelledby="ffSuccessUpsellTitle" aria-describedby="ffSuccessUpsellDesc" >
             <div class="ff-successUpsell__intro ff-minw-0">
@@ -1170,12 +1164,12 @@ nonce="{{ _n|e }}"
                   </div>
                   <ul class="ff-impactPick__chips ff-impactPick__chips--flagship ff-impactChoiceGrid ff-mt-3" role="list" aria-label="Preset impact amounts" >
                     {% for amount, eyebrow, meta, is_feature in _impact_amounts %}
+                    {% set _impact_choice_class = 'ff-chip ff-chip--impact ff-chip--pill ff-impactChoice' %}
+                    {% if is_feature %}
+                    {% set _impact_choice_class = _impact_choice_class ~ ' ff-impactChoice--feature' %}
+                    {% endif %}
                     <li class="ff-impactChoiceItem">
-                      <button type="button" class="ff-chip ff-chip--impact ff-chip--pill ff-impactChoice
-                        {% if is_feature %}
-                        ff-impactChoice--feature
-                        {% endif %}
-                        " data-ff-amount="{{ amount }}" aria-label="Preload {{ amount }} dollars: {{ meta }}" >
+                      <button type="button" class="{{ _impact_choice_class }}" data-ff-amount="{{ amount }}" aria-label="Preload {{ amount }} dollars: {{ meta }}" >
                         <span class="ff-impactChoice__eyebrow">{{ eyebrow }}</span>
                         <span class="ff-chip__amt ff-impactChoice__amt">${{ amount }}</span>
                         <span class="ff-chip__meta ff-impactChoice__meta">{{ meta }}</span>
@@ -1221,11 +1215,11 @@ nonce="{{ _n|e }}"
                   </div>
                   <ul class="ff-impactTierGrid ff-impactTierGrid--flagship ff-mt-3" role="list" data-ff-sponsor-a-player="" aria-label="Sponsor a player options" >
                     {% for card in _player_sponsor_cards %}
-                    <li class="ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium
-                      {% if card.featured|default(false) %}
-                      ff-impactTier--recommended
-                      {% endif %}
-                      " role="listitem" >
+                    {% set _player_card_class = 'ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium' %}
+                    {% if card.featured|default(false) %}
+                    {% set _player_card_class = _player_card_class ~ ' ff-impactTier--recommended' %}
+                    {% endif %}
+                    <li class="{{ _player_card_class }}" role="listitem" >
                       <header class="ff-impactTier__head">
                         <div class="ff-row ff-row--between ff-ais ff-gap-2 ff-wrap">
                           <p class="ff-kicker ff-m-0">Jersey #{{ card.number }}</p>
@@ -1286,13 +1280,13 @@ nonce="{{ _n|e }}"
                   {% set tmeta = (t.meta|default('', true))|string|trim %}
                   {% set task = (t.ask|default('Support this team’s training, travel, and tournament costs for the season.', true))|string|trim %}
                   {% set _team_photo = (t.photo|default(url_for('static', filename='images/connect-atx-team.jpg') ~ '?v=' ~ _v, true))|string|trim %}
-                  <li class="ff-card ff-pad ff-teamCard ff-teamCard--flagship
-                    {% if t.featured|default(false, true) %}
-                    is-featured
-                    {% else %}
-                    ff-teamCard--quiet
-                    {% endif %}
-                    " role="listitem" >
+                  {% set _team_card_class = 'ff-card ff-pad ff-teamCard ff-teamCard--flagship' %}
+                  {% if t.featured|default(false, true) %}
+                  {% set _team_card_class = _team_card_class ~ ' is-featured' %}
+                  {% else %}
+                  {% set _team_card_class = _team_card_class ~ ' ff-teamCard--quiet' %}
+                  {% endif %}
+                  <li class="{{ _team_card_class }}" role="listitem" >
                     <article class="ff-teamCard__inner" aria-labelledby="team-{{ tid|e }}-name">
                       <header class="ff-teamCard__head">
                         <div class="ff-row ff-wrap ff-ais ff-gap-2 ff-teamCard__statusPills" role="list" aria-label="{{ tname|e }} status" >
@@ -1361,21 +1355,35 @@ nonce="{{ _n|e }}"
               <header class="ff-sectionhead ff-sectionhead--flagship ff-sectionhead--compact">
                 <div class="ff-sectionhead__text ff-minw-0">
                   <p class="ff-kicker ff-m-0">Sponsors</p>
-                  <h2 class="ff-h2 ff-m-0" id="sponsorsTitle">Become a season sponsor</h2>
-                  <p class="ff-lead ff-mt-2 ff-mb-0" id="sponsorsLead"> Support the season with structured recognition designed for local businesses and community partners. </p>
-                  <p class="ff-help ff-muted ff-mt-2 ff-mb-0" id="sponsorsHint"> Limited sponsor spots • name or logo placement • clean community visibility </p>
+                  <h2 class="ff-h2 ff-m-0" id="sponsorsTitle">Become a featured sponsor</h2>
+                  <p class="ff-lead ff-mt-2 ff-mb-0" id="sponsorsLead"> Put your business in front of families, alumni, and supporters while helping fund the season with clear recognition and follow-up. </p>
+                  <p class="ff-help ff-muted ff-mt-2 ff-mb-0" id="sponsorsHint"> Limited featured spots • logo or business-name placement • clean community visibility </p>
                 </div>
                 <div class="ff-sectionhead__actions ff-row ff-wrap ff-gap-2" role="group" aria-label="Sponsors actions" >
                   <a class="ff-btn ff-btn--sm ff-btn--primary ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="" > Become a sponsor </a>
                 </div>
               </header>
+              <div class="ff-grid ff-grid--3 ff-gap-2 ff-mt-3" role="list" aria-label="Why businesses sponsor">
+                <div class="ff-proofMini" role="listitem">
+                  <p class="ff-kicker ff-m-0">Community visibility</p>
+                  <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Put your business in front of families, alumni, and supporters in a clean, sponsor-ready layout. </p>
+                </div>
+                <div class="ff-proofMini" role="listitem">
+                  <p class="ff-kicker ff-m-0">Featured placement</p>
+                  <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Sponsor recognition can include logo or business-name placement, highlighted visibility, and stronger page presence. </p>
+                </div>
+                <div class="ff-proofMini" role="listitem">
+                  <p class="ff-kicker ff-m-0">Direct follow-up</p>
+                  <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Interested sponsors get a clear next step, practical packaging, and direct organizer follow-up. </p>
+                </div>
+              </div>
               <article class="ff-card ff-glass ff-pad ff-mt-3 ff-sponsorsBoard ff-sponsorCell" aria-label="Sponsor overview" data-ff-sponsor-cell >
                 <section class="ff-sponsorWallBlock" aria-labelledby="sponsorWallTitle" aria-describedby="sponsorWallDesc" >
                   <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
                     <div class="ff-minw-0">
                       <p class="ff-kicker ff-m-0">Sponsor wall</p>
                       <h3 class="ff-h3 ff-mt-1 ff-mb-0" id="sponsorWallTitle"> Featured sponsor visibility </h3>
-                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="sponsorWallDesc"> Approved sponsors can appear here with structured placement and a polished first impression. </p>
+                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="sponsorWallDesc"> Featured sponsors can appear here with logo or business-name placement, clean community visibility, and a polished first impression. </p>
                     </div>
                     <span class="ff-pill ff-pill--ghost">Open spot</span>
                   </div>
@@ -1395,7 +1403,7 @@ nonce="{{ _n|e }}"
                   </div>
                   <div class="ff-sponsorEmptyState ff-mt-3 ff-empty" data-ff-sponsor-wall-empty="" aria-live="polite" >
                     <p class="ff-help ff-mutedStrong ff-m-0"> Approved sponsors appear here after confirmation. </p>
-                    <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Logo or business name • featured placement • VIP spotlight rotation. </p>
+                    <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Logo or business name • featured placement • sponsor-ready visibility. </p>
                     <div class="ff-row ff-wrap ff-gap-2 ff-mt-2" aria-hidden="true">
                       <span class="ff-pill ff-pill--ghost">Logo placement</span>
                       <span class="ff-pill ff-pill--soft">Featured mention</span>
@@ -1407,15 +1415,15 @@ nonce="{{ _n|e }}"
                   <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2 ff-mb-2">
                     <div class="ff-minw-0">
                       <p class="ff-kicker ff-m-0">Recognition levels</p>
-                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Clear sponsor options with a practical fit and next step. </p>
+                      <p class="ff-help ff-muted ff-mt-1 ff-mb-0"> Clear sponsor options with practical visibility, clean packaging, and an easy next step. </p>
                     </div>
                   </div>
                   <section class="ff-sponsorSpotlight ff-mb-3" aria-labelledby="ffSponsorSpotlightTitle" aria-describedby="ffSponsorSpotlightDesc" >
                     <div class="ff-row ff-row--between ff-ais ff-wrap ff-gap-2">
                       <div class="ff-minw-0">
                         <p class="ff-kicker ff-m-0">Fast sponsor path</p>
-                        <h3 class="ff-h3 ff-mt-1 ff-mb-0" id="ffSponsorSpotlightTitle"> Sponsor tiers built to upsell cleanly </h3>
-                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="ffSponsorSpotlightDesc"> Choose a recognition level with practical visibility and an easy next step. </p>
+                        <h3 class="ff-h3 ff-mt-1 ff-mb-0" id="ffSponsorSpotlightTitle"> Sponsor options built for clear visibility </h3>
+                        <p class="ff-help ff-muted ff-mt-1 ff-mb-0" id="ffSponsorSpotlightDesc"> Choose a recognition level with practical visibility, cleaner packaging, and an easy next step for local businesses. </p>
                       </div>
                       <span class="ff-pill ff-pill--accent">Limited local sponsor spots</span>
                     </div>
@@ -1433,11 +1441,11 @@ nonce="{{ _n|e }}"
                   </section>
                   <ul class="ff-impactTierGrid ff-impactTierGrid--flagship ff-sponsorTierGrid" role="list" aria-label="Sponsor tier options" >
                     {% for tier in _sponsor_tiers %}
-                    <li class="ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium
-                      {% if tier.primary %}
-                      ff-impactTier--recommended
-                      {% endif %}
-                      " role="listitem"
+                    {% set _tier_card_class = 'ff-card ff-pad ff-impactTier ff-impactTier--flagship ff-impactTier--premium' %}
+                    {% if tier.primary %}
+                    {% set _tier_card_class = _tier_card_class ~ ' ff-impactTier--recommended' %}
+                    {% endif %}
+                    <li class="{{ _tier_card_class }}" role="listitem"
                       {% if tier.key == 'vip' %}
                       data-tier="vip"
                       {% endif %}
@@ -1459,13 +1467,13 @@ nonce="{{ _n|e }}"
                         </div>
                       </div>
                       <footer class="ff-impactTier__footer">
-                        <a class="ff-btn ff-btn--sm
-                          {% if tier.primary %}
-                          ff-btn--primary
-                          {% else %}
-                          ff-btn--secondary
-                          {% endif %}
-                          ff-btn--pill" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="" > {{ tier.cta }} </a>
+                        {% set _tier_cta_class = 'ff-btn ff-btn--sm ff-btn--pill' %}
+                        {% if tier.primary %}
+                        {% set _tier_cta_class = _tier_cta_class ~ ' ff-btn--primary' %}
+                        {% else %}
+                        {% set _tier_cta_class = _tier_cta_class ~ ' ff-btn--secondary' %}
+                        {% endif %}
+                        <a class="{{ _tier_cta_class }}" href="#sponsor-interest" aria-controls="sponsor-interest" data-ff-open-sponsor="" > {{ tier.cta }} </a>
                         </footer>
                       </li>
                       {% endfor %}
@@ -1475,7 +1483,7 @@ nonce="{{ _n|e }}"
                     <p class="ff-help ff-m-0">
                       <strong>Need a custom package or in-kind support?</strong>
                       {% if _safe_email %}
-                      Email <a class="ff-link ff-nowrap" href="mailto:{{ _safe_email|e }}"> {{ _safe_email|e }} </a> and we’ll help package it.
+                      Email <a class="ff-link ff-nowrap" href="mailto:{{ _safe_email|e }}"> {{ _safe_email|e }} </a> and we’ll help package the right fit, visibility, and next steps.
                       {% endif %}
                     </p>
                   </div>
@@ -1883,9 +1891,13 @@ nonce="{{ _n|e }}"
                       aria-label="Smart donation presets"
                     >
                       {% for amount, meta in _checkout_presets %}
+                        {% set _checkout_preset_btn_class = 'ff-donation-presets__btn' %}
+                        {% if loop.last %}
+                        {% set _checkout_preset_btn_class = _checkout_preset_btn_class ~ ' ff-donation-presets__btn--feature' %}
+                        {% endif %}
                         <button
                           type="button"
-                          class="ff-donation-presets__btn{% if loop.last %} ff-donation-presets__btn--feature{% endif %}"
+                          class="{{ _checkout_preset_btn_class }}"
                           data-ff-amount="{{ amount }}"
                           aria-label="Choose {{ amount }} dollars"
                         >

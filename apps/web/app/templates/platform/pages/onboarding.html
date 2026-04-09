@@ -30,7 +30,7 @@
   {"label": "Goal amount", "value": "10000.00"}
 ] %}
 
-{% set submit_label = data.get("submit_label", "Create org + live page") %}
+{% set submit_label = data.get("submit_label", "Continue to dashboard") %}
 {% set submit_href = data.get("submit_href", "/platform/dashboard") %}
 
 <section class="ff-section" aria-labelledby="platformOnboardingTitle">
@@ -164,6 +164,7 @@
 
         <div class="ff-mt-3">
           {{ ff_cta_pair(submit_label, submit_href, "Preview live page", "/c/spring-fundraiser") }}
+        <p class="ff-copy ff-copy--muted ff-mt-3">Demo mode: this step currently hands off to the operator dashboard after setup.</p>
         </div>
       </article>
 

@@ -13,40 +13,34 @@
     "lint:html": "htmlhint 'apps/web/app/templates/**/*.html'",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
-
     "audit:ff:selectors": "python3 scripts/audit/ff_selector_contract_audit.py",
     "audit:ff:css": "python3 scripts/audit/ff_css_authority_audit.py",
     "audit:ff:runtime": "FF_PLATFORM_HOME_PATH=/platform scripts/audit/ff_launch_runtime_gate.sh",
     "audit:ff": "run-s audit:ff:selectors audit:ff:css audit:ff:runtime",
-
     "qa:launch": "run-s lint audit:ff",
     "qa:fundraiser": "run-s audit:ff:selectors audit:ff:css test:prod:fundraiser",
     "qa:fundraiser:full": "run-s audit:ff:selectors audit:ff:css test:smoke:fundraiser test:prod:fundraiser",
     "qa:prod": "run-s lint audit:ff test:prod:fundraiser test:prod:platform",
     "qa:all": "run-s lint audit:ff test:smoke:fundraiser test:prod:fundraiser test:prod:platform",
-
     "test:pw:install": "playwright install chromium",
     "test:pw:install:all": "playwright install",
-
     "test:smoke": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts",
     "test:smoke:fundraiser": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts",
     "test:smoke:headed": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts --headed",
     "test:smoke:debug": "playwright test --config=playwright.config.ts tests/e2e/fundraiser-smoke.spec.ts --debug",
     "test:smoke:report": "playwright show-report",
-
     "test:prod:install": "playwright install chromium",
     "test:prod": "playwright test --config=playwright.config.ts",
     "test:prod:contracts": "playwright test --config=playwright.config.ts tests/prod/fundraiser.contract.prod.spec.ts",
     "test:prod:fundraiser": "playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts",
     "test:prod:platform": "playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts",
-    "test:prod:desktop": "playwright test --config=playwright.config.ts --project=chromium",
+    "test:prod:desktop": "playwright test --config=playwright.config.ts --project=chromium-desktop",
     "test:prod:mobile": "playwright test --config=playwright.config.ts --project=mobile-chrome",
     "test:prod:headed": "playwright test --config=playwright.config.ts --headed",
     "test:prod:debug": "playwright test --config=playwright.config.ts --debug",
     "test:prod:report": "playwright show-report playwright-report-prod",
-
-    "test:live:fundraiser": "cross-env FF_BASE_URL=https://getfuturefunded.com FF_FUNDRAISER_PATH=/c/spring-fundraiser playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts --project=chromium",
-    "test:live:platform": "cross-env FF_BASE_URL=https://getfuturefunded.com playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts --project=chromium"
+    "test:live:fundraiser": "cross-env FF_BASE_URL=https://getfuturefunded.com FF_FUNDRAISER_PATH=/c/spring-fundraiser playwright test --config=playwright.config.ts tests/prod/fundraiser.prod.spec.ts tests/prod/fundraiser.contract.prod.spec.ts --project=chromium-desktop",
+    "test:live:platform": "cross-env FF_BASE_URL=https://getfuturefunded.com playwright test --config=playwright.config.ts tests/prod/platform.prod.spec.ts --project=chromium-desktop"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
